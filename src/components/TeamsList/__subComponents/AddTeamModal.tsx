@@ -5,16 +5,14 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    TextField,
 } from '@mui/material';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { createTeam } from '../../../modules/teams/thunk';
 import { GenerateRosterRadioButtons } from './GenerateRosterRadioButtons';
 import { GenerateRosterOption } from '../../../enums/GenerateRosterOption';
 import { getInputValue } from '../../../services/inputDataService';
+import { BasicTeamModal, getBasicFields } from '../../BasicTeamModal';
 
-const TEAM_NAME_INPUT_ID = 'team_name';
-const LOGO_INPUT_ID = 'logo';
 const GENERATE_ROSTER_RADIO_NAME = 'generate_roster_group';
 
 export const AddTeamModal: React.FC = () => {
@@ -30,8 +28,7 @@ export const AddTeamModal: React.FC = () => {
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const teamName = getInputValue(`#${TEAM_NAME_INPUT_ID}`, formRef);
-            const logoUrl = getInputValue(`#${LOGO_INPUT_ID}`, formRef);
+            const { teamName, logoUrl } = getBasicFields(formRef);
             const shouldGenerateRoster = getInputValue(
                 `input[name="${GENERATE_ROSTER_RADIO_NAME}"]:checked`,
                 formRef,
@@ -55,26 +52,10 @@ export const AddTeamModal: React.FC = () => {
             <Dialog open={isOpen} onClose={handleClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
-                        Add new team
+                        Add New Team
                     </DialogTitle>
                     <DialogContent dividers>
-                        <TextField
-                            id={TEAM_NAME_INPUT_ID}
-                            label="Name"
-                            fullWidth
-                            variant="standard"
-                            margin="normal"
-                            required
-                        />
-                        <TextField
-                            id={LOGO_INPUT_ID}
-                            label="Link to logo"
-                            type="url"
-                            fullWidth
-                            variant="standard"
-                            margin="normal"
-                            required
-                        />
+                        <BasicTeamModal />
                         <GenerateRosterRadioButtons name={GENERATE_ROSTER_RADIO_NAME} />
                     </DialogContent>
                     <DialogActions>

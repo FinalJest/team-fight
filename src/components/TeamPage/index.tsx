@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { PlayersTable } from '../PlayersTable';
 import { StatBlock } from '../StatBlock';
+import { EditTeamModal } from './__subComponents/EditTeamModal';
 
 const Container = styled.div`
     display: flex;
@@ -33,6 +34,9 @@ export const TeamPage: React.FC = () => {
         { name: 'Power', data: `${players.reduce((acc, player) => acc + player.skill, 0)}` },
         { name: 'Fame', data: `${data.fame}` },
     ];
+    const rowsData = players
+        .map((item) => ({ data: item, isDisabled: data.roster.other?.includes(item.id) }))
+        .sort((a, b) => Number(a.isDisabled) - Number(b.isDisabled));
 
     return (
         <Container>
@@ -44,7 +48,8 @@ export const TeamPage: React.FC = () => {
             <Typography variant="h4">
                 Roster
             </Typography>
-            <PlayersTable players={players} />
+            <PlayersTable rowsData={rowsData} />
+            <EditTeamModal {...data} />
         </Container>
     );
 };

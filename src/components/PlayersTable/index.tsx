@@ -5,13 +5,19 @@ import {
 import { IPlayer } from '../../types/IPlayer';
 import { PlayerRow } from './__subComponents/PlayerRow';
 
+interface RowData {
+    data: IPlayer;
+
+    isDisabled?: boolean;
+}
+
 interface PlayersTableProps {
-    players: IPlayer[];
+    rowsData: RowData[];
 
     shouldDisplayTeam?: boolean;
 }
 
-export const PlayersTable: React.FC<PlayersTableProps> = ({ players, shouldDisplayTeam }) => (
+export const PlayersTable: React.FC<PlayersTableProps> = ({ rowsData, shouldDisplayTeam }) => (
     <Table>
         <TableHead>
             <TableRow>
@@ -38,8 +44,8 @@ export const PlayersTable: React.FC<PlayersTableProps> = ({ players, shouldDispl
             </TableRow>
         </TableHead>
         <TableBody>
-            {players.map((player) => (
-                <PlayerRow player={player} shouldDisplayTeam={shouldDisplayTeam} key={player.id} />
+            {rowsData.map(({ data, isDisabled }) => (
+                <PlayerRow player={data} shouldDisplayTeam={shouldDisplayTeam} key={data.id} isDisabled={isDisabled} />
             ))}
         </TableBody>
     </Table>

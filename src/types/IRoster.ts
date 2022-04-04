@@ -6,6 +6,7 @@ export interface IRosterIds {
     mid: IPlayer['id'];
     carry: IPlayer['id'];
     support: IPlayer['id'];
+    other: Array<IPlayer['id']>;
 }
 
 export interface IRoster {

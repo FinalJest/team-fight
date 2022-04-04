@@ -20,6 +20,10 @@ const Header = styled.header`
     color: white;
 `;
 
+const Content = styled.div`
+    padding: 12px;
+`;
+
 const StyledLink = styled(Link)`
     color: white;
     text-decoration: none;
@@ -31,16 +35,18 @@ export const App: React.FC = () => (
             <StyledLink to="teams">Teams</StyledLink>
             <StyledLink to="players">Players</StyledLink>
         </Header>
-        <Routes>
-            <Route path="/" element={<TeamsList />} />
-            <Route path="teams">
-                <Route path="" element={<TeamsList />} />
-                <Route path=":teamId" element={<TeamPage />} />
-            </Route>
-            <Route path="players">
-                <Route path="" element={<PlayersList />} />
-                <Route path=":playerId" element={<PlayerPage />} />
-            </Route>
-        </Routes>
+        <Content>
+            <Routes>
+                <Route path="/" element={<TeamsList />} />
+                <Route path="teams">
+                    <Route path="" element={<TeamsList />} />
+                    <Route path=":teamId" element={<TeamPage />} />
+                </Route>
+                <Route path="players">
+                    <Route path="" element={<PlayersList />} />
+                    <Route path=":playerId" element={<PlayerPage />} />
+                </Route>
+            </Routes>
+        </Content>
     </StyledApp>
 );

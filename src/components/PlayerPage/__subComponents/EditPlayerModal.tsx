@@ -10,10 +10,10 @@ import {
 } from '@mui/material';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { IPlayer } from '../../../types/IPlayer';
-import { editPlayer } from '../../../modules/players/actions';
 import { getInputValue } from '../../../services/inputDataService';
 import { Position } from '../../../enums/Position';
 import { PositionSelect } from './PositionSelect';
+import { updatePlayer } from '../../../modules/players/thunk';
 
 const PLAYER_NAME_FIELD_ID = 'player_name';
 const SKILL_FIELD_ID = 'skill';
@@ -54,7 +54,7 @@ export const EditPlayerModal: React.FC<IPlayer> = ({
                 || newPotential !== potential
                 || newMental !== mental;
             if (isChanged) {
-                dispatch(editPlayer({
+                dispatch(updatePlayer({
                     id,
                     name: newName,
                     position: currentPosition,
