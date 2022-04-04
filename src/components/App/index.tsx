@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TeamsList } from '../TeamsList';
+import { TeamPage } from '../TeamPage';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -24,17 +25,14 @@ const StyledLink = styled(Link)`
 export const App: React.FC = () => (
     <StyledApp>
         <Header>
-            <StyledLink
-                to="https://reactjs.org"
-                rel="noopener noreferrer"
-            >
-                Learn React
-            </StyledLink>
             <StyledLink to="teams">Teams</StyledLink>
         </Header>
         <Routes>
             <Route path="/" element={<TeamsList />} />
-            <Route path="teams" element={<TeamsList />} />
+            <Route path="teams">
+                <Route path="" element={<TeamsList />} />
+                <Route path=":teamId" element={<TeamPage />} />
+            </Route>
         </Routes>
     </StyledApp>
 );

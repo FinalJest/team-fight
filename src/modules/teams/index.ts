@@ -4,9 +4,7 @@ import * as actions from './actions';
 import * as types from './actionTypes';
 import { TeamsState } from '../../types/TeamsState';
 
-export const initialTeamsState: TeamsState = {
-    list: [],
-};
+export const initialTeamsState = [];
 
 export const teams = (
     state: TeamsState = initialTeamsState,
@@ -14,16 +12,7 @@ export const teams = (
 ): TeamsState => {
     switch (action.type) {
         case types.ADD_TEAM:
-            return {
-                ...state,
-                list: [...state.list,
-                    {
-                        id: state.list.length,
-                        name: action.payload.name,
-                        logoUrl: action.payload.logoUrl,
-                    },
-                ],
-            };
+            return [...state, action.payload];
         default:
             return state;
     }

@@ -1,0 +1,1 @@
+export const ADD_PREMADE_PLAYERS = 'players/ADD_PREMADE_PLAYERS';

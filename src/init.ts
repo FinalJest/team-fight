@@ -12,9 +12,8 @@ export const initializeApp = (): void => {
     }
     startedInit = true;
     const initialState: ReduxState = {
-        teams: {
-            list: [],
-        },
+        players: [],
+        teams: [],
     };
     store = configureStore(initialState);
 };

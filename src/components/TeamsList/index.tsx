@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 export const TeamsList: React.FC = () => {
-    const teams = useSelector((state: ReduxState) => state.teams.list);
+    const teams = useSelector((state: ReduxState) => state.teams);
     return (
         <div>
             <Container>

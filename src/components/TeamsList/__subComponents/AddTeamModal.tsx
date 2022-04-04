@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,
+    Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField,
 } from '@mui/material';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { addTeam } from '../../../modules/teams/actions';
+import { createTeam } from '../../../modules/teams/thunk';
 
 export const AddTeamModal: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -22,8 +22,9 @@ export const AddTeamModal: React.FC = () => {
         if (formRef.current) {
             const teamName = getInputValue('teamName');
             const logoUrl = getInputValue('logo');
+            const shouldGenerateRoster = getInputValue('generateRoster') === 'on';
             if (teamName && logoUrl) {
-                dispatch(addTeam({ name: teamName, logoUrl }));
+                dispatch(createTeam(teamName, logoUrl, shouldGenerateRoster));
                 handleClose();
             }
         }
@@ -53,6 +54,10 @@ export const AddTeamModal: React.FC = () => {
                             fullWidth
                             variant="standard"
                             required
+                        />
+                        <FormControlLabel
+                            control={<Checkbox id="generateRoster" defaultChecked />}
+                            label="Should generate roster"
                         />
                     </DialogContent>
                     <DialogActions>

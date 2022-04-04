@@ -1,4 +1,5 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
 import { ReduxState, rootReducer } from '../modules';
 import { ReduxStore } from '../types/ReduxStore';
 
@@ -7,4 +8,5 @@ export const configureStore = (
 ): ReduxStore => createStore(
     rootReducer,
     initialState,
+    applyMiddleware(thunk),
 );
