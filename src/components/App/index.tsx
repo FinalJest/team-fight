@@ -1,6 +1,7 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import logo from '../../logo.svg';
+import { Routes, Route, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { TeamsList } from '../TeamsList';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -8,55 +9,32 @@ const StyledApp = styled.div`
 
 const Header = styled.header`
     background-color: #282c34;
-    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    column-gap: 10px;
     font-size: calc(10px + 2vmin);
     color: white;
 `;
 
-const spin = keyframes`
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-`;
-
-const Logo = styled.img`
-    height: 40vmin;
-    pointer-events: none;
-
-    @media (prefers-reduced-motion: no-preference) {
-        animation: ${spin} infinite 20s linear;
-    }
-`;
-
-const Link = styled.a`
-    color: #61dafb;
+const StyledLink = styled(Link)`
+    color: white;
 `;
 
 export const App: React.FC = () => (
     <StyledApp>
         <Header>
-            <Logo src={logo} alt="logo" />
-            <p>
-                Edit
-                {' '}
-                <code>src/App.tsx</code>
-                {' '}
-                and save to reload.
-            </p>
-            <Link
-                href="https://reactjs.org"
-                target="_blank"
+            <StyledLink
+                to="https://reactjs.org"
                 rel="noopener noreferrer"
             >
                 Learn React
-            </Link>
+            </StyledLink>
+            <StyledLink to="teams">Teams</StyledLink>
         </Header>
+        <Routes>
+            <Route path="/" element={<TeamsList />} />
+            <Route path="teams" element={<TeamsList />} />
+        </Routes>
     </StyledApp>
 );
