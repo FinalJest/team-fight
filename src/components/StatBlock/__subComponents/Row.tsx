@@ -11,12 +11,12 @@ const StatRowContainer = styled.div`
 
 interface StatRowProps {
     text: string;
-    data: string;
+    data: string | React.ReactElement;
 }
 
-export const StatRow: React.FC<StatRowProps> = ({ text, data }) => (
+export const Row: React.FC<StatRowProps> = ({ text, data }) => (
     <StatRowContainer>
         <Typography variant="body1">{text}</Typography>
-        <Typography variant="body2">{data}</Typography>
+        {React.isValidElement(data) ? data : <Typography variant="body2">{data}</Typography>}
     </StatRowContainer>
 );

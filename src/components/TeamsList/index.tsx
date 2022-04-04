@@ -7,6 +7,7 @@ import { Team } from './__subComponents/Team';
 
 const Container = styled.div`
     display: flex;
+    padding: 12px;
 `;
 
 export const TeamsList: React.FC = () => {

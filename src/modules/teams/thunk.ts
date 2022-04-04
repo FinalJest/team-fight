@@ -7,7 +7,7 @@ import { addPremadePlayers } from '../players/actions';
 export const createTeam = (
     name: string,
     logoUrl: string,
-    shouldGeneratePlayer?: boolean,
+    shouldGeneratePlayers?: boolean,
     isRookieTeam?: boolean,
 ): ThunkActionResult<void> => (dispatch) => {
     const teamId = nanoid();
@@ -17,7 +17,7 @@ export const createTeam = (
         logoUrl,
         fame: 0,
     };
-    if (shouldGeneratePlayer) {
+    if (shouldGeneratePlayers) {
         generateRoster(teamId, isRookieTeam).then((playerRoster) => {
             dispatch(addPremadePlayers([...Object.values(playerRoster)]));
             const roster = {

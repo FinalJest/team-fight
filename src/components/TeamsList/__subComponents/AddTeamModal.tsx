@@ -1,9 +1,23 @@
 import React from 'react';
 import {
-    Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
 } from '@mui/material';
+import styled from 'styled-components';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { createTeam } from '../../../modules/teams/thunk';
+import { GenerateRosterRadioButtons } from './GenerateRosterRadioButtons';
+import { GenerateRosterOption } from '../../../enums/GenerateRosterOption';
+
+const GENERATE_ROSTER_RADIO_NAME = 'generate-roster-group';
+
+const Container = styled.div`
+    margin-top: 20px;
+`;
 
 export const AddTeamModal: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -15,22 +29,29 @@ export const AddTeamModal: React.FC = () => {
     const handleClose = (): void => {
         setIsOpen(false);
     };
-    const getInputValue = (id: string): string | undefined =>
-        formRef.current?.querySelector<HTMLInputElement>(`#${id}`)?.value.trim();
+    const getInputValue = (selector: string): string | undefined =>
+        formRef.current?.querySelector<HTMLInputElement>(selector)?.value.trim();
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const teamName = getInputValue('teamName');
-            const logoUrl = getInputValue('logo');
-            const shouldGenerateRoster = getInputValue('generateRoster') === 'on';
+            const teamName = getInputValue('#teamName');
+            const logoUrl = getInputValue('#logo');
+            const shouldGenerateRoster = getInputValue(
+                `input[name="${GENERATE_ROSTER_RADIO_NAME}"]:checked`,
+            ) as GenerateRosterOption;
             if (teamName && logoUrl) {
-                dispatch(createTeam(teamName, logoUrl, shouldGenerateRoster));
+                dispatch(createTeam(
+                    teamName,
+                    logoUrl,
+                    shouldGenerateRoster !== GenerateRosterOption.No,
+                    shouldGenerateRoster === GenerateRosterOption.Rookies,
+                ));
                 handleClose();
             }
         }
     };
     return (
-        <div>
+        <Container>
             <Button variant="contained" onClick={handleClickOpen}>
                 Add Team
             </Button>
@@ -39,7 +60,7 @@ export const AddTeamModal: React.FC = () => {
                     <DialogTitle>
                         Add new team
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent dividers>
                         <TextField
                             id="teamName"
                             label="Name"
@@ -55,10 +76,7 @@ export const AddTeamModal: React.FC = () => {
                             variant="standard"
                             required
                         />
-                        <FormControlLabel
-                            control={<Checkbox id="generateRoster" defaultChecked />}
-                            label="Should generate roster"
-                        />
+                        <GenerateRosterRadioButtons name={GENERATE_ROSTER_RADIO_NAME} />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
@@ -66,6 +84,6 @@ export const AddTeamModal: React.FC = () => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </div>
+        </Container>
     );
 };

@@ -50,7 +50,7 @@ const getNameDryCodes = async (): Promise<string> =>
         .then((data) => data[0] + data[1]);
 
 const getName = async (): Promise<string> =>
-    (Math.random() > 0.5 ? getNameRandomUserMe() : getNameDryCodes());
+    (Math.random() > 0.33 ? getNameRandomUserMe() : getNameDryCodes());
 
 export const generatePlayer = async (
     isRookie: boolean = false,
