@@ -7,13 +7,9 @@ import { ReduxState } from '../../modules';
 import { PlayersTable } from '../PlayersTable';
 import { StatBlock } from '../StatBlock';
 import { EditTeamModal } from './__subComponents/EditTeamModal';
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    row-gap: 14px;
-`;
+import { PageContainer } from '../PageContainer';
+import { ButtonsContainer } from '../ButtonsContainer';
+import { DeleteTeamModal } from './__subComponents/DeleteTeamModal';
 
 const Logo = styled.img`
     height: 150px;
@@ -39,7 +35,7 @@ export const TeamPage: React.FC = () => {
         .sort((a, b) => Number(a.isDisabled) - Number(b.isDisabled));
 
     return (
-        <Container>
+        <PageContainer>
             <Typography variant="h1">
                 {data.name}
             </Typography>
@@ -49,7 +45,10 @@ export const TeamPage: React.FC = () => {
                 Roster
             </Typography>
             <PlayersTable rowsData={rowsData} />
-            <EditTeamModal {...data} />
-        </Container>
+            <ButtonsContainer>
+                <EditTeamModal {...data} />
+                <DeleteTeamModal id={data.id} />
+            </ButtonsContainer>
+        </PageContainer>
     );
 };

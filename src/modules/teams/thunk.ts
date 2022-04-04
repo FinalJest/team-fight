@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 import { ThunkActionResult } from '../index';
 import { generateRoster } from '../../services/playerGenerator';
-import { addTeam } from './actions';
-import { addPremadePlayers } from '../players/actions';
+import { addTeam, removeTeam } from './actions';
+import { addPremadePlayers, makePlayersTeamless, removePlayers } from '../players/actions';
 
 export const createTeam = (
     name: string,
@@ -38,4 +38,19 @@ export const createTeam = (
             roster: {},
         }));
     }
+};
+
+export const deleteTeam = (
+    id: string,
+    shouldDeletePlayers?: boolean,
+): ThunkActionResult<void> => (dispatch, getState) => {
+    const state = getState();
+    const players = state.players.filter((player) => player.teamId === id);
+    const playersIds = players.map((player) => player.id);
+    if (shouldDeletePlayers) {
+        dispatch(removePlayers(playersIds));
+    } else {
+        dispatch(makePlayersTeamless(playersIds));
+    }
+    dispatch(removeTeam(id));
 };

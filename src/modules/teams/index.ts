@@ -21,6 +21,8 @@ export const teams = (
             return state.map((team) => (team.id === action.payload.id
                 ? { ...team, roster: { ...team.roster, ...action.payload.roster } }
                 : team));
+        case types.REMOVE_TEAM:
+            return state.filter((team) => team.id !== action.payload);
         default:
             return state;
     }

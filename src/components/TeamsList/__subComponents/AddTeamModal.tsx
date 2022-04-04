@@ -42,6 +42,8 @@ export const AddTeamModal: React.FC = () => {
                 ));
                 handleClose();
             }
+        } else {
+            handleClose();
         }
     };
     return (

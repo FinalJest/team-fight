@@ -31,9 +31,8 @@ interface PlayerRowProps {
 }
 
 export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam, isDisabled }) => {
-    const team = useSelector((state: ReduxState) => (shouldDisplayTeam
-        ? state.teams.find((teamData) => player.teamId === teamData.id)
-        : undefined));
+    const team = useSelector((state: ReduxState) =>
+        state.teams.find((teamData) => player.teamId === teamData.id));
 
     return (
         <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isDisabled ? 0.6 : 'auto' }}>
@@ -54,9 +53,9 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
             <TableCell align="right">
                 {player.mental}
             </TableCell>
-            {team && (
+            {shouldDisplayTeam && (
                 <TableCell align="right">
-                    <Logo src={team.logoUrl} />
+                    {team ? <Logo src={team.logoUrl} /> : '-'}
                 </TableCell>
             )}
         </TableRow>

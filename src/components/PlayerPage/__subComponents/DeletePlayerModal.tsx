@@ -26,7 +26,7 @@ export const DeletePlayerModal: React.FC<DeletePlayerModalProps> = ({ id }) => {
     };
     return (
         <>
-            <Button variant="contained" onClick={handleClickOpen}>
+            <Button color="error" variant="contained" onClick={handleClickOpen}>
                 Delete Player
             </Button>
             <Dialog open={isOpen} onClose={handleClose}>

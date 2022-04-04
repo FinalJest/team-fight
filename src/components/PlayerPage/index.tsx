@@ -2,22 +2,13 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
 import { Logo } from '../Logo';
 import { EditPlayerModal } from './__subComponents/EditPlayerModal';
 import { DeletePlayerModal } from './__subComponents/DeletePlayerModal';
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-`;
-
-const BlockContainer = styled.div`
-    margin-top: 20px;
-`;
+import { PageContainer } from '../PageContainer';
+import { ButtonsContainer } from '../ButtonsContainer';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
@@ -44,17 +35,13 @@ export const PlayerPage: React.FC = () => {
     ];
 
     return (
-        <Container>
+        <PageContainer>
             <Typography variant="h1">{data.name}</Typography>
-            <BlockContainer>
-                <StatBlock data={statData} />
-            </BlockContainer>
-            <BlockContainer>
+            <StatBlock data={statData} />
+            <ButtonsContainer>
                 <EditPlayerModal {...data} />
-            </BlockContainer>
-            <BlockContainer>
                 <DeletePlayerModal id={data.id} />
-            </BlockContainer>
-        </Container>
+            </ButtonsContainer>
+        </PageContainer>
     );
 };

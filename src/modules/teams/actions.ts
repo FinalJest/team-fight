@@ -10,3 +10,4 @@ export const updateTeamRoster = (id: string, roster: Partial<IRosterIds>) => act
     id,
     roster,
 });
+export const removeTeam = (id: string) => action(types.REMOVE_TEAM, id);
