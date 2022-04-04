@@ -7,7 +7,13 @@ import { Team } from './__subComponents/Team';
 
 const Container = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     padding: 12px;
+`;
+
+const AddModalContainer = styled.div`
+    margin-top: 20px;
 `;
 
 export const TeamsList: React.FC = () => {
@@ -17,7 +23,9 @@ export const TeamsList: React.FC = () => {
             <Container>
                 {teams.map((team) => <Team key={team.id} {...team} />)}
             </Container>
-            <AddTeamModal />
+            <AddModalContainer>
+                <AddTeamModal />
+            </AddModalContainer>
         </div>
     );
 };

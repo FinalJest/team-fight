@@ -15,7 +15,6 @@ const Container = styled.div`
 `;
 
 const Logo = styled.img`
-    width: 150px;
     height: 150px;
 `;
 
@@ -30,11 +29,14 @@ export const TeamPage: React.FC = () => {
         return null;
     }
 
-    const statData = [{ name: 'Fame', data: `${data.fame}` }];
+    const statData = [
+        { name: 'Power', data: `${players.reduce((acc, player) => acc + player.skill, 0)}` },
+        { name: 'Fame', data: `${data.fame}` },
+    ];
 
     return (
         <Container>
-            <Typography variant="h2">
+            <Typography variant="h1">
                 {data.name}
             </Typography>
             <Logo src={data.logoUrl} alt="logo" />

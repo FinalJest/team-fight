@@ -7,10 +7,10 @@ import { ITeam } from '../../../types/ITeam';
 
 export const Team: React.FC<ITeam> = ({ name, logoUrl, id }) => (
     <Link to={`/teams/${id}`}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: 160 }}>
             <CardMedia component="img" height="140" image={logoUrl} />
             <CardContent>
-                <Typography variant="h4">
+                <Typography noWrap variant="h4">
                     {name}
                 </Typography>
             </CardContent>

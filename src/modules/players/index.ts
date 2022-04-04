@@ -13,6 +13,10 @@ export const players = (
     switch (action.type) {
         case types.ADD_PREMADE_PLAYERS:
             return [...state, ...action.payload];
+        case types.EDIT_PLAYER:
+            return state.map((player) => (player.id === action.payload.id ? { ...player, ...action.payload } : player));
+        case types.REMOVE_PLAYER:
+            return state.filter((player) => player.id !== action.payload);
         default:
             return state;
     }

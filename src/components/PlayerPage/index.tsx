@@ -6,11 +6,17 @@ import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
 import { Logo } from '../Logo';
+import { EditPlayerModal } from './__subComponents/EditPlayerModal';
+import { DeletePlayerModal } from './__subComponents/DeletePlayerModal';
 
 const Container = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+`;
+
+const BlockContainer = styled.div`
+    margin-top: 20px;
 `;
 
 export const PlayerPage: React.FC = () => {
@@ -30,13 +36,25 @@ export const PlayerPage: React.FC = () => {
 
     const statData = [
         { name: 'Team', data: <Logo src={teamLogoUrl} /> },
+        { name: 'Position', data: data.position },
+        { name: 'Skill', data: `${data.skill}` },
+        { name: 'Potential', data: `${data.potential}` },
+        { name: 'Mental', data: `${data.mental}` },
         { name: 'Fame', data: `${data.fame}` },
     ];
 
     return (
         <Container>
             <Typography variant="h1">{data.name}</Typography>
-            <StatBlock data={statData} />
+            <BlockContainer>
+                <StatBlock data={statData} />
+            </BlockContainer>
+            <BlockContainer>
+                <EditPlayerModal {...data} />
+            </BlockContainer>
+            <BlockContainer>
+                <DeletePlayerModal id={data.id} />
+            </BlockContainer>
         </Container>
     );
 };

@@ -7,17 +7,15 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material';
-import styled from 'styled-components';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { createTeam } from '../../../modules/teams/thunk';
 import { GenerateRosterRadioButtons } from './GenerateRosterRadioButtons';
 import { GenerateRosterOption } from '../../../enums/GenerateRosterOption';
+import { getInputValue } from '../../../services/inputDataService';
 
-const GENERATE_ROSTER_RADIO_NAME = 'generate-roster-group';
-
-const Container = styled.div`
-    margin-top: 20px;
-`;
+const TEAM_NAME_INPUT_ID = 'team_name';
+const LOGO_INPUT_ID = 'logo';
+const GENERATE_ROSTER_RADIO_NAME = 'generate_roster_group';
 
 export const AddTeamModal: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -29,15 +27,14 @@ export const AddTeamModal: React.FC = () => {
     const handleClose = (): void => {
         setIsOpen(false);
     };
-    const getInputValue = (selector: string): string | undefined =>
-        formRef.current?.querySelector<HTMLInputElement>(selector)?.value.trim();
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const teamName = getInputValue('#teamName');
-            const logoUrl = getInputValue('#logo');
+            const teamName = getInputValue(`#${TEAM_NAME_INPUT_ID}`, formRef);
+            const logoUrl = getInputValue(`#${LOGO_INPUT_ID}`, formRef);
             const shouldGenerateRoster = getInputValue(
                 `input[name="${GENERATE_ROSTER_RADIO_NAME}"]:checked`,
+                formRef,
             ) as GenerateRosterOption;
             if (teamName && logoUrl) {
                 dispatch(createTeam(
@@ -51,7 +48,7 @@ export const AddTeamModal: React.FC = () => {
         }
     };
     return (
-        <Container>
+        <>
             <Button variant="contained" onClick={handleClickOpen}>
                 Add Team
             </Button>
@@ -62,18 +59,20 @@ export const AddTeamModal: React.FC = () => {
                     </DialogTitle>
                     <DialogContent dividers>
                         <TextField
-                            id="teamName"
+                            id={TEAM_NAME_INPUT_ID}
                             label="Name"
                             fullWidth
                             variant="standard"
+                            margin="normal"
                             required
                         />
                         <TextField
-                            id="logo"
+                            id={LOGO_INPUT_ID}
                             label="Link to logo"
                             type="url"
                             fullWidth
                             variant="standard"
+                            margin="normal"
                             required
                         />
                         <GenerateRosterRadioButtons name={GENERATE_ROSTER_RADIO_NAME} />
@@ -84,6 +83,6 @@ export const AddTeamModal: React.FC = () => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </Container>
+        </>
     );
 };

@@ -13,6 +13,10 @@ export const teams = (
     switch (action.type) {
         case types.ADD_TEAM:
             return [...state, action.payload];
+        case types.UPDATE_TEAM_ROSTER:
+            return state.map((team) => (team.id === action.payload.id
+                ? { ...team, roster: { ...team.roster, ...action.payload.roster } }
+                : team));
         default:
             return state;
     }
