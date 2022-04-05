@@ -2,10 +2,9 @@ import { nanoid } from 'nanoid';
 import { IPlayer } from '../types/IPlayer';
 import { Position } from '../enums/Position';
 import { IRoster } from '../types/IRoster';
+import { getRandomInt } from './randomGenerator';
 
 const NUMBER_TO_POSITION = [Position.Top, Position.Jungle, Position.Mid, Position.Carry, Position.Support];
-
-const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
 const getRandomPosition = (): Position => {
     const positionNumber = getRandomInt(5);

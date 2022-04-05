@@ -9,12 +9,14 @@ import { EditPlayerModal } from './__subComponents/EditPlayerModal';
 import { DeletePlayerModal } from './__subComponents/DeletePlayerModal';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
+import { getPlayerById, getTeamById } from '../../store/selectors';
+import { ComponentSize } from '../../enums/ComponentSize';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
     const { data, teamLogoUrl } = useSelector((state: ReduxState) => {
-        const playerData = state.players.find((item) => item.id === playerId);
-        const teamLogo = state.teams.find((team) => team.id === playerData?.teamId)?.logoUrl;
+        const playerData = getPlayerById(playerId)(state);
+        const teamLogo = getTeamById(playerData?.teamId)(state)?.logoUrl;
         return {
             data: playerData,
             teamLogoUrl: teamLogo,
@@ -26,7 +28,7 @@ export const PlayerPage: React.FC = () => {
     }
 
     const statData = [
-        { name: 'Team', data: <Logo src={teamLogoUrl} /> },
+        { name: 'Team', data: <Logo size={ComponentSize.S} src={teamLogoUrl} /> },
         { name: 'Position', data: data.position },
         { name: 'Skill', data: `${data.skill}` },
         { name: 'Potential', data: `${data.potential}` },

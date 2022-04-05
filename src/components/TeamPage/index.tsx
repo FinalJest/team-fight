@@ -10,6 +10,8 @@ import { EditTeamModal } from './__subComponents/EditTeamModal';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { DeleteTeamModal } from './__subComponents/DeleteTeamModal';
+import { getTeamById } from '../../store/selectors';
+import { getPlayersPower } from '../../services/fightSimulator';
 
 const Logo = styled.img`
     height: 150px;
@@ -18,16 +20,17 @@ const Logo = styled.img`
 export const TeamPage: React.FC = () => {
     const { teamId } = useParams();
     const { data, players } = useSelector((state: ReduxState) => ({
-        data: state.teams.find((team) => team.id === teamId),
+        data: getTeamById(teamId)(state),
         players: state.players.filter((player) => player.teamId === teamId),
     }));
+    const power = getPlayersPower(players);
 
     if (!data) {
         return null;
     }
 
     const statData = [
-        { name: 'Power', data: `${players.reduce((acc, player) => acc + player.skill, 0)}` },
+        { name: 'Power', data: `${power}` },
         { name: 'Fame', data: `${data.fame}` },
     ];
     const rowsData = players

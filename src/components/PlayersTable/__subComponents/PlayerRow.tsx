@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ReduxState } from '../../../modules';
 import { IPlayer } from '../../../types/IPlayer';
 import { Logo } from '../../Logo';
 import { Position } from '../../../enums/Position';
+import { getTeamById } from '../../../store/selectors';
+import { ComponentSize } from '../../../enums/ComponentSize';
 
 const getRowBgColor = (position: Position): string => {
     switch (position) {
@@ -31,8 +32,7 @@ interface PlayerRowProps {
 }
 
 export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam, isDisabled }) => {
-    const team = useSelector((state: ReduxState) =>
-        state.teams.find((teamData) => player.teamId === teamData.id));
+    const team = useSelector(getTeamById(player.teamId));
 
     return (
         <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isDisabled ? 0.6 : 'auto' }}>
@@ -55,7 +55,7 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
             </TableCell>
             {shouldDisplayTeam && (
                 <TableCell align="right">
-                    {team ? <Logo src={team.logoUrl} /> : '-'}
+                    {team ? <Logo size={ComponentSize.S} src={team.logoUrl} /> : '-'}
                 </TableCell>
             )}
         </TableRow>
