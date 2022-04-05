@@ -6,7 +6,7 @@ import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
 import { Logo } from '../Logo';
 import { EditPlayerModal } from './__subComponents/EditPlayerModal';
-import { DeletePlayerModal } from './__subComponents/DeletePlayerModal';
+import { DeletePlayerModal } from '../Modals/DeletePlayerModal';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';

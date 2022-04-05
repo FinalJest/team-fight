@@ -8,7 +8,7 @@ import { PlayerRow } from './__subComponents/PlayerRow';
 interface RowData {
     data: IPlayer;
 
-    isDisabled?: boolean;
+    isSub?: boolean;
 }
 
 interface PlayersTableProps {
@@ -41,11 +41,14 @@ export const PlayersTable: React.FC<PlayersTableProps> = ({ rowsData, shouldDisp
                         Team
                     </TableCell>
                 )}
+                <TableCell align="right">
+                    Actions
+                </TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
-            {rowsData.map(({ data, isDisabled }) => (
-                <PlayerRow player={data} shouldDisplayTeam={shouldDisplayTeam} key={data.id} isDisabled={isDisabled} />
+            {rowsData.map(({ data, isSub }) => (
+                <PlayerRow player={data} shouldDisplayTeam={shouldDisplayTeam} key={data.id} isSub={isSub} />
             ))}
         </TableBody>
     </Table>

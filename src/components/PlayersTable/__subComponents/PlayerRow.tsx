@@ -7,6 +7,7 @@ import { Logo } from '../../Logo';
 import { Position } from '../../../enums/Position';
 import { getTeamById } from '../../../store/selectors';
 import { ComponentSize } from '../../../enums/ComponentSize';
+import { ActionMenu } from './ActionMenu';
 
 const getRowBgColor = (position: Position): string => {
     switch (position) {
@@ -28,14 +29,14 @@ const getRowBgColor = (position: Position): string => {
 interface PlayerRowProps {
     player: IPlayer;
     shouldDisplayTeam?: boolean;
-    isDisabled?: boolean;
+    isSub?: boolean;
 }
 
-export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam, isDisabled }) => {
+export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam, isSub }) => {
     const team = useSelector(getTeamById(player.teamId));
 
     return (
-        <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isDisabled ? 0.6 : 'auto' }}>
+        <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isSub ? 0.5 : 'auto' }}>
             <TableCell align="left">
                 <Link to={`/players/${player.id}`}>
                     {player.name}
@@ -58,6 +59,14 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
                     {team ? <Logo size={ComponentSize.S} src={team.logoUrl} /> : '-'}
                 </TableCell>
             )}
+            <TableCell align="right">
+                <ActionMenu
+                    playerId={player.id}
+                    teamId={team?.id}
+                    position={player.position}
+                    isSub={isSub}
+                />
+            </TableCell>
         </TableRow>
     );
 };

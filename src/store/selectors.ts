@@ -12,8 +12,28 @@ export const getPlayers = (state: ReduxState): IPlayer[] => state.players;
 export const getPlayerById = (id?: string) =>
     (state: ReduxState): IPlayer | undefined => state.players.find((player) => player.id === id);
 
+export const getPlayersByIds = (ids: string[]) =>
+    (state: ReduxState): IPlayer[] => state.players.filter(
+        (player) => ids.includes(player.id),
+    );
+
 export const getPlayersByTeamId = (teamId?: string | string[]) =>
     (state: ReduxState): IPlayer[] => state.players.filter((player) =>
         (Array.isArray(teamId)
             ? (player.teamId !== undefined && teamId.includes(player.teamId))
             : player.teamId === teamId));
+
+export const getMainRosterPlayers = (teamId?: string) => (state: ReduxState): IPlayer[] => {
+    const team = getTeamById(teamId)(state);
+    if (!team) {
+        return [];
+    }
+    const playersIds = [
+        team.roster.top,
+        team.roster.jungle,
+        team.roster.mid,
+        team.roster.carry,
+        team.roster.support,
+    ].filter<string>((id): id is string => id !== undefined);
+    return getPlayersByIds(playersIds)(state);
+};

@@ -10,7 +10,7 @@ import { EditTeamModal } from './__subComponents/EditTeamModal';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { DeleteTeamModal } from './__subComponents/DeleteTeamModal';
-import { getTeamById } from '../../store/selectors';
+import { getMainRosterPlayers, getTeamById } from '../../store/selectors';
 import { getPlayersPower } from '../../services/fightSimulator';
 
 const Logo = styled.img`
@@ -19,11 +19,11 @@ const Logo = styled.img`
 
 export const TeamPage: React.FC = () => {
     const { teamId } = useParams();
-    const { data, players } = useSelector((state: ReduxState) => ({
+    const { data, players, power } = useSelector((state: ReduxState) => ({
         data: getTeamById(teamId)(state),
         players: state.players.filter((player) => player.teamId === teamId),
+        power: getPlayersPower(getMainRosterPlayers(teamId)(state)),
     }));
-    const power = getPlayersPower(players);
 
     if (!data) {
         return null;
@@ -34,8 +34,8 @@ export const TeamPage: React.FC = () => {
         { name: 'Fame', data: `${data.fame}` },
     ];
     const rowsData = players
-        .map((item) => ({ data: item, isDisabled: data.roster.other?.includes(item.id) }))
-        .sort((a, b) => Number(a.isDisabled) - Number(b.isDisabled));
+        .map((item) => ({ data: item, isSub: data.roster.other?.includes(item.id) }))
+        .sort((a, b) => Number(a.isSub) - Number(b.isSub));
 
     return (
         <PageContainer>

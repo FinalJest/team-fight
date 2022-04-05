@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { Logo } from '../../Logo';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { Results } from '../../../types/Results';
@@ -12,6 +13,18 @@ const Container = styled.div`
     align-items: center;
     flex-direction: column;
     row-gap: 20px;
+`;
+
+const ResultSquaresContainer = styled.div`
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+`;
+
+const ResultSquare = styled.div`
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
 `;
 
 interface ResultProps {
@@ -29,10 +42,14 @@ export const Result: React.FC<ResultProps> = ({ results, teams }) => {
 
     return (
         <Container>
-            <Logo size={ComponentSize.L} src={results.length ? winnerLogo : ''} />
+            <Logo size={ComponentSize.L} src={results.length ? winnerLogo : undefined} />
             <Typography variant="h3">
                 {`${score[0]} : ${score[1]}`}
             </Typography>
+            <ResultSquaresContainer>
+                {results.map((result) =>
+                    <ResultSquare key={nanoid()} style={{ backgroundColor: result ? 'red' : 'green' }} />)}
+            </ResultSquaresContainer>
         </Container>
     );
 };

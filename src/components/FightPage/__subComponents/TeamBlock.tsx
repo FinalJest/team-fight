@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Typography } from '@mui/material';
 import styled from 'styled-components';
 import { getTeamById } from '../../../store/selectors';
 import { Logo } from '../../Logo';
@@ -22,9 +21,6 @@ export const TeamBlock: React.FC<TeamBlockProps> = ({ currentTeam, onTeamSelect 
     return (
         <Container>
             <Logo size={ComponentSize.L} src={team?.logoUrl} />
-            <Typography variant="h5">
-                {team ? team.name : 'Not Selected'}
-            </Typography>
             <TeamSelect onTeamSelect={onTeamSelect} currentTeam={currentTeam} />
         </Container>
     );
