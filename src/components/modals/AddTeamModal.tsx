@@ -6,25 +6,26 @@ import {
     DialogContent,
     DialogTitle,
 } from '@mui/material';
-import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { createTeam } from '../../../modules/teams/thunk';
-import { GenerateRosterRadioButtons } from './GenerateRosterRadioButtons';
-import { GenerateRosterOption } from '../../../enums/GenerateRosterOption';
-import { getInputValue } from '../../../services/inputDataService';
-import { BasicTeamModal, getBasicFields } from '../../BasicTeamModal';
+import { useReduxDispatch } from '../../hooks/useReduxDispatch';
+import { createTeam } from '../../modules/teams/thunk';
+import { GenerateRosterRadioButtons } from '../TeamsList/__subComponents/GenerateRosterRadioButtons';
+import { GenerateRosterOption } from '../../enums/GenerateRosterOption';
+import { getInputValue } from '../../services/inputDataService';
+import { BasicTeamModalFields, getBasicFields } from './BasicTeamModalFields';
+import { BaseModalProps } from '../../types/BaseModalProps';
+import { useModal } from '../../hooks/useModal';
 
 const GENERATE_ROSTER_RADIO_NAME = 'generate_roster_group';
+const BUTTON_TEXT = 'Add Team';
 
-export const AddTeamModal: React.FC = () => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const formRef = React.useRef<HTMLFormElement>(null);
+export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
+    const {
+        isOpen,
+        formRef,
+        onOpen,
+        onModalClose,
+    } = useModal(onClose);
     const dispatch = useReduxDispatch();
-    const handleClickOpen = (): void => {
-        setIsOpen(true);
-    };
-    const handleClose = (): void => {
-        setIsOpen(false);
-    };
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
@@ -40,28 +41,37 @@ export const AddTeamModal: React.FC = () => {
                     shouldGenerateRoster !== GenerateRosterOption.No,
                     shouldGenerateRoster === GenerateRosterOption.Rookies,
                 ));
-                handleClose();
+                onModalClose();
             }
         } else {
-            handleClose();
+            onModalClose();
         }
     };
+    const buttonElement = ButtonComponent
+        ? (
+            <ButtonComponent onClick={onOpen}>
+                {BUTTON_TEXT}
+            </ButtonComponent>
+        )
+        : (
+            <Button variant="contained" onClick={onOpen}>
+                {BUTTON_TEXT}
+            </Button>
+        );
     return (
         <>
-            <Button variant="contained" onClick={handleClickOpen}>
-                Add Team
-            </Button>
-            <Dialog open={isOpen} onClose={handleClose}>
+            {buttonElement}
+            <Dialog open={isOpen} onClose={onModalClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
                         Add New Team
                     </DialogTitle>
                     <DialogContent dividers>
-                        <BasicTeamModal />
+                        <BasicTeamModalFields />
                         <GenerateRosterRadioButtons name={GENERATE_ROSTER_RADIO_NAME} />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={onModalClose}>Cancel</Button>
                         <Button type="submit">Add</Button>
                     </DialogActions>
                 </form>

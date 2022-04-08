@@ -15,7 +15,7 @@ interface BasicTeamModalProps {
     defaultLink?: string;
 }
 
-export const BasicTeamModal: React.FC<BasicTeamModalProps> = ({ defaultLink, defaultName }) => (
+export const BasicTeamModalFields: React.FC<BasicTeamModalProps> = ({ defaultLink, defaultName }) => (
     <>
         <TextField
             id={TEAM_NAME_INPUT_ID}

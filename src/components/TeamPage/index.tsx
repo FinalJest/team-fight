@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { PlayersTable } from '../PlayersTable';
 import { StatBlock } from '../StatBlock';
-import { EditTeamModal } from './__subComponents/EditTeamModal';
+import { EditTeamModal } from '../modals/EditTeamModal';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
-import { DeleteTeamModal } from './__subComponents/DeleteTeamModal';
+import { DeleteTeamModal } from '../modals/DeleteTeamModal';
 import { getMainRosterPlayers, getTeamById } from '../../store/selectors';
 import { getPlayersPower } from '../../services/fightSimulator';
 

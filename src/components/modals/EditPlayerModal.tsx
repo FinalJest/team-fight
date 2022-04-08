@@ -8,36 +8,42 @@ import {
     SelectChangeEvent,
     TextField,
 } from '@mui/material';
-import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { IPlayer } from '../../../types/IPlayer';
-import { getInputValue } from '../../../services/inputDataService';
-import { Position } from '../../../enums/Position';
-import { PositionSelect } from './PositionSelect';
-import { updatePlayer } from '../../../modules/players/thunk';
+import { useReduxDispatch } from '../../hooks/useReduxDispatch';
+import { IPlayer } from '../../types/IPlayer';
+import { getInputValue } from '../../services/inputDataService';
+import { Position } from '../../enums/Position';
+import { PositionSelect } from '../PlayerPage/__subComponents/PositionSelect';
+import { updatePlayer } from '../../modules/players/thunk';
+import { useModal } from '../../hooks/useModal';
+import { BaseModalProps } from '../../types/BaseModalProps';
 
 const PLAYER_NAME_FIELD_ID = 'player_name';
 const SKILL_FIELD_ID = 'skill';
 const POTENTIAL_FIELD_ID = 'potential';
 const MENTAL_FIELD_ID = 'mental';
 
-export const EditPlayerModal: React.FC<IPlayer> = ({
+const BUTTON_TEXT = 'Edit Player';
+
+type EditPlayerModalProps = IPlayer & BaseModalProps;
+
+export const EditPlayerModal: React.FC<EditPlayerModalProps> = ({
     id,
     skill,
     potential,
     mental,
     name,
     position,
+    ButtonComponent,
+    onClose,
 }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
+    const {
+        isOpen,
+        formRef,
+        onOpen,
+        onModalClose,
+    } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState(position);
-    const formRef = React.useRef<HTMLFormElement>(null);
     const dispatch = useReduxDispatch();
-    const handleClickOpen = (): void => {
-        setIsOpen(true);
-    };
-    const handleClose = (): void => {
-        setIsOpen(false);
-    };
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as Position);
     };
@@ -63,15 +69,24 @@ export const EditPlayerModal: React.FC<IPlayer> = ({
                     mental: newMental,
                 }));
             }
-            handleClose();
+            onModalClose();
         }
     };
+    const buttonElement = ButtonComponent
+        ? (
+            <ButtonComponent onClick={onOpen}>
+                {BUTTON_TEXT}
+            </ButtonComponent>
+        )
+        : (
+            <Button variant="contained" onClick={onOpen}>
+                {BUTTON_TEXT}
+            </Button>
+        );
     return (
         <>
-            <Button variant="contained" onClick={handleClickOpen}>
-                Edit Player
-            </Button>
-            <Dialog open={isOpen} onClose={handleClose}>
+            {buttonElement}
+            <Dialog open={isOpen} onClose={onModalClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
                         Edit player
@@ -116,7 +131,7 @@ export const EditPlayerModal: React.FC<IPlayer> = ({
                         <PositionSelect currentPosition={currentPosition} onChange={handleChangePosition} />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={onModalClose}>Cancel</Button>
                         <Button type="submit">Save</Button>
                     </DialogActions>
                 </form>
