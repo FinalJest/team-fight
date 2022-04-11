@@ -64,6 +64,23 @@ export const generatePlayer = async (
     ...getNewStats(isRookie),
 });
 
+export const generatePlayerFromTemplate = async (
+    template: Partial<IPlayer>,
+    isRookie?: boolean,
+): Promise<IPlayer> => {
+    const randomStats = getNewStats(Boolean(isRookie));
+    return {
+        id: template.id ?? nanoid(),
+        name: template.name || await getName(),
+        position: template.position ?? getRandomPosition(),
+        skill: template.skill ?? randomStats.skill,
+        potential: template.potential ?? randomStats.potential,
+        mental: template.mental ?? randomStats.mental,
+        fame: template.fame ?? 0,
+        teamId: template.teamId,
+    };
+};
+
 export const generateRoster = async (teamId: string, areRookies: boolean = false): Promise<Partial<IRoster>> => {
     const [top, jungle, mid, carry, support] = await Promise.allSettled([
         generatePlayer(areRookies, teamId, Position.Top),

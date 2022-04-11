@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
-import { DeletePlayerModal } from '../../modals/DeletePlayerModal';
+import { DeletePlayerModal } from '../../modals/player/DeletePlayerModal';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { promotePlayer } from '../../../modules/teams/actions';
 import { Position } from '../../../enums/Position';

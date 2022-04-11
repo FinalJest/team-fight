@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getTeamById } from '../../../store/selectors';
 import { Logo } from '../../Logo';
 import { ComponentSize } from '../../../enums/ComponentSize';
-import { TeamSelect } from './TeamSelect';
+import { TeamSelect } from '../../TeamSelect';
 
 const Container = styled.div`
     width: 200px;

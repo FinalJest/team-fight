@@ -3,11 +3,11 @@ import {
     Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useReduxDispatch } from '../../hooks/useReduxDispatch';
-import { getInput } from '../../services/inputDataService';
-import { deleteTeam } from '../../modules/teams/thunk';
-import { BaseModalProps } from '../../types/BaseModalProps';
-import { useModal } from '../../hooks/useModal';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
+import { getInput } from '../../../services/inputDataService';
+import { deleteTeam } from '../../../modules/teams/thunk';
+import { BaseModalProps } from '../../../types/BaseModalProps';
+import { useModal } from '../../../hooks/useModal';
 
 const DELETE_PLAYERS_CHECKBOX_ID = 'delete_players';
 const BUTTON_TEXT = 'Delete Team';

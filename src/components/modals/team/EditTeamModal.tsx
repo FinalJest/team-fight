@@ -2,12 +2,12 @@ import React from 'react';
 import {
     Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import { useReduxDispatch } from '../../hooks/useReduxDispatch';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { BasicTeamModalFields, getBasicFields } from './BasicTeamModalFields';
-import { ITeam } from '../../types/ITeam';
-import { editTeam } from '../../modules/teams/actions';
-import { BaseModalProps } from '../../types/BaseModalProps';
-import { useModal } from '../../hooks/useModal';
+import { ITeam } from '../../../types/ITeam';
+import { editTeam } from '../../../modules/teams/actions';
+import { BaseModalProps } from '../../../types/BaseModalProps';
+import { useModal } from '../../../hooks/useModal';
 
 const BUTTON_TEXT = 'Edit Team';
 

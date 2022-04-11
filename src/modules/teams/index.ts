@@ -3,6 +3,7 @@ import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 import * as types from './actionTypes';
 import { TeamsState } from '../../types/TeamsState';
+import { IRosterIds } from '../../types/IRoster';
 
 export const initialTeamsState = [];
 
@@ -18,9 +19,17 @@ export const teams = (
                 ? { ...team, ...action.payload }
                 : team));
         case types.UPDATE_TEAM_ROSTER:
-            return state.map((team) => (team.id === action.payload.id
-                ? { ...team, roster: { ...team.roster, ...action.payload.roster } }
-                : team));
+            return state.map((team) => {
+                let newRoster: IRosterIds | undefined;
+                if (Array.isArray(action.payload)) {
+                    newRoster = action.payload.find((changingData) => changingData.id === team.id)?.roster;
+                } else if (team.id === action.payload.id) {
+                    newRoster = action.payload.roster;
+                }
+                return newRoster
+                    ? { ...team, roster: { ...team.roster, ...newRoster } }
+                    : team;
+            });
         case types.PROMOTE_PLAYER:
             return state.map((team) => {
                 if (team.id !== action.payload.teamId) {

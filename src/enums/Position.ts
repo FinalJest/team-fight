@@ -5,3 +5,5 @@ export enum Position {
     Carry = 'carry',
     Support = 'support',
 }
+
+export type GeneratePosition = Position | 'random';

@@ -2,12 +2,12 @@ import {
     FormControl, InputLabel, MenuItem, Select, SelectChangeEvent,
 } from '@mui/material';
 import React from 'react';
-import { Position } from '../../../enums/Position';
+import { GeneratePosition, Position } from '../enums/Position';
 
 const POSITION_LABEL_ID = 'position_label';
 
 interface PositionSelectProps {
-    currentPosition: Position;
+    currentPosition?: GeneratePosition;
     onChange(e: SelectChangeEvent): void;
 }
 
@@ -28,6 +28,7 @@ export const PositionSelect: React.FC<PositionSelectProps> = ({ currentPosition,
             <MenuItem value={Position.Mid}>Mid</MenuItem>
             <MenuItem value={Position.Carry}>Carry</MenuItem>
             <MenuItem value={Position.Support}>Support</MenuItem>
+            <MenuItem value="random">Random</MenuItem>
         </Select>
     </FormControl>
 );

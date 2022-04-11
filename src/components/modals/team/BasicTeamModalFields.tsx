@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-import { getInputValue } from '../../services/inputDataService';
+import { getInputValue } from '../../../services/inputDataService';
 
 const TEAM_NAME_INPUT_ID = 'team_name';
 const LOGO_INPUT_ID = 'logo';

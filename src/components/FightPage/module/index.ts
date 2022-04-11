@@ -3,6 +3,7 @@ import { ComponentState } from '../types/ComponentState';
 
 import * as actions from './actions';
 import * as types from './actionTypes';
+import { NO_TEAM_VALUE } from '../../TeamSelect';
 
 export const initialState: ComponentState = {
     teams: [],
@@ -16,7 +17,7 @@ export const reducer = (
     switch (action.type) {
         case types.SET_TEAM: {
             const newTeams = [...state.teams];
-            newTeams[action.payload.index] = action.payload.id;
+            newTeams[action.payload.index] = action.payload.id === NO_TEAM_VALUE ? undefined : action.payload.id;
             return {
                 teams: newTeams,
                 results: [],

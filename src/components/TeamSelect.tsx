@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import {
     MenuItem, Select, SelectChangeEvent,
 } from '@mui/material';
-import { getTeams } from '../../../store/selectors';
+import { getTeams } from '../store/selectors';
 
 interface TeamSelectProps {
     currentTeam?: string;
     onTeamSelect(id: string): void;
 }
+
+export const NO_TEAM_VALUE = 'no_team';
 
 export const TeamSelect: React.FC<TeamSelectProps> = ({ currentTeam, onTeamSelect }) => {
     const teams = useSelector(getTeams);
@@ -18,11 +20,12 @@ export const TeamSelect: React.FC<TeamSelectProps> = ({ currentTeam, onTeamSelec
 
     return (
         <Select
-            value={currentTeam ?? ''}
+            value={currentTeam ?? NO_TEAM_VALUE}
             sx={{ width: '100%' }}
             onChange={handleChange}
         >
             {teams.map((team) => <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)}
+            <MenuItem value={NO_TEAM_VALUE}>No Team</MenuItem>
         </Select>
     );
 };

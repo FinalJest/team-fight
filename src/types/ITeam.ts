@@ -5,5 +5,5 @@ export interface ITeam {
     name: string;
     logoUrl: string;
     fame: number;
-    roster: Partial<IRosterIds>;
+    roster: IRosterIds;
 }

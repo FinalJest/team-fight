@@ -5,10 +5,10 @@ import {
     DialogActions,
     DialogTitle,
 } from '@mui/material';
-import { useReduxDispatch } from '../../hooks/useReduxDispatch';
-import { deletePlayer } from '../../modules/players/thunk';
-import { useModal } from '../../hooks/useModal';
-import { BaseModalProps } from '../../types/BaseModalProps';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
+import { deletePlayer } from '../../../modules/players/thunk';
+import { useModal } from '../../../hooks/useModal';
+import { BaseModalProps } from '../../../types/BaseModalProps';
 
 const BUTTON_TEXT = 'Delete Player';
 

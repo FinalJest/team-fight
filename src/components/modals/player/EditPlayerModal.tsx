@@ -6,16 +6,15 @@ import {
     DialogContent,
     DialogTitle,
     SelectChangeEvent,
-    TextField,
 } from '@mui/material';
-import { useReduxDispatch } from '../../hooks/useReduxDispatch';
-import { IPlayer } from '../../types/IPlayer';
-import { getInputValue } from '../../services/inputDataService';
-import { Position } from '../../enums/Position';
-import { PositionSelect } from '../PlayerPage/__subComponents/PositionSelect';
-import { updatePlayer } from '../../modules/players/thunk';
-import { useModal } from '../../hooks/useModal';
-import { BaseModalProps } from '../../types/BaseModalProps';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
+import { IPlayer } from '../../../types/IPlayer';
+import { getInputValue } from '../../../services/inputDataService';
+import { Position } from '../../../enums/Position';
+import { updatePlayer } from '../../../modules/players/thunk';
+import { useModal } from '../../../hooks/useModal';
+import { BaseModalProps } from '../../../types/BaseModalProps';
+import { BasicPlayerModalFields } from './BasicPlayerModalFields';
 
 const PLAYER_NAME_FIELD_ID = 'player_name';
 const SKILL_FIELD_ID = 'skill';
@@ -43,10 +42,10 @@ export const EditPlayerModal: React.FC<EditPlayerModalProps> = ({
         onModalClose,
     } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState(position);
-    const dispatch = useReduxDispatch();
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as Position);
     };
+    const dispatch = useReduxDispatch();
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
@@ -92,43 +91,14 @@ export const EditPlayerModal: React.FC<EditPlayerModalProps> = ({
                         Edit player
                     </DialogTitle>
                     <DialogContent dividers>
-                        <TextField
-                            id={PLAYER_NAME_FIELD_ID}
-                            label="Name"
-                            fullWidth
-                            variant="standard"
-                            defaultValue={name}
-                            margin="normal"
-                            required
+                        <BasicPlayerModalFields
+                            currentPosition={currentPosition}
+                            onPositionChange={handleChangePosition}
+                            defaultName={name}
+                            defaultSkill={skill}
+                            defaultPotential={potential}
+                            defaultMental={mental}
                         />
-                        <TextField
-                            id={SKILL_FIELD_ID}
-                            label="Skill"
-                            fullWidth
-                            variant="standard"
-                            defaultValue={skill}
-                            margin="normal"
-                            required
-                        />
-                        <TextField
-                            id={POTENTIAL_FIELD_ID}
-                            label="Potential"
-                            fullWidth
-                            variant="standard"
-                            defaultValue={potential}
-                            margin="normal"
-                            required
-                        />
-                        <TextField
-                            id={MENTAL_FIELD_ID}
-                            label="Mental"
-                            fullWidth
-                            variant="standard"
-                            defaultValue={mental}
-                            margin="normal"
-                            required
-                        />
-                        <PositionSelect currentPosition={currentPosition} onChange={handleChangePosition} />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>

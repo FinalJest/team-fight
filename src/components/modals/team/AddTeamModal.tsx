@@ -6,16 +6,14 @@ import {
     DialogContent,
     DialogTitle,
 } from '@mui/material';
-import { useReduxDispatch } from '../../hooks/useReduxDispatch';
-import { createTeam } from '../../modules/teams/thunk';
-import { GenerateRosterRadioButtons } from '../TeamsList/__subComponents/GenerateRosterRadioButtons';
-import { GenerateRosterOption } from '../../enums/GenerateRosterOption';
-import { getInputValue } from '../../services/inputDataService';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
+import { createTeam } from '../../../modules/teams/thunk';
+import { GenerateRosterRadioButtons, getGenerateRosterValue } from './GenerateRosterRadioButtons';
+import { GeneratePlayerOption } from '../../../enums/GeneratePlayerOption';
 import { BasicTeamModalFields, getBasicFields } from './BasicTeamModalFields';
-import { BaseModalProps } from '../../types/BaseModalProps';
-import { useModal } from '../../hooks/useModal';
+import { BaseModalProps } from '../../../types/BaseModalProps';
+import { useModal } from '../../../hooks/useModal';
 
-const GENERATE_ROSTER_RADIO_NAME = 'generate_roster_group';
 const BUTTON_TEXT = 'Add Team';
 
 export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
@@ -30,16 +28,13 @@ export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClos
         e.preventDefault();
         if (formRef.current) {
             const { teamName, logoUrl } = getBasicFields(formRef);
-            const shouldGenerateRoster = getInputValue(
-                `input[name="${GENERATE_ROSTER_RADIO_NAME}"]:checked`,
-                formRef,
-            ) as GenerateRosterOption;
+            const shouldGenerateRoster = getGenerateRosterValue(formRef);
             if (teamName && logoUrl) {
                 dispatch(createTeam(
                     teamName,
                     logoUrl,
-                    shouldGenerateRoster !== GenerateRosterOption.No,
-                    shouldGenerateRoster === GenerateRosterOption.Rookies,
+                    shouldGenerateRoster !== GeneratePlayerOption.No,
+                    shouldGenerateRoster === GeneratePlayerOption.Rookie,
                 ));
                 onModalClose();
             }
@@ -68,7 +63,7 @@ export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClos
                     </DialogTitle>
                     <DialogContent dividers>
                         <BasicTeamModalFields />
-                        <GenerateRosterRadioButtons name={GENERATE_ROSTER_RADIO_NAME} />
+                        <GenerateRosterRadioButtons />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>
