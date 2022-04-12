@@ -19,7 +19,7 @@ export const PositionSelect: React.FC<PositionSelectProps> = ({ currentPosition,
         <InputLabel id={POSITION_LABEL_ID}>Position</InputLabel>
         <Select
             labelId={POSITION_LABEL_ID}
-            value={currentPosition}
+            value={currentPosition ?? 'random'}
             label="Position"
             onChange={onChange}
         >

@@ -11,7 +11,7 @@ import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { BasicPlayerModalFields, getBasicFields } from './BasicPlayerModalFields';
-import { GeneratePosition, Position } from '../../../enums/Position';
+import { GeneratePosition } from '../../../enums/Position';
 import { NO_TEAM_VALUE, TeamSelect } from '../../TeamSelect';
 import { generatePlayerFromTemplate } from '../../../services/playerGenerator';
 import { getGeneratePlayerValue } from './GeneratePlayerRadioButtons';
@@ -27,7 +27,7 @@ export const AddPlayerModal: React.FC<BaseModalProps> = ({ ButtonComponent, onCl
         onOpen,
         onModalClose,
     } = useModal(onClose);
-    const [currentPosition, setCurrentPosition] = React.useState<GeneratePosition | undefined>(Position.Top);
+    const [currentPosition, setCurrentPosition] = React.useState<GeneratePosition | undefined>(undefined);
     const [currentTeam, setCurrentTeam] = React.useState<string | undefined>();
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as GeneratePosition);

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { AddTeamModal } from '../modals/team/AddTeamModal';
 import { Team } from './__subComponents/Team';
 import { getTeams } from '../../store/selectors';
+import { ButtonsContainer } from '../ButtonsContainer';
+import { PageContainer } from '../PageContainer';
 
 const Container = styled.div`
     display: flex;
@@ -12,20 +14,18 @@ const Container = styled.div`
     padding: 12px;
 `;
 
-const AddModalContainer = styled.div`
-    margin-top: 20px;
-`;
-
 export const TeamsList: React.FC = () => {
     const teams = useSelector(getTeams);
     return (
-        <div>
-            <Container>
-                {teams.map((team) => <Team key={team.id} {...team} />)}
-            </Container>
-            <AddModalContainer>
+        <PageContainer>
+            {Boolean(teams.length) && (
+                <Container>
+                    {teams.map((team) => <Team key={team.id} {...team} />)}
+                </Container>
+            )}
+            <ButtonsContainer>
                 <AddTeamModal />
-            </AddModalContainer>
-        </div>
+            </ButtonsContainer>
+        </PageContainer>
     );
 };

@@ -6,6 +6,7 @@ import { TeamPage } from '../TeamPage';
 import { PlayersList } from '../PlayersList';
 import { PlayerPage } from '../PlayerPage';
 import { FightPage } from '../FightPage';
+import { SettingsPage } from '../SettingsPage';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -36,6 +37,7 @@ export const App: React.FC = () => (
             <StyledLink to="teams">Teams</StyledLink>
             <StyledLink to="players">Players</StyledLink>
             <StyledLink to="fight">Fight</StyledLink>
+            <StyledLink to="settings">Settings</StyledLink>
         </Header>
         <Content>
             <Routes>
@@ -49,6 +51,7 @@ export const App: React.FC = () => (
                     <Route path=":playerId" element={<PlayerPage />} />
                 </Route>
                 <Route path="fight" element={<FightPage />} />
+                <Route path="settings" element={<SettingsPage />} />
             </Routes>
         </Content>
     </StyledApp>
