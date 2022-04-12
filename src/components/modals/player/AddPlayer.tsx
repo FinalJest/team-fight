@@ -12,7 +12,7 @@ import { useModal } from '../../../hooks/useModal';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { BasicPlayerFields, getBasicFields } from './BasicPlayerFields';
 import { GeneratePosition } from '../../../enums/Position';
-import { NO_TEAM_VALUE, TeamSelect } from '../../TeamSelect';
+import { NO_TEAM_VALUE } from '../../TeamSelect';
 import { generatePlayerFromTemplate } from '../../../services/playerGenerator';
 import { getGeneratePlayerValue } from './GeneratePlayerRadioButtons';
 import { GeneratePlayerOption } from '../../../enums/GeneratePlayerOption';
@@ -80,11 +80,12 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
                     </DialogTitle>
                     <DialogContent dividers>
                         <BasicPlayerFields
+                            currentTeam={currentTeam}
                             currentPosition={currentPosition}
+                            onTeamChange={handleChangeTeam}
                             onPositionChange={handleChangePosition}
                             allowGenerateStats
                         />
-                        <TeamSelect currentTeam={currentTeam} onTeamSelect={handleChangeTeam} />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>

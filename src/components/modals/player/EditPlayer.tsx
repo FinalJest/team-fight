@@ -7,14 +7,16 @@ import {
     DialogTitle,
     SelectChangeEvent,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { IPlayer } from '../../../types/IPlayer';
 import { getInputValue } from '../../../services/inputDataService';
 import { Position } from '../../../enums/Position';
 import { updatePlayer } from '../../../modules/players/thunk';
 import { useModal } from '../../../hooks/useModal';
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { BasicPlayerFields } from './BasicPlayerFields';
+import { NO_TEAM_VALUE } from '../../TeamSelect';
+import { getPlayerById } from '../../../store/selectors';
 
 const PLAYER_NAME_FIELD_ID = 'player_name';
 const SKILL_FIELD_ID = 'skill';
@@ -23,18 +25,23 @@ const MENTAL_FIELD_ID = 'mental';
 
 const BUTTON_TEXT = 'Edit Player';
 
-type EditPlayerModalProps = IPlayer & BaseModalProps;
+interface EditPlayerModalProps extends BaseModalProps {
+    id: string;
+}
 
 export const EditPlayer: React.FC<EditPlayerModalProps> = ({
     id,
-    skill,
-    potential,
-    mental,
-    name,
-    position,
     ButtonComponent,
     onClose,
 }) => {
+    const {
+        skill,
+        potential,
+        mental,
+        name,
+        position,
+        teamId,
+    } = useSelector(getPlayerById(id)) ?? {};
     const {
         isOpen,
         formRef,
@@ -42,8 +49,12 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
         onModalClose,
     } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState(position);
+    const [currentTeam, setCurrentTeam] = React.useState<string | undefined>(teamId);
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as Position);
+    };
+    const handleChangeTeam = (newTeamId: string): void => {
+        setCurrentTeam(newTeamId !== NO_TEAM_VALUE ? newTeamId : undefined);
     };
     const dispatch = useReduxDispatch();
     const handleSubmit = (e: React.FormEvent): void => {
@@ -57,7 +68,8 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
                 || currentPosition !== position
                 || newSkill !== skill
                 || newPotential !== potential
-                || newMental !== mental;
+                || newMental !== mental
+                || currentTeam !== teamId;
             if (isChanged) {
                 dispatch(updatePlayer({
                     id,
@@ -66,6 +78,7 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
                     skill: newSkill,
                     potential: newPotential,
                     mental: newMental,
+                    teamId: currentTeam,
                 }));
             }
             onModalClose();
@@ -92,8 +105,10 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
                     </DialogTitle>
                     <DialogContent dividers>
                         <BasicPlayerFields
+                            currentTeam={currentTeam}
                             currentPosition={currentPosition}
                             onPositionChange={handleChangePosition}
+                            onTeamChange={handleChangeTeam}
                             defaultName={name}
                             defaultSkill={skill}
                             defaultPotential={potential}

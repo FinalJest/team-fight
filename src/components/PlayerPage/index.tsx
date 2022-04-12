@@ -41,7 +41,7 @@ export const PlayerPage: React.FC = () => {
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
             <ButtonsContainer>
-                <EditPlayer {...data} />
+                <EditPlayer id={data.id} />
                 <DeletePlayer id={data.id} />
             </ButtonsContainer>
         </PageContainer>

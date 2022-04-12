@@ -4,6 +4,7 @@ import { DeletePlayer } from '../../modals/player/DeletePlayer';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { promotePlayer } from '../../../modules/teams/actions';
 import { Position } from '../../../enums/Position';
+import { EditPlayer } from '../../modals/player/EditPlayer';
 
 const ACTION_BUTTON_ID = 'action_button';
 const ACTION_MENU_ID = 'action_menu';
@@ -59,6 +60,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                 }}
             >
                 {isSub && <MenuItem onClick={handlePromote}>To Main Team</MenuItem>}
+                <EditPlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
                 <DeletePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
             </Menu>
         </div>
