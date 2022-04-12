@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { AddTeamModal } from '../modals/team/AddTeamModal';
+import { AddTeam } from '../modals/team/AddTeam';
 import { Team } from './__subComponents/Team';
 import { getTeams } from '../../store/selectors';
 import { ButtonsContainer } from '../ButtonsContainer';
@@ -24,7 +24,7 @@ export const TeamsList: React.FC = () => {
                 </Container>
             )}
             <ButtonsContainer>
-                <AddTeamModal />
+                <AddTeam />
             </ButtonsContainer>
         </PageContainer>
     );

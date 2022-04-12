@@ -7,3 +7,4 @@ export const resetState = (newState?: any) => action(types.RESET_STATE, newState
 
 export * from './players/actions';
 export * from './teams/actions';
+export * from './tournaments/actions';

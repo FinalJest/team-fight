@@ -1,36 +1,42 @@
 import React from 'react';
 import {
-    Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel,
+    Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { getInput } from '../../../services/inputDataService';
-import { deleteTeam } from '../../../modules/teams/thunk';
+import { BasicTeamFields, getBasicFields } from './BasicTeamFields';
+import { ITeam } from '../../../types/ITeam';
+import { editTeam } from '../../../modules/teams/actions';
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
 
-const DELETE_PLAYERS_CHECKBOX_ID = 'delete_players';
-const BUTTON_TEXT = 'Delete Team';
+const BUTTON_TEXT = 'Edit Team';
 
-interface DeleteTeamModalProps extends BaseModalProps {
-    id: string;
-}
+type EditTeamModalProps = BaseModalProps & ITeam;
 
-export const DeleteTeamModal: React.FC<DeleteTeamModalProps> = ({ id, ButtonComponent, onClose }) => {
+export const EditTeam: React.FC<EditTeamModalProps> = ({
+    id,
+    name,
+    logoUrl,
+    ButtonComponent,
+    onClose,
+}) => {
     const {
         isOpen,
         formRef,
         onOpen,
         onModalClose,
     } = useModal(onClose);
-    const navigate = useNavigate();
     const dispatch = useReduxDispatch();
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const shouldDeletePlayers = getInput(`#${DELETE_PLAYERS_CHECKBOX_ID}`, formRef)?.checked;
-            dispatch(deleteTeam(id, shouldDeletePlayers));
-            navigate('/');
+            const { teamName: newName, logoUrl: newLogoUrl } = getBasicFields(formRef);
+            const isChanged = newName !== name
+                || newLogoUrl !== logoUrl;
+            if (isChanged) {
+                dispatch(editTeam({ id, name: newName, logoUrl: newLogoUrl }));
+            }
+            onModalClose();
         }
     };
     const buttonElement = ButtonComponent
@@ -40,7 +46,7 @@ export const DeleteTeamModal: React.FC<DeleteTeamModalProps> = ({ id, ButtonComp
             </ButtonComponent>
         )
         : (
-            <Button color="error" variant="contained" onClick={onOpen}>
+            <Button variant="contained" onClick={onOpen}>
                 {BUTTON_TEXT}
             </Button>
         );
@@ -50,17 +56,14 @@ export const DeleteTeamModal: React.FC<DeleteTeamModalProps> = ({ id, ButtonComp
             <Dialog open={isOpen} onClose={onModalClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
-                        Delete Team
+                        Edit Team
                     </DialogTitle>
                     <DialogContent dividers>
-                        <FormControlLabel
-                            control={<Checkbox id={DELETE_PLAYERS_CHECKBOX_ID} />}
-                            label="Should delete players?"
-                        />
+                        <BasicTeamFields defaultName={name} defaultLink={logoUrl} />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>
-                        <Button color="error" type="submit">Delete</Button>
+                        <Button type="submit">Save</Button>
                     </DialogActions>
                 </form>
             </Dialog>

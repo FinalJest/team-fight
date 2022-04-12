@@ -24,7 +24,7 @@ interface BasicPlayerModalFieldsProps {
     onPositionChange(e: SelectChangeEvent): void;
 }
 
-export const BasicPlayerModalFields: React.FC<BasicPlayerModalFieldsProps> = ({
+export const BasicPlayerFields: React.FC<BasicPlayerModalFieldsProps> = ({
     currentPosition,
     defaultName,
     defaultSkill,

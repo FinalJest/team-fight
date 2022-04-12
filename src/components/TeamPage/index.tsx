@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { PlayersTable } from '../PlayersTable';
 import { StatBlock } from '../StatBlock';
-import { EditTeamModal } from '../modals/team/EditTeamModal';
+import { EditTeam } from '../modals/team/EditTeam';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
-import { DeleteTeamModal } from '../modals/team/DeleteTeamModal';
+import { DeleteTeam } from '../modals/team/DeleteTeam';
 import { getMainRosterPlayers, getTeamById } from '../../store/selectors';
 import { getPlayersPower } from '../../services/fightSimulator';
 import { Position } from '../../enums/Position';
@@ -58,8 +58,8 @@ export const TeamPage: React.FC = () => {
             </Typography>
             <PlayersTable rowsData={rowsData} />
             <ButtonsContainer>
-                <EditTeamModal {...data} />
-                <DeleteTeamModal id={data.id} />
+                <EditTeam {...data} />
+                <DeleteTeam id={data.id} />
             </ButtonsContainer>
         </PageContainer>
     );

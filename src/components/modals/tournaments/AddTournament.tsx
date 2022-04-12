@@ -2,24 +2,15 @@ import React from 'react';
 import {
     Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { BasicTeamModalFields, getBasicFields } from './BasicTeamModalFields';
-import { ITeam } from '../../../types/ITeam';
-import { editTeam } from '../../../modules/teams/actions';
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
+import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
+import { BasicTournamentFields, getBasicFields } from './BasicTournamentFields';
+import { addTournament } from '../../../modules/tournaments/actions';
 
-const BUTTON_TEXT = 'Edit Team';
+const BUTTON_TEXT = 'Add Tournament';
 
-type EditTeamModalProps = BaseModalProps & ITeam;
-
-export const EditTeamModal: React.FC<EditTeamModalProps> = ({
-    id,
-    name,
-    logoUrl,
-    ButtonComponent,
-    onClose,
-}) => {
+export const AddTournament: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
     const {
         isOpen,
         formRef,
@@ -30,12 +21,12 @@ export const EditTeamModal: React.FC<EditTeamModalProps> = ({
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const { teamName: newName, logoUrl: newLogoUrl } = getBasicFields(formRef);
-            const isChanged = newName !== name
-                || newLogoUrl !== logoUrl;
-            if (isChanged) {
-                dispatch(editTeam({ id, name: newName, logoUrl: newLogoUrl }));
+            const { tournamentName, teamCount } = getBasicFields(formRef);
+            if (tournamentName) {
+                dispatch(addTournament(tournamentName, teamCount));
+                onModalClose();
             }
+        } else {
             onModalClose();
         }
     };
@@ -50,20 +41,21 @@ export const EditTeamModal: React.FC<EditTeamModalProps> = ({
                 {BUTTON_TEXT}
             </Button>
         );
+
     return (
         <>
             {buttonElement}
             <Dialog open={isOpen} onClose={onModalClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
-                        Edit Team
+                        Add Tournament
                     </DialogTitle>
                     <DialogContent dividers>
-                        <BasicTeamModalFields defaultName={name} defaultLink={logoUrl} />
+                        <BasicTournamentFields />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>
-                        <Button type="submit">Save</Button>
+                        <Button type="submit">Add</Button>
                     </DialogActions>
                 </form>
             </Dialog>

@@ -7,9 +7,9 @@ const POTENTIAL_FIELD_ID = 'potential';
 const MENTAL_FIELD_ID = 'mental';
 
 export const getBasicStatsFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
-    skill: getInputValue(`#${SKILL_FIELD_ID}`, formRef),
-    potential: getInputValue(`#${POTENTIAL_FIELD_ID}`, formRef),
-    mental: getInputValue(`#${MENTAL_FIELD_ID}`, formRef),
+    skill: parseInt(getInputValue(`#${SKILL_FIELD_ID}`, formRef) ?? '', 10),
+    potential: parseInt(getInputValue(`#${POTENTIAL_FIELD_ID}`, formRef) ?? '', 10),
+    mental: parseInt(getInputValue(`#${MENTAL_FIELD_ID}`, formRef) ?? '', 10),
 });
 
 interface PlayerStatsFieldsProps {
@@ -28,6 +28,7 @@ export const PlayerStatsFields: React.FC<PlayerStatsFieldsProps> = ({
             id={SKILL_FIELD_ID}
             label="Skill"
             fullWidth
+            type="number"
             variant="standard"
             defaultValue={defaultSkill}
             margin="normal"
@@ -36,6 +37,7 @@ export const PlayerStatsFields: React.FC<PlayerStatsFieldsProps> = ({
             id={POTENTIAL_FIELD_ID}
             label="Potential"
             fullWidth
+            type="number"
             variant="standard"
             defaultValue={defaultPotential}
             margin="normal"
@@ -44,6 +46,7 @@ export const PlayerStatsFields: React.FC<PlayerStatsFieldsProps> = ({
             id={MENTAL_FIELD_ID}
             label="Mental"
             fullWidth
+            type="number"
             variant="standard"
             defaultValue={defaultMental}
             margin="normal"

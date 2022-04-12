@@ -10,13 +10,13 @@ import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { createTeam } from '../../../modules/teams/thunk';
 import { GenerateRosterRadioButtons, getGenerateRosterValue } from './GenerateRosterRadioButtons';
 import { GeneratePlayerOption } from '../../../enums/GeneratePlayerOption';
-import { BasicTeamModalFields, getBasicFields } from './BasicTeamModalFields';
+import { BasicTeamFields, getBasicFields } from './BasicTeamFields';
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
 
 const BUTTON_TEXT = 'Add Team';
 
-export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
+export const AddTeam: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
     const {
         isOpen,
         formRef,
@@ -62,7 +62,7 @@ export const AddTeamModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClos
                         Add New Team
                     </DialogTitle>
                     <DialogContent dividers>
-                        <BasicTeamModalFields />
+                        <BasicTeamFields />
                         <GenerateRosterRadioButtons />
                     </DialogContent>
                     <DialogActions>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
-import { DeletePlayerModal } from '../../modals/player/DeletePlayerModal';
+import { DeletePlayer } from '../../modals/player/DeletePlayer';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { promotePlayer } from '../../../modules/teams/actions';
 import { Position } from '../../../enums/Position';
@@ -59,7 +59,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                 }}
             >
                 {isSub && <MenuItem onClick={handlePromote}>To Main Team</MenuItem>}
-                <DeletePlayerModal ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
+                <DeletePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
             </Menu>
         </div>
     );

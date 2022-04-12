@@ -7,6 +7,8 @@ import { PlayersList } from '../PlayersList';
 import { PlayerPage } from '../PlayerPage';
 import { FightPage } from '../FightPage';
 import { SettingsPage } from '../SettingsPage';
+import { TournamentsPage } from '../TournamentsPage';
+import { TournamentPage } from '../TournamentPage';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -38,6 +40,7 @@ export const App: React.FC = () => (
             <StyledLink to="players">Players</StyledLink>
             <StyledLink to="fight">Fight</StyledLink>
             <StyledLink to="settings">Settings</StyledLink>
+            <StyledLink to="tournaments">Tournaments</StyledLink>
         </Header>
         <Content>
             <Routes>
@@ -52,6 +55,10 @@ export const App: React.FC = () => (
                 </Route>
                 <Route path="fight" element={<FightPage />} />
                 <Route path="settings" element={<SettingsPage />} />
+                <Route path="tournaments">
+                    <Route path="" element={<TournamentsPage />} />
+                    <Route path=":tournamentId" element={<TournamentPage />} />
+                </Route>
             </Routes>
         </Content>
     </StyledApp>

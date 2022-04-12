@@ -16,7 +16,7 @@ interface DeletePlayerModalProps extends BaseModalProps {
     id: string;
 }
 
-export const DeletePlayerModal: React.FC<DeletePlayerModalProps> = ({ id, ButtonComponent, onClose }) => {
+export const DeletePlayer: React.FC<DeletePlayerModalProps> = ({ id, ButtonComponent, onClose }) => {
     const dispatch = useReduxDispatch();
     const { isOpen, onOpen, onModalClose } = useModal(onClose);
     const handleDelete = (): void => {

@@ -1,6 +1,7 @@
 import { ReduxState } from '../modules';
 import { ITeam } from '../types/ITeam';
 import { IPlayer } from '../types/IPlayer';
+import { ITournament } from '../types/ITournament';
 
 export const getTeams = (state: ReduxState): ITeam[] => state.teams;
 
@@ -37,3 +38,8 @@ export const getMainRosterPlayers = (teamId?: string) => (state: ReduxState): IP
     ].filter<string>((id): id is string => id !== undefined);
     return getPlayersByIds(playersIds)(state);
 };
+
+export const getTournaments = (state: ReduxState): ITournament[] => state.tournaments;
+
+export const getTournamentById = (id?: string) =>
+    (state: ReduxState): ITournament | undefined => state.tournaments.find((tournament) => tournament.id === id);

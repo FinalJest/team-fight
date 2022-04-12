@@ -14,7 +14,7 @@ import { Position } from '../../../enums/Position';
 import { updatePlayer } from '../../../modules/players/thunk';
 import { useModal } from '../../../hooks/useModal';
 import { BaseModalProps } from '../../../types/BaseModalProps';
-import { BasicPlayerModalFields } from './BasicPlayerModalFields';
+import { BasicPlayerFields } from './BasicPlayerFields';
 
 const PLAYER_NAME_FIELD_ID = 'player_name';
 const SKILL_FIELD_ID = 'skill';
@@ -25,7 +25,7 @@ const BUTTON_TEXT = 'Edit Player';
 
 type EditPlayerModalProps = IPlayer & BaseModalProps;
 
-export const EditPlayerModal: React.FC<EditPlayerModalProps> = ({
+export const EditPlayer: React.FC<EditPlayerModalProps> = ({
     id,
     skill,
     potential,
@@ -91,7 +91,7 @@ export const EditPlayerModal: React.FC<EditPlayerModalProps> = ({
                         Edit player
                     </DialogTitle>
                     <DialogContent dividers>
-                        <BasicPlayerModalFields
+                        <BasicPlayerFields
                             currentPosition={currentPosition}
                             onPositionChange={handleChangePosition}
                             defaultName={name}

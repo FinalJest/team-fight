@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
 import { Logo } from '../Logo';
-import { EditPlayerModal } from '../modals/player/EditPlayerModal';
-import { DeletePlayerModal } from '../modals/player/DeletePlayerModal';
+import { EditPlayer } from '../modals/player/EditPlayer';
+import { DeletePlayer } from '../modals/player/DeletePlayer';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
@@ -41,8 +41,8 @@ export const PlayerPage: React.FC = () => {
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
             <ButtonsContainer>
-                <EditPlayerModal {...data} />
-                <DeletePlayerModal id={data.id} />
+                <EditPlayer {...data} />
+                <DeletePlayer id={data.id} />
             </ButtonsContainer>
         </PageContainer>
     );

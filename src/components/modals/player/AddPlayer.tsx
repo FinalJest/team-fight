@@ -10,7 +10,7 @@ import {
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { BasicPlayerModalFields, getBasicFields } from './BasicPlayerModalFields';
+import { BasicPlayerFields, getBasicFields } from './BasicPlayerFields';
 import { GeneratePosition } from '../../../enums/Position';
 import { NO_TEAM_VALUE, TeamSelect } from '../../TeamSelect';
 import { generatePlayerFromTemplate } from '../../../services/playerGenerator';
@@ -20,7 +20,7 @@ import { addPlayers } from '../../../modules/players/thunk';
 
 const BUTTON_TEXT = 'Add Player';
 
-export const AddPlayerModal: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
+export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
     const {
         isOpen,
         formRef,
@@ -48,9 +48,9 @@ export const AddPlayerModal: React.FC<BaseModalProps> = ({ ButtonComponent, onCl
             const generatePlayerOption = getGeneratePlayerValue();
             generatePlayerFromTemplate({
                 name: playerName,
-                skill: skill === undefined ? skill : parseInt(skill, 10),
-                potential: potential === undefined ? potential : parseInt(potential, 10),
-                mental: mental === undefined ? mental : parseInt(mental, 10),
+                skill,
+                potential,
+                mental,
                 position: currentPosition === 'random' ? undefined : currentPosition,
                 teamId: currentTeam,
             }, generatePlayerOption === GeneratePlayerOption.Rookie).then((player) => {
@@ -79,7 +79,7 @@ export const AddPlayerModal: React.FC<BaseModalProps> = ({ ButtonComponent, onCl
                         Add New Team
                     </DialogTitle>
                     <DialogContent dividers>
-                        <BasicPlayerModalFields
+                        <BasicPlayerFields
                             currentPosition={currentPosition}
                             onPositionChange={handleChangePosition}
                             allowGenerateStats
