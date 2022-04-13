@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
@@ -11,15 +11,15 @@ import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
 import { ComponentSize } from '../../enums/ComponentSize';
+import { Path } from '../../enums/Path';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
-    const { data, teamLogoUrl } = useSelector((state: ReduxState) => {
+    const { data, team } = useSelector((state: ReduxState) => {
         const playerData = getPlayerById(playerId)(state);
-        const teamLogo = getTeamById(playerData?.teamId)(state)?.logoUrl;
         return {
             data: playerData,
-            teamLogoUrl: teamLogo,
+            team: getTeamById(playerData?.teamId)(state),
         };
     });
 
@@ -28,7 +28,15 @@ export const PlayerPage: React.FC = () => {
     }
 
     const statData = [
-        { name: 'Team', data: <Logo size={ComponentSize.S} src={teamLogoUrl} /> },
+        {
+            name: 'Team',
+            data: (
+                team ? (
+                    <Link to={`/${Path.Teams}/${team.id}`}>
+                        <Logo size={ComponentSize.S} src={team.logoUrl} />
+                    </Link>
+                ) : '-'),
+        },
         { name: 'Position', data: data.position },
         { name: 'Skill', data: `${data.skill}` },
         { name: 'Potential', data: `${data.potential}` },

@@ -9,6 +9,7 @@ import { FightPage } from '../FightPage';
 import { SettingsPage } from '../SettingsPage';
 import { TournamentsPage } from '../TournamentsPage';
 import { TournamentPage } from '../TournamentPage';
+import { Path } from '../../enums/Path';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -36,26 +37,26 @@ const StyledLink = styled(Link)`
 export const App: React.FC = () => (
     <StyledApp>
         <Header>
-            <StyledLink to="teams">Teams</StyledLink>
-            <StyledLink to="players">Players</StyledLink>
-            <StyledLink to="fight">Fight</StyledLink>
-            <StyledLink to="settings">Settings</StyledLink>
-            <StyledLink to="tournaments">Tournaments</StyledLink>
+            <StyledLink to={Path.Teams}>Teams</StyledLink>
+            <StyledLink to={Path.Players}>Players</StyledLink>
+            <StyledLink to={Path.Fight}>Fight</StyledLink>
+            <StyledLink to={Path.Tournaments}>Tournaments</StyledLink>
+            <StyledLink to={Path.Settings}>Settings</StyledLink>
         </Header>
         <Content>
             <Routes>
-                <Route path="/" element={<TeamsList />} />
-                <Route path="teams">
+                <Route path="/" element={<FightPage />} />
+                <Route path={Path.Teams}>
                     <Route path="" element={<TeamsList />} />
                     <Route path=":teamId" element={<TeamPage />} />
                 </Route>
-                <Route path="players">
+                <Route path={Path.Players}>
                     <Route path="" element={<PlayersList />} />
                     <Route path=":playerId" element={<PlayerPage />} />
                 </Route>
-                <Route path="fight" element={<FightPage />} />
-                <Route path="settings" element={<SettingsPage />} />
-                <Route path="tournaments">
+                <Route path={Path.Fight} element={<FightPage />} />
+                <Route path={Path.Settings} element={<SettingsPage />} />
+                <Route path={Path.Tournaments}>
                     <Route path="" element={<TournamentsPage />} />
                     <Route path=":tournamentId" element={<TournamentPage />} />
                 </Route>

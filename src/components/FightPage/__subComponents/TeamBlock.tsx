@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 interface TeamBlockProps {
-    currentTeam?: string;
+    currentTeam: string;
     onTeamSelect(id: string): void;
 }
 

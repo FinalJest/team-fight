@@ -28,12 +28,12 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
         onModalClose,
     } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState<GeneratePosition | undefined>(undefined);
-    const [currentTeam, setCurrentTeam] = React.useState<string | undefined>();
+    const [currentTeam, setCurrentTeam] = React.useState<string>(NO_TEAM_VALUE);
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as GeneratePosition);
     };
     const handleChangeTeam = (id: string): void => {
-        setCurrentTeam(id !== NO_TEAM_VALUE ? id : undefined);
+        setCurrentTeam(id);
     };
     const dispatch = useReduxDispatch();
     const handleSubmit = (e: React.FormEvent): void => {
@@ -52,7 +52,7 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
                 potential,
                 mental,
                 position: currentPosition === 'random' ? undefined : currentPosition,
-                teamId: currentTeam,
+                teamId: currentTeam !== NO_TEAM_VALUE ? currentTeam : undefined,
             }, generatePlayerOption === GeneratePlayerOption.Rookie).then((player) => {
                 dispatch(addPlayers([player]));
                 onModalClose();

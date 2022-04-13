@@ -49,12 +49,12 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
         onModalClose,
     } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState(position);
-    const [currentTeam, setCurrentTeam] = React.useState<string | undefined>(teamId);
+    const [currentTeam, setCurrentTeam] = React.useState<string>(teamId ?? NO_TEAM_VALUE);
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as Position);
     };
     const handleChangeTeam = (newTeamId: string): void => {
-        setCurrentTeam(newTeamId !== NO_TEAM_VALUE ? newTeamId : undefined);
+        setCurrentTeam(newTeamId);
     };
     const dispatch = useReduxDispatch();
     const handleSubmit = (e: React.FormEvent): void => {
@@ -78,7 +78,7 @@ export const EditPlayer: React.FC<EditPlayerModalProps> = ({
                     skill: newSkill,
                     potential: newPotential,
                     mental: newMental,
-                    teamId: currentTeam,
+                    teamId: currentTeam !== NO_TEAM_VALUE ? currentTeam : undefined,
                 }));
             }
             onModalClose();

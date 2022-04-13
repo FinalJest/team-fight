@@ -8,6 +8,7 @@ import { Position } from '../../../enums/Position';
 import { getTeamById } from '../../../store/selectors';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { ActionMenu } from './ActionMenu';
+import { Path } from '../../../enums/Path';
 
 const getRowBgColor = (position: Position): string => {
     switch (position) {
@@ -38,7 +39,7 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
     return (
         <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isSub ? 0.5 : 'auto' }}>
             <TableCell align="left">
-                <Link to={`/players/${player.id}`}>
+                <Link to={`/${Path.Players}/${player.id}`}>
                     {player.name}
                 </Link>
             </TableCell>
@@ -56,7 +57,11 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
             </TableCell>
             {shouldDisplayTeam && (
                 <TableCell align="right">
-                    {team ? <Logo size={ComponentSize.S} src={team.logoUrl} /> : '-'}
+                    {team ? (
+                        <Link to={`/${Path.Teams}/${team.id}`}>
+                            <Logo size={ComponentSize.S} src={team.logoUrl} />
+                        </Link>
+                    ) : '-'}
                 </TableCell>
             )}
             <TableCell align="right">

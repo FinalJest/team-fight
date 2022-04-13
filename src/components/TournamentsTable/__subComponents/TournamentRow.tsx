@@ -6,6 +6,7 @@ import { IPlayer } from '../../../types/IPlayer';
 import { ITeam } from '../../../types/ITeam';
 import { Logo } from '../../Logo';
 import { ComponentSize } from '../../../enums/ComponentSize';
+import { Path } from '../../../enums/Path';
 
 export interface RowData {
     data: ITournament;
@@ -17,7 +18,7 @@ export interface RowData {
 export const TournamentRow: React.FC<RowData> = ({ data, mvp, winner }) => (
     <TableRow>
         <TableCell align="left">
-            <Link to={`/tournaments/${data.id}`}>
+            <Link to={`/${Path.Tournaments}/${data.id}`}>
                 {data.name}
             </Link>
         </TableCell>
@@ -26,14 +27,14 @@ export const TournamentRow: React.FC<RowData> = ({ data, mvp, winner }) => (
         </TableCell>
         <TableCell align="right">
             {winner ? (
-                <Link to={`/teams/${winner.id}`}>
+                <Link to={`/${Path.Teams}/${winner.id}`}>
                     <Logo size={ComponentSize.S} src={winner.logoUrl} />
                 </Link>
             ) : '-'}
         </TableCell>
         <TableCell align="right">
             {mvp ? (
-                <Link to={`/players/${mvp.id}`}>
+                <Link to={`/${Path.Players}/${mvp.id}`}>
                     {mvp.name}
                 </Link>
             ) : '-'}

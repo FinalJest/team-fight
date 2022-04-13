@@ -6,13 +6,18 @@ import {
 import { getTeams } from '../store/selectors';
 
 interface TeamSelectProps {
-    currentTeam?: string;
+    excludedTeams?: string[];
+    currentTeam: string;
     onTeamSelect(id: string): void;
 }
 
 export const NO_TEAM_VALUE = 'no_team';
 
-export const TeamSelect: React.FC<TeamSelectProps> = ({ currentTeam, onTeamSelect }) => {
+export const TeamSelect: React.FC<TeamSelectProps> = ({
+    excludedTeams = [],
+    currentTeam,
+    onTeamSelect,
+}) => {
     const teams = useSelector(getTeams);
     const handleChange = (e: SelectChangeEvent): void => {
         onTeamSelect(e.target.value);
@@ -20,11 +25,13 @@ export const TeamSelect: React.FC<TeamSelectProps> = ({ currentTeam, onTeamSelec
 
     return (
         <Select
-            value={currentTeam ?? NO_TEAM_VALUE}
+            value={currentTeam}
             sx={{ width: '100%' }}
             onChange={handleChange}
         >
-            {teams.map((team) => <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)}
+            {teams
+                .filter((team) => !excludedTeams.includes(team.id) || currentTeam === team.id)
+                .map((team) => <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)}
             <MenuItem value={NO_TEAM_VALUE}>No Team</MenuItem>
         </Select>
     );

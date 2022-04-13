@@ -5,6 +5,9 @@ import { ITournament } from '../types/ITournament';
 
 export const getTeams = (state: ReduxState): ITeam[] => state.teams;
 
+export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], ITeam> =>
+    getTeams(state).reduce<Record<ITeam['id'], ITeam>>((result, team) => ({ ...result, [team.id]: team }), {});
+
 export const getTeamById = (id?: string) =>
     (state: ReduxState): ITeam | undefined => state.teams.find((team) => team.id === id);
 

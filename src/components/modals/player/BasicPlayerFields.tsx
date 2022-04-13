@@ -16,7 +16,7 @@ export const getBasicFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
 });
 
 interface BasicPlayerModalFieldsProps {
-    currentTeam?: string;
+    currentTeam: string;
     currentPosition?: GeneratePosition;
     defaultName?: string;
     defaultSkill?: number;

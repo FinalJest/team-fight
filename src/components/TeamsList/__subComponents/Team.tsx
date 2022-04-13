@@ -4,9 +4,10 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ITeam } from '../../../types/ITeam';
+import { Path } from '../../../enums/Path';
 
 export const Team: React.FC<ITeam> = ({ name, logoUrl, id }) => (
-    <Link to={`/teams/${id}`}>
+    <Link to={`/${Path.Teams}/${id}`}>
         <Card sx={{ width: 160 }}>
             <CardMedia component="img" height="140" image={logoUrl} />
             <CardContent>

@@ -1,4 +1,4 @@
 export interface ComponentState {
-    teams: Array<string | undefined>,
+    teams: Array<string>,
     results: Array<0 | 1>,
 }
