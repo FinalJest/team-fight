@@ -8,12 +8,12 @@ interface MatchTeamSelectProps {
     currentTeam: string;
     groupName: string;
     indexInGroup: number;
-    excludedTeams?: string[];
+    excludedTeams?: Set<string>;
 }
 
 export const MatchTeamSelect: React.FC<MatchTeamSelectProps> = ({
     currentTeam,
-    excludedTeams = [],
+    excludedTeams = new Set(),
     groupName,
     indexInGroup,
 }) => {

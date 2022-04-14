@@ -18,6 +18,7 @@ const getMoralBoosts = ([mental1, mental2]: number[]): [number, number] => {
             return [0, 0];
     }
 };
+
 const getPlayersMental = (players: IPlayer[]): number => players.reduce((acc, player) => acc + player.mental, 0);
 
 const fightOnce = ([power1, power2]: number[]): 0 | 1 => {
@@ -28,8 +29,13 @@ const fightOnce = ([power1, power2]: number[]): 0 | 1 => {
 
 export const getPlayersPower = (players: IPlayer[]): number => players.reduce((acc, player) => acc + player.skill, 0);
 
+export const resultsToScore = (results: Results): [number, number] =>
+    results.reduce<[number, number]>((acc, winnerId) =>
+        ([winnerId === 0 ? acc[0] + 1 : acc[0], winnerId === 1 ? acc[1] + 1 : acc[1]]), [0, 0]);
+
 export const fight = (players1: IPlayer[], players2: IPlayer[], times: number = 1): Results => {
     const results: Results = [];
+    const maxWins = Math.floor(times / 2) + 1;
     const playersArr = [players1, players2];
     const powers = playersArr.map(getPlayersPower);
     const mentals = playersArr.map(getPlayersMental);
@@ -40,6 +46,10 @@ export const fight = (players1: IPlayer[], players2: IPlayer[], times: number = 
             powers[index] += additionalSkill;
         });
         results.push(fightOnce(powers));
+        const score = resultsToScore(results);
+        if (score.some((wins) => wins >= maxWins)) {
+            break;
+        }
     }
 
     return results;

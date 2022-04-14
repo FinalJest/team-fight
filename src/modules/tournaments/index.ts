@@ -6,6 +6,7 @@ import * as types from './actionTypes';
 import { TournamentsState } from '../../types/TournamentsState';
 import { ITournament } from '../../types/ITournament';
 import { generateGroups } from '../../services/groupGenerator';
+import { TournamentFightType } from '../../types/TournamentFightType';
 
 const getEmptyTournament = (
     name: string,
@@ -46,6 +47,32 @@ export const tournaments = (
                 newGroup[action.payload.indexInGroup] = action.payload.teamId;
                 newComposition[action.payload.groupName] = newGroup;
                 return { ...tournament, group: { ...tournament.group, composition: newComposition } };
+            });
+        case types.ADD_RESULT:
+            return state.map((tournament) => {
+                if (tournament.id !== action.payload.tournamentId) {
+                    return tournament;
+                }
+
+                if (action.payload.type === TournamentFightType.Group && tournament.group) {
+                    const newGroup = { ...tournament.group };
+                    const team1results = newGroup.results[action.payload.team1] ?? {};
+                    team1results[action.payload.team2] = action.payload.score;
+                    const team2results = newGroup.results[action.payload.team2] ?? {};
+                    team2results[action.payload.team1] = action.payload.score
+                        && [action.payload.score[1], action.payload.score[0]];
+                    newGroup.results = {
+                        ...newGroup.results,
+                        [action.payload.team1]: team1results,
+                        [action.payload.team2]: team2results,
+                    };
+                    return {
+                        ...tournament,
+                        group: newGroup,
+                    };
+                }
+
+                return tournament;
             });
         default:
             return state;

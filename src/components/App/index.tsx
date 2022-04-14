@@ -1,15 +1,16 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FightPage } from '../FightPage';
+import { SettingsPage } from '../SettingsPage';
+import { Path } from '../../enums/Path';
 import { TeamsList } from '../TeamsList';
 import { TeamPage } from '../TeamPage';
 import { PlayersList } from '../PlayersList';
 import { PlayerPage } from '../PlayerPage';
-import { FightPage } from '../FightPage';
-import { SettingsPage } from '../SettingsPage';
 import { TournamentsPage } from '../TournamentsPage';
 import { TournamentPage } from '../TournamentPage';
-import { Path } from '../../enums/Path';
+import { TournamentFightSubpage } from '../TournamentFightSubpage';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -58,7 +59,10 @@ export const App: React.FC = () => (
                 <Route path={Path.Settings} element={<SettingsPage />} />
                 <Route path={Path.Tournaments}>
                     <Route path="" element={<TournamentsPage />} />
-                    <Route path=":tournamentId" element={<TournamentPage />} />
+                    <Route path=":tournamentId">
+                        <Route path="" element={<TournamentPage />} />
+                        <Route path=":matchId" element={<TournamentFightSubpage />} />
+                    </Route>
                 </Route>
             </Routes>
         </Content>

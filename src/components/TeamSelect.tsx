@@ -6,7 +6,7 @@ import {
 import { getTeams } from '../store/selectors';
 
 interface TeamSelectProps {
-    excludedTeams?: string[];
+    excludedTeams?: Set<string>;
     currentTeam: string;
     onTeamSelect(id: string): void;
 }
@@ -14,7 +14,7 @@ interface TeamSelectProps {
 export const NO_TEAM_VALUE = 'no_team';
 
 export const TeamSelect: React.FC<TeamSelectProps> = ({
-    excludedTeams = [],
+    excludedTeams = new Set(),
     currentTeam,
     onTeamSelect,
 }) => {
@@ -30,7 +30,7 @@ export const TeamSelect: React.FC<TeamSelectProps> = ({
             onChange={handleChange}
         >
             {teams
-                .filter((team) => !excludedTeams.includes(team.id) || currentTeam === team.id)
+                .filter((team) => !excludedTeams?.has(team.id) || currentTeam === team.id)
                 .map((team) => <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)}
             <MenuItem value={NO_TEAM_VALUE}>No Team</MenuItem>
         </Select>

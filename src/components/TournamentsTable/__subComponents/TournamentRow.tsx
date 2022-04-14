@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ITournament } from '../../../types/ITournament';
 import { IPlayer } from '../../../types/IPlayer';
 import { ITeam } from '../../../types/ITeam';
-import { Logo } from '../../Logo';
+import { TeamLogo } from '../../TeamLogo';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { Path } from '../../../enums/Path';
 
@@ -26,11 +26,7 @@ export const TournamentRow: React.FC<RowData> = ({ data, mvp, winner }) => (
             {data.teamCount}
         </TableCell>
         <TableCell align="right">
-            {winner ? (
-                <Link to={`/${Path.Teams}/${winner.id}`}>
-                    <Logo size={ComponentSize.S} src={winner.logoUrl} />
-                </Link>
-            ) : '-'}
+            {winner ? <TeamLogo size={ComponentSize.S} src={winner.logoUrl} id={winner.id} /> : '-'}
         </TableCell>
         <TableCell align="right">
             {mvp ? (

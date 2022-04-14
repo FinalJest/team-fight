@@ -5,8 +5,7 @@ import { ITournament } from '../../../types/ITournament';
 import { ReduxState } from '../../../modules';
 import { getPlayerById, getTeamById } from '../../../store/selectors';
 import { Path } from '../../../enums/Path';
-import { Logo } from '../../Logo';
-import { ComponentSize } from '../../../enums/ComponentSize';
+import { TeamLogo } from '../../TeamLogo';
 import { StatBlock } from '../../StatBlock';
 
 interface StatsProps {
@@ -30,11 +29,7 @@ export const Stats: React.FC<StatsProps> = ({ data }) => {
         },
         {
             name: 'Winner',
-            data: (
-                <Link to={`/${Path.Teams}/${winner.id}`}>
-                    <Logo size={ComponentSize.S} src={winner.logoUrl} />
-                </Link>
-            ),
+            data: <TeamLogo src={winner.logoUrl} id={winner.id} />,
         },
         {
             name: 'MVP',

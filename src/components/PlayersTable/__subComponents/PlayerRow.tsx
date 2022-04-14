@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { IPlayer } from '../../../types/IPlayer';
-import { Logo } from '../../Logo';
+import { TeamLogo } from '../../TeamLogo';
 import { Position } from '../../../enums/Position';
 import { getTeamById } from '../../../store/selectors';
-import { ComponentSize } from '../../../enums/ComponentSize';
 import { ActionMenu } from './ActionMenu';
 import { Path } from '../../../enums/Path';
 
@@ -57,11 +56,7 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
             </TableCell>
             {shouldDisplayTeam && (
                 <TableCell align="right">
-                    {team ? (
-                        <Link to={`/${Path.Teams}/${team.id}`}>
-                            <Logo size={ComponentSize.S} src={team.logoUrl} />
-                        </Link>
-                    ) : '-'}
+                    {team ? <TeamLogo src={team.logoUrl} id={team.id} /> : '-'}
                 </TableCell>
             )}
             <TableCell align="right">

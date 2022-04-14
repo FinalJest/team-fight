@@ -1,4 +1,4 @@
-import { fight, getPlayersPower } from './fightSimulator';
+import { fight, getPlayersPower, resultsToScore } from './fightSimulator';
 import { IPlayer } from '../types/IPlayer';
 
 describe('test getPlayersPower', () => {
@@ -31,5 +31,16 @@ describe('test fight', () => {
         const team1: IPlayer[] = [];
         const team2 = [{ skill: 20 }, { skill: 30 }] as IPlayer[];
         expect(fight(team1, team2)).toEqual([1]);
+    });
+});
+
+describe('test resultsToScore', () => {
+    test('basic scenario', () => {
+        const score = resultsToScore([0, 1, 0, 1, 1]);
+        expect(score).toEqual([2, 3]);
+    });
+    test('empty results', () => {
+        const score = resultsToScore([]);
+        expect(score).toEqual([0, 0]);
     });
 });

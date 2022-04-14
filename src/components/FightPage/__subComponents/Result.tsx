@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { Logo } from '../../Logo';
+import { TeamLogo } from '../../TeamLogo';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { Results } from '../../../types/Results';
 import { getTeamById } from '../../../store/selectors';
+import { resultsToScore } from '../../../services/fightSimulator';
 
 const Container = styled.div`
     display: flex;
@@ -36,13 +37,16 @@ export const Result: React.FC<ResultProps> = ({ results, teams }) => {
     const totalWinner = results.filter((winnerIndex) => winnerIndex === 0).length > results.length / 2
         ? teams[0]
         : teams[1];
-    const winnerLogo = useSelector(getTeamById(totalWinner))?.logoUrl;
-    const score = results.reduce((acc, winnerId) =>
-        acc.map((singleScore, index) => (index === winnerId ? singleScore + 1 : singleScore)), [0, 0]);
+    const winner = useSelector(getTeamById(totalWinner));
+    const score = resultsToScore(results);
 
     return (
         <Container>
-            <Logo size={ComponentSize.L} src={results.length ? winnerLogo : undefined} />
+            <TeamLogo
+                id={winner?.id}
+                size={ComponentSize.L}
+                src={results.length ? winner?.logoUrl : undefined}
+            />
             <Typography variant="h3">
                 {`${score[0]} : ${score[1]}`}
             </Typography>

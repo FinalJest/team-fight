@@ -1,17 +1,15 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../modules';
 import { StatBlock } from '../StatBlock';
-import { Logo } from '../Logo';
+import { TeamLogo } from '../TeamLogo';
 import { EditPlayer } from '../modals/player/EditPlayer';
 import { DeletePlayer } from '../modals/player/DeletePlayer';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
-import { ComponentSize } from '../../enums/ComponentSize';
-import { Path } from '../../enums/Path';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
@@ -30,12 +28,7 @@ export const PlayerPage: React.FC = () => {
     const statData = [
         {
             name: 'Team',
-            data: (
-                team ? (
-                    <Link to={`/${Path.Teams}/${team.id}`}>
-                        <Logo size={ComponentSize.S} src={team.logoUrl} />
-                    </Link>
-                ) : '-'),
+            data: team ? <TeamLogo src={team.logoUrl} id={data.id} /> : '-',
         },
         { name: 'Position', data: data.position },
         { name: 'Skill', data: `${data.skill}` },

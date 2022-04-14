@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Typography } from '@mui/material';
 import { getTeamById } from '../../../store/selectors';
-import { Logo } from '../../Logo';
+import { TeamLogo } from '../../TeamLogo';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { TeamSelect } from '../../TeamSelect';
 
@@ -13,15 +14,19 @@ const Container = styled.div`
 interface TeamBlockProps {
     currentTeam: string;
     onTeamSelect(id: string): void;
+
+    isDisabled?: boolean;
 }
 
-export const TeamBlock: React.FC<TeamBlockProps> = ({ currentTeam, onTeamSelect }) => {
+export const TeamBlock: React.FC<TeamBlockProps> = ({ isDisabled, currentTeam, onTeamSelect }) => {
     const team = useSelector(getTeamById(currentTeam));
 
     return (
         <Container>
-            <Logo size={ComponentSize.L} src={team?.logoUrl} />
-            <TeamSelect onTeamSelect={onTeamSelect} currentTeam={currentTeam} />
+            <TeamLogo size={ComponentSize.L} src={team?.logoUrl} id={team?.id} />
+            {isDisabled
+                ? <Typography variant="h4">{team?.name}</Typography>
+                : <TeamSelect onTeamSelect={onTeamSelect} currentTeam={currentTeam} />}
         </Container>
     );
 };

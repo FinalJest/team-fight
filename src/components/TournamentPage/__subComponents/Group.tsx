@@ -5,24 +5,30 @@ import {
 import { useSelector } from 'react-redux';
 import { GroupResults } from '../../../types/IGroup';
 import { getTeamsRecord } from '../../../store/selectors';
-import { Logo } from '../../Logo';
+import { TeamLogo } from '../../TeamLogo';
 import { ComponentSize } from '../../../enums/ComponentSize';
 import { GroupCell } from './GroupCell';
 import { MatchTeamSelect } from './MatchTeamSelect';
 import { NO_TEAM_VALUE } from '../../TeamSelect';
+import { getPlaces, getPoints, getWins } from '../../../services/groupGenerator';
+import { Fight } from './Fight';
+import { TournamentFightType } from '../../../types/TournamentFightType';
 
 interface GroupProps {
     name: string;
     results: GroupResults;
     teams: Array<string | undefined>;
+    selectedTeams?: Set<string>;
 }
 
 export const Group: React.FC<GroupProps> = ({
     name,
+    selectedTeams = new Set(),
     results,
     teams,
 }) => {
     const teamsById = useSelector(getTeamsRecord);
+    const places = getPlaces(results);
     return (
         <div>
             <Typography variant="h3">
@@ -39,6 +45,15 @@ export const Group: React.FC<GroupProps> = ({
                                 {teamId !== undefined && teamsById[teamId]?.name}
                             </GroupCell>
                         ))}
+                        <GroupCell>
+                            Wins
+                        </GroupCell>
+                        <GroupCell>
+                            Points
+                        </GroupCell>
+                        <GroupCell>
+                            Place
+                        </GroupCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -50,7 +65,7 @@ export const Group: React.FC<GroupProps> = ({
                                 <GroupCell>
                                     <MatchTeamSelect
                                         currentTeam={teamId ?? NO_TEAM_VALUE}
-                                        excludedTeams={teams.filter((team): team is string => team !== undefined)}
+                                        excludedTeams={selectedTeams}
                                         groupName={name}
                                         indexInGroup={index}
                                     />
@@ -60,7 +75,13 @@ export const Group: React.FC<GroupProps> = ({
                                         return (
                                             <GroupCell key={oppositeTeamId ?? ceilIndex}>
                                                 {teamForRow
-                                                    ? <Logo size={ComponentSize.M} src={teamForRow.logoUrl} />
+                                                    ? (
+                                                        <TeamLogo
+                                                            id={teamForRow.id}
+                                                            size={ComponentSize.M}
+                                                            src={teamForRow.logoUrl}
+                                                        />
+                                                    )
                                                     : ''}
                                             </GroupCell>
                                         );
@@ -71,10 +92,24 @@ export const Group: React.FC<GroupProps> = ({
                                         : teamResults && teamResults[oppositeTeamId];
                                     return (
                                         <GroupCell key={oppositeTeamId ?? ceilIndex}>
-                                            {result ? result.join(':') : ''}
+                                            <Fight
+                                                result={result}
+                                                type={TournamentFightType.Group}
+                                                team1={teamId}
+                                                team2={oppositeTeamId}
+                                            />
                                         </GroupCell>
                                     );
                                 })}
+                                <GroupCell>
+                                    {teamResults ? getWins(teamResults) : ''}
+                                </GroupCell>
+                                <GroupCell>
+                                    {teamResults ? getPoints(teamResults) : ''}
+                                </GroupCell>
+                                <GroupCell>
+                                    {teamId !== undefined ? places[teamId] : ''}
+                                </GroupCell>
                             </TableRow>
                         );
                     })}

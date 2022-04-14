@@ -1,6 +1,7 @@
 import { action } from 'typesafe-actions';
 
 import * as types from './actionTypes';
+import { TournamentFightType } from '../../types/TournamentFightType';
 
 export const addTournament = (
     name: string,
@@ -18,4 +19,18 @@ export const addTeamToTournamentGroup = (
     teamId,
     groupName,
     indexInGroup,
+});
+
+export const addResult = (
+    tournamentId: string,
+    type: TournamentFightType,
+    team1: string,
+    team2: string,
+    score?: [number, number],
+) => action(types.ADD_RESULT, {
+    tournamentId,
+    type,
+    team1,
+    team2,
+    score,
 });
