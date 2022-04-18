@@ -8,10 +8,10 @@ import * as reducers from './reducers';
 
 export type ReduxActions = ActionType<typeof actions>;
 
+// Redux/TS/typesafe-actions don't mesh well, can't declare it without recursion
 export const rootReducer = (state: any, action: ReduxActions) => {
     const appReducer = combineReducers(reducers);
     if (action.type === types.RESET_STATE) {
-        // @ts-expect-error Redux/TS/typesafe-actions don't mesh well, can't declare it without recursion
         return appReducer(action.payload, action);
     }
     return appReducer(state, action);
