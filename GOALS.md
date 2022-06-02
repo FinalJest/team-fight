@@ -19,6 +19,7 @@ Features are being developed
 * Transfer page
 * Free agents market page
 * README is project specific
+* Unit test coverage
 
 ## v3
 
@@ -29,3 +30,4 @@ Features are being developed
 * Tournament Templates
 * Add confirmation modals
 * 404 page
+* Extensive test Coverage
