@@ -14,6 +14,7 @@ import { getPlaces, getPoints, getWins } from '../../../services/groupService';
 import { Fight } from './Fight';
 import { TournamentFightType } from '../../../types/TournamentFightType';
 import { useTournamentContext } from '../TournamentContext';
+import { getColorFromPlace } from '../../../services/placementService';
 
 interface GroupProps {
     name: string;
@@ -43,7 +44,7 @@ export const Group: React.FC<GroupProps> = ({
                             Team
                         </GroupCell>
                         {teams.map((teamId, index) => (
-                            <GroupCell key={teamId ?? index}>
+                            <GroupCell key={teamId ?? index} isBold>
                                 {teamId !== undefined && teamsById[teamId]?.name}
                             </GroupCell>
                         ))}
@@ -65,7 +66,7 @@ export const Group: React.FC<GroupProps> = ({
                         const teamComponent = teamId ? teamsById[teamId]?.name : undefined;
                         return (
                             <TableRow key={teamId ?? index}>
-                                <GroupCell>
+                                <GroupCell isBold>
                                     {isFinished
                                         ? teamComponent
                                         : (
@@ -114,10 +115,13 @@ export const Group: React.FC<GroupProps> = ({
                                 <GroupCell>
                                     {teamResults ? getWins(teamResults) : ''}
                                 </GroupCell>
-                                <GroupCell>
+                                <GroupCell isBold>
                                     {teamResults ? getPoints(teamResults) : ''}
                                 </GroupCell>
-                                <GroupCell>
+                                <GroupCell
+                                    isBold
+                                    backgroundColor={teamId ? getColorFromPlace(places[teamId]) : undefined}
+                                >
                                     {teamId !== undefined ? places[teamId] : ''}
                                 </GroupCell>
                             </TableRow>

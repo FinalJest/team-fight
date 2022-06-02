@@ -3,6 +3,7 @@ import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 import * as types from './actionTypes';
 import { PlayersState } from '../../types/PlayersState';
+import { getFameFromPlacement } from '../../services/placementService';
 
 export const initialPlayersState = [];
 
@@ -30,15 +31,24 @@ export const players = (
             return state.map((player) => (action.payload.includes(player.id)
                 ? { ...player, isRetired: true, teamId: undefined }
                 : player));
-        case types.ADD_FAME:
-            return state.map((player) => ({
-                ...player,
-                fame: action.payload.data[player.id]
-                    ? player.fame + Math.floor(
-                        action.payload.data[player.id] * (action.payload.mvpId === player.id ? 1.5 : 1),
-                    )
-                    : player.fame,
-            }));
+        case types.RECORD_TOURNAMENT_PARTICIPATION:
+            return state.map((player) => {
+                const playerData = action.payload.data[player.id];
+
+                if (!playerData) {
+                    return player;
+                }
+
+                return {
+                    ...player,
+                    fame: player.fame + getFameFromPlacement(playerData.place, playerData.isMvp),
+                    history: [...player.history, {
+                        tournamentId: action.payload.tournamentId,
+                        teamId: playerData.teamId,
+                        place: playerData.place,
+                    }],
+                };
+            });
         default:
             return state;
     }

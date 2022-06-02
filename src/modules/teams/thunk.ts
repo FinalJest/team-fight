@@ -16,6 +16,7 @@ export const createTeam = (
         name,
         logoUrl,
         fame: 0,
+        history: [],
     };
     if (shouldGeneratePlayers) {
         generateRoster(teamId, isRookieTeam).then((playerRoster) => {

@@ -1,11 +1,10 @@
 import { batch } from 'react-redux';
 import { ThunkActionResult } from '..';
-import { getFameFromPlacement } from '../../services/fameService';
 import { getSortedPlacements } from '../../services/groupService';
 import { getStrongestPlayer } from '../../services/playerService';
 import { getMainRosterPlayers } from '../../store/selectors';
 import { IPlacement } from '../../types/IPlacement';
-import { addFameToPlayers, addFameToTeams } from '../actions';
+import { recordTournamentParticipation, recordTournamentResult } from '../actions';
 import { recordTournamentEnd } from './actions';
 
 export const finishTournament = (id?: string): ThunkActionResult<void> => (dispatch, getState) => {
@@ -26,31 +25,31 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
     });
 
     const formattedPlacements = placements.map((placement) => placement.id);
-    let famedPlayers = {};
-    let famedTeams = {};
+    let playersTournamentData = {};
+    let teamsTournamentData = {};
     let mvpId: string | undefined;
 
-    for (let i = 0; i < Math.min(3, formattedPlacements.length); i++) {
+    for (let i = 0; i < formattedPlacements.length; i++) {
         const teamId = formattedPlacements[i];
         const roster = getMainRosterPlayers(teamId)(state);
         mvpId = i === 0 ? getStrongestPlayer(roster)?.id : mvpId;
-        const fameFromPlacement = getFameFromPlacement(i);
+        const place = i + 1;
         for (let j = 0; j < roster.length; j++) {
             const player = roster[j];
-            famedPlayers = {
-                ...famedPlayers,
-                [player.id]: Math.floor(fameFromPlacement * (player.id === mvpId ? 1.5 : 1)),
+            playersTournamentData = {
+                ...playersTournamentData,
+                [player.id]: { teamId, place, isMvp: mvpId === player.id },
             };
         }
-        famedTeams = {
-            ...famedTeams,
-            [teamId]: fameFromPlacement,
+        teamsTournamentData = {
+            ...teamsTournamentData,
+            [teamId]: place,
         };
     }
 
     batch(() => {
-        dispatch(addFameToPlayers(famedPlayers));
-        dispatch(addFameToTeams(famedTeams));
+        dispatch(recordTournamentParticipation(playersTournamentData, id));
+        dispatch(recordTournamentResult(teamsTournamentData, id));
         dispatch(recordTournamentEnd(id, formattedPlacements, mvpId));
     });
 };

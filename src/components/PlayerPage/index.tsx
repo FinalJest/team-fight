@@ -11,6 +11,7 @@ import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
 import { RetirePlayer } from '../modals/player/RetirePlayer';
+import { PlayerHistory } from './__subComponents/PlayerHistory';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
@@ -42,6 +43,7 @@ export const PlayerPage: React.FC = () => {
         <PageContainer>
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
+            <PlayerHistory data={data.history} />
             <ButtonsContainer>
                 {!data.isRetired && (
                     <>

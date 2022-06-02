@@ -63,6 +63,7 @@ export const generatePlayer = async (
     fame: 0,
     teamId,
     isRetired: false,
+    history: [],
     ...getNewStats(isRookie),
 });
 

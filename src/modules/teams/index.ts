@@ -4,6 +4,7 @@ import * as actions from './actions';
 import * as types from './actionTypes';
 import { TeamsState } from '../../types/TeamsState';
 import { IRosterIds } from '../../types/IRoster';
+import { getFameFromPlacement } from '../../services/placementService';
 
 export const initialTeamsState = [];
 
@@ -54,9 +55,23 @@ export const teams = (
             });
         case types.REMOVE_TEAM:
             return state.filter((team) => team.id !== action.payload);
-        case types.ADD_FAME:
-            return state.map((team) =>
-                (action.payload[team.id] ? { ...team, fame: team.fame + action.payload[team.id] } : team));
+        case types.RECORD_TOURNAMENT_RESULT:
+            return state.map((team) => {
+                const place = action.payload.data[team.id];
+
+                if (place === undefined) {
+                    return team;
+                }
+
+                return {
+                    ...team,
+                    fame: team.fame + getFameFromPlacement(place),
+                    history: [...team.history, {
+                        tournamentId: action.payload.tournamentId,
+                        place,
+                    }],
+                };
+            });
         default:
             return state;
     }

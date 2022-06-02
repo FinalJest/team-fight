@@ -27,7 +27,7 @@ const Header = styled.header`
 `;
 
 const Content = styled.div`
-    padding: 12px;
+    padding: 12px 12px 60px;
 `;
 
 const StyledLink = styled(Link)`

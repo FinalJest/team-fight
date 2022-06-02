@@ -12,6 +12,7 @@ import { ButtonsContainer } from '../ButtonsContainer';
 import { DeleteTeam } from '../modals/team/DeleteTeam';
 import { getTeamById, getTeamPower } from '../../store/selectors';
 import { Position } from '../../enums/Position';
+import { TeamHistory } from './__subComponents/TeamHistory';
 
 const Logo = styled.img`
     height: 150px;
@@ -56,6 +57,7 @@ export const TeamPage: React.FC = () => {
                 Roster
             </Typography>
             <PlayersTable rowsData={rowsData} />
+            <TeamHistory data={data.history} />
             <ButtonsContainer>
                 <EditTeam {...data} />
                 <DeleteTeam id={data.id} />
