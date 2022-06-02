@@ -5,6 +5,7 @@ import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { promotePlayer } from '../../../modules/teams/actions';
 import { Position } from '../../../enums/Position';
 import { EditPlayer } from '../../modals/player/EditPlayer';
+import { RetirePlayer } from '../../modals/player/RetirePlayer';
 
 const ACTION_BUTTON_ID = 'action_button';
 const ACTION_MENU_ID = 'action_menu';
@@ -15,6 +16,7 @@ interface ActionMenuProps {
 
     teamId?: string;
     isSub?: boolean;
+    isRetired?: boolean;
 }
 
 export const ActionMenu: React.FC<ActionMenuProps> = ({
@@ -22,6 +24,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     teamId,
     position,
     isSub,
+    isRetired,
 }) => {
     const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(null);
     const isOpen = Boolean(anchorElement);
@@ -60,7 +63,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                 }}
             >
                 {isSub && <MenuItem onClick={handlePromote}>To Main Team</MenuItem>}
-                <EditPlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
+                {!isRetired && <EditPlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />}
+                <RetirePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
                 <DeletePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
             </Menu>
         </div>

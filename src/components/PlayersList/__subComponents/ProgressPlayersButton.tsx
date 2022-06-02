@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { progressPlayers } from '../../../modules/actions';
+import { progressPlayers } from '../../../modules/players/thunk';
 
 const PROGRESS_PLAYERS_TEXT = 'Progress Players';
 

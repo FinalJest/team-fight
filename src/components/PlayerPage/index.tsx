@@ -10,6 +10,7 @@ import { DeletePlayer } from '../modals/player/DeletePlayer';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
+import { RetirePlayer } from '../modals/player/RetirePlayer';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
@@ -42,7 +43,12 @@ export const PlayerPage: React.FC = () => {
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
             <ButtonsContainer>
-                <EditPlayer id={data.id} />
+                {!data.isRetired && (
+                    <>
+                        <EditPlayer id={data.id} />
+                        <RetirePlayer id={data.id} />
+                    </>
+                )}
                 <DeletePlayer id={data.id} />
             </ButtonsContainer>
         </PageContainer>

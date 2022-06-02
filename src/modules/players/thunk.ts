@@ -1,17 +1,22 @@
-import { ThunkActionResult } from '../index';
+import { DispatchActions, ReduxState, ThunkActionResult } from '../index';
 import { updateTeamRoster } from '../teams/actions';
-import { addPremadePlayers, editPlayer, removePlayer } from './actions';
+import {
+    addPremadePlayers, editPlayer, editPlayers, makePlayersRetired, removePlayer,
+} from './actions';
 import { IPlayer } from '../../types/IPlayer';
 import { IRosterIds } from '../../types/IRoster';
-import { getPlayerById, getTeamById } from '../../store/selectors';
+import { getPlayerById, getPlayersByIds, getTeamById } from '../../store/selectors';
 import { ITeam } from '../../types/ITeam';
+import { getRandomInt } from '../../services/randomGenerator';
+import { IUpdateRosterData } from '../../types/IUpdateRosterData';
 
-const removePlayerFromRoster = (player: IPlayer, roster: IRosterIds): IRosterIds => {
-    const wasOnMainTeam = roster[player.position] === player.id;
-    return wasOnMainTeam
-        ? { [player.position]: undefined }
-        : { other: roster.other && roster.other.filter((sub) => sub !== player.id) };
-};
+const removePlayersFromRoster = (players: IPlayer[], roster: IRosterIds): IRosterIds =>
+    players.reduce((result, player) => {
+        const wasOnMainTeam = roster[player.position] === player.id;
+        return wasOnMainTeam
+            ? { ...result, [player.position]: undefined }
+            : { ...result, other: result.other && roster.other!.filter((sub) => sub !== player.id) };
+    }, { other: roster.other });
 
 const addPlayerToRoster = (player: IPlayer, roster: IRosterIds): IRosterIds => {
     const hasPlayerOnMainTeam = Boolean(roster[player.position]);
@@ -20,15 +25,41 @@ const addPlayerToRoster = (player: IPlayer, roster: IRosterIds): IRosterIds => {
         : { [player.position]: player.id };
 };
 
+const removePlayersFromTeam = (ids: IPlayer['id'][], dispatch: DispatchActions, state: ReduxState): void => {
+    const players = getPlayersByIds(ids)(state);
+
+    if (players) {
+        const teams: Record<ITeam['id'], IPlayer[]> = {};
+        players.forEach((player) => {
+            if (player.teamId !== undefined) {
+                if (teams[player.teamId]) {
+                    teams[player.teamId].push(player);
+                } else {
+                    teams[player.teamId] = [player];
+                }
+            }
+        });
+        const newRosters = Object.entries(teams).map(([teamId, playersFromTeam]) => {
+            const team = getTeamById(teamId)(state);
+            if (!team) {
+                return undefined;
+            }
+            return {
+                id: teamId,
+                roster: removePlayersFromRoster(playersFromTeam, team.roster),
+            };
+        }).filter<IUpdateRosterData>((data): data is IUpdateRosterData => data !== undefined);
+        dispatch(updateTeamRoster(newRosters));
+    }
+};
+
 export const transferPlayer = (player: IPlayer, oldTeam?: ITeam, newTeam?: ITeam): ThunkActionResult<void> => (
     dispatch,
+    getState,
 ) => {
+    const state = getState();
     if (oldTeam?.id !== undefined) {
-        const newRoster = removePlayerFromRoster(player, oldTeam.roster);
-        dispatch(updateTeamRoster({
-            id: oldTeam.id,
-            roster: newRoster,
-        }));
+        removePlayersFromTeam([player.id], dispatch, state);
     }
     if (newTeam?.id !== undefined) {
         const newRoster = addPlayerToRoster(player, newTeam.roster);
@@ -79,11 +110,51 @@ export const updatePlayer = (newData: Partial<IPlayer> & { id: string }): ThunkA
 
 export const deletePlayer = (id: string): ThunkActionResult<void> => (dispatch, getState) => {
     const state = getState();
-    const player = state.players.find((item) => item.id === id);
-    const team = state.teams.find((item) => item.id === player?.teamId);
-
-    if (team && player) {
-        dispatch(updateTeamRoster({ id: team.id, roster: { [player.position]: undefined } }));
-    }
+    removePlayersFromTeam([id], dispatch, state);
     dispatch(removePlayer(id));
+};
+
+export const retirePlayers = (ids: string | string[]): ThunkActionResult<void> => (dispatch, getState) => {
+    const state = getState();
+    const idsAsArray = Array.isArray(ids) ? ids : [ids];
+    removePlayersFromTeam(idsAsArray, dispatch, state);
+    dispatch(makePlayersRetired(idsAsArray));
+};
+
+export const progressPlayers = (): ThunkActionResult<void> => (dispatch, getState) => {
+    const state = getState();
+    const retiredPlayers: string[] = [];
+    const updatedPlayers = state.players.reduce((result, player) => {
+        if (player.isRetired) {
+            return result;
+        }
+
+        let skillChange = 0;
+        let potentialChange = 0;
+        if (getRandomInt(10, 1) <= player.potential) {
+            skillChange = getRandomInt(21, 1);
+            potentialChange = -1;
+        } else if (getRandomInt(10, 1) > player.potential) {
+            skillChange = -1 * getRandomInt(21, 1);
+        }
+        const newSkill = player.skill + skillChange;
+
+        if (newSkill < 1) {
+            retiredPlayers.push(player.id);
+        }
+
+        return {
+            ...result,
+            [player.id]: {
+                ...player,
+                skill: newSkill,
+                potential: Math.max(player.potential + potentialChange, 0),
+            },
+        };
+    }, {});
+
+    if (retiredPlayers.length) {
+        dispatch(retirePlayers(retiredPlayers));
+    }
+    dispatch(editPlayers(updatedPlayers));
 };

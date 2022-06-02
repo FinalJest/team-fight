@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { ThunkActionResult } from '../index';
-import { generateRoster } from '../../services/playerGenerator';
+import { generateRoster } from '../../services/playerService';
 import { addTeam, removeTeam } from './actions';
 import { addPremadePlayers, makePlayersTeamless, removePlayers } from '../players/actions';
 

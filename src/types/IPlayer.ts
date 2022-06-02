@@ -8,5 +8,6 @@ export interface IPlayer {
     potential: number;
     mental: number;
     fame: number;
+    isRetired: boolean;
     teamId?: string;
 }

@@ -36,10 +36,12 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
     const team = useSelector(getTeamById(player.teamId));
 
     return (
-        <TableRow sx={{ backgroundColor: getRowBgColor(player.position), opacity: isSub ? 0.5 : 'auto' }}>
+        <TableRow
+            sx={{ backgroundColor: getRowBgColor(player.position), opacity: isSub || player.isRetired ? 0.5 : 'auto' }}
+        >
             <TableCell align="left">
                 <Link to={`/${Path.Players}/${player.id}`}>
-                    {player.name}
+                    {`${player.name}${player.isRetired ? ' (retired)' : ''}`}
                 </Link>
             </TableCell>
             <TableCell align="right">
@@ -65,6 +67,7 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
                     teamId={team?.id}
                     position={player.position}
                     isSub={isSub}
+                    isRetired={player.isRetired}
                 />
             </TableCell>
         </TableRow>

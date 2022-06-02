@@ -2,17 +2,12 @@ import { action } from 'typesafe-actions';
 
 import * as types from './actionTypes';
 import { ITeam } from '../../types/ITeam';
-import { IRosterIds } from '../../types/IRoster';
 import { Position } from '../../enums/Position';
 import { IPlayer } from '../../types/IPlayer';
+import { IUpdateRosterData } from '../../types/IUpdateRosterData';
 
 export const addTeam = (team: ITeam) => action(types.ADD_TEAM, team);
 export const editTeam = (newData: Partial<ITeam> & { id: string }) => action(types.EDIT_TEAM, newData);
-
-interface IUpdateRosterData {
-    id: string;
-    roster: IRosterIds;
-}
 
 type FameData = Record<ITeam['id'], number>;
 

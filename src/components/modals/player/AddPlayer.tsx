@@ -13,7 +13,7 @@ import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
 import { BasicPlayerFields, getBasicFields } from './BasicPlayerFields';
 import { GeneratePosition } from '../../../enums/Position';
 import { NO_TEAM_VALUE } from '../../TeamSelect';
-import { generatePlayerFromTemplate } from '../../../services/playerGenerator';
+import { generatePlayerFromTemplate } from '../../../services/playerService';
 import { getGeneratePlayerValue } from './GeneratePlayerRadioButtons';
 import { GeneratePlayerOption } from '../../../enums/GeneratePlayerOption';
 import { addPlayers } from '../../../modules/players/thunk';
@@ -76,7 +76,7 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
             <Dialog open={isOpen} onClose={onModalClose}>
                 <form ref={formRef} onSubmit={handleSubmit}>
                     <DialogTitle>
-                        Add New Team
+                        Add Player
                     </DialogTitle>
                     <DialogContent dividers>
                         <BasicPlayerFields
