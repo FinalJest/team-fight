@@ -57,7 +57,7 @@ export const TeamPage: React.FC = () => {
                 Roster
             </Typography>
             <PlayersTable rowsData={rowsData} />
-            <TeamHistory data={data.history} />
+            {Boolean(data.history.length) && <TeamHistory data={data.history} />}
             <ButtonsContainer>
                 <EditTeam {...data} />
                 <DeleteTeam id={data.id} />

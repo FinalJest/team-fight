@@ -2,17 +2,12 @@ import { ReduxState } from '../modules';
 import { ITeam } from '../types/ITeam';
 import { IPlayer } from '../types/IPlayer';
 import { ITournament } from '../types/ITournament';
-import { getPlayersPower } from '../services/fightSimulator';
+import { getPlayersMental, getPlayersPower } from '../services/fightSimulator';
 
-export const getTeams = (state: ReduxState): ITeam[] => state.teams;
-
-export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], ITeam> =>
-    getTeams(state).reduce<Record<ITeam['id'], ITeam>>((result, team) => ({ ...result, [team.id]: team }), {});
+type TeamWithStats = ITeam & { power: number; mental: number; };
 
 export const getTeamById = (id?: string) =>
     (state: ReduxState): ITeam | undefined => state.teams.find((team) => team.id === id);
-
-export const getPlayers = (state: ReduxState): IPlayer[] => state.players;
 
 export const getPlayerById = (id?: string) =>
     (state: ReduxState): IPlayer | undefined => state.players.find((player) => player.id === id);
@@ -21,12 +16,6 @@ export const getPlayersByIds = (ids: string[]) =>
     (state: ReduxState): IPlayer[] => state.players.filter(
         (player) => ids.includes(player.id),
     );
-
-export const getPlayersByTeamId = (teamId?: string | string[]) =>
-    (state: ReduxState): IPlayer[] => state.players.filter((player) =>
-        (Array.isArray(teamId)
-            ? (player.teamId !== undefined && teamId.includes(player.teamId))
-            : player.teamId === teamId));
 
 export const getMainRosterPlayers = (teamId?: string) => (state: ReduxState): IPlayer[] => {
     const team = getTeamById(teamId)(state);
@@ -45,6 +34,29 @@ export const getMainRosterPlayers = (teamId?: string) => (state: ReduxState): IP
 
 export const getTeamPower = (state: ReduxState, teamId?: string): number =>
     getPlayersPower(getMainRosterPlayers(teamId)(state));
+
+export const getTeamMental = (state: ReduxState, teamId?: string): number =>
+    getPlayersMental(getMainRosterPlayers(teamId)(state));
+
+export const getTeams = (state: ReduxState): ITeam[] => state.teams;
+
+export const getTeamsWithStats = (state: ReduxState): TeamWithStats[] =>
+    state.teams.map((team) => ({
+        ...team,
+        power: getTeamPower(state, team.id),
+        mental: getTeamMental(state, team.id),
+    }));
+
+export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], ITeam> =>
+    getTeams(state).reduce<Record<ITeam['id'], ITeam>>((result, team) => ({ ...result, [team.id]: team }), {});
+
+export const getPlayers = (state: ReduxState): IPlayer[] => state.players;
+
+export const getPlayersByTeamId = (teamId?: string | string[]) =>
+    (state: ReduxState): IPlayer[] => state.players.filter((player) =>
+        (Array.isArray(teamId)
+            ? (player.teamId !== undefined && teamId.includes(player.teamId))
+            : player.teamId === teamId));
 
 export const getTournaments = (state: ReduxState): ITournament[] => state.tournaments;
 

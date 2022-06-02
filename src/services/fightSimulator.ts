@@ -19,8 +19,6 @@ const getMoralBoosts = ([mental1, mental2]: number[]): [number, number] => {
     }
 };
 
-const getPlayersMental = (players: IPlayer[]): number => players.reduce((acc, player) => acc + player.mental, 0);
-
 const fightOnce = ([power1, power2]: number[]): 0 | 1 => {
     const sum = power1 + power2;
     const fightRoll = getRandomInt(sum);
@@ -28,6 +26,8 @@ const fightOnce = ([power1, power2]: number[]): 0 | 1 => {
 };
 
 export const getPlayersPower = (players: IPlayer[]): number => players.reduce((acc, player) => acc + player.skill, 0);
+
+export const getPlayersMental = (players: IPlayer[]): number => players.reduce((acc, player) => acc + player.mental, 0);
 
 export const resultsToScore = (results: Results): [number, number] =>
     results.reduce<[number, number]>((acc, winnerId) =>

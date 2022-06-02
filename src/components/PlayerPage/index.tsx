@@ -43,7 +43,7 @@ export const PlayerPage: React.FC = () => {
         <PageContainer>
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
-            <PlayerHistory data={data.history} />
+            {Boolean(data.history.length) && <PlayerHistory data={data.history} />}
             <ButtonsContainer>
                 {!data.isRetired && (
                     <>
