@@ -1,10 +1,10 @@
 # Goals
 
-## v0 (current)
+## v0
 
 Features are being developed
 
-## v1
+## v1 (current)
 
 * Tournaments can have group stage
 * Players progress feature

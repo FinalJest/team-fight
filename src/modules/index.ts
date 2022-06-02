@@ -12,7 +12,7 @@ export type ReduxActions = ActionType<typeof actions>;
 export const rootReducer = (state: any, action: ReduxActions) => {
     const appReducer = combineReducers(reducers);
     if (action.type === types.RESET_STATE) {
-        return appReducer(action.payload, action);
+        return appReducer({ ...action.payload, app: state.app }, action);
     }
     return appReducer(state, action);
 };
