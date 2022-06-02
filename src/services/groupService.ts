@@ -1,7 +1,9 @@
 import {
     GroupResult, GroupResults, GroupsComposition, GroupTeamResult,
 } from '../types/IGroup';
+import { IPlacement } from '../types/IPlacement';
 import { ITeam } from '../types/ITeam';
+import { isStronger } from './comparisonService';
 
 const LETTERS_IN_ALPHABET = 26;
 
@@ -49,18 +51,23 @@ export const getWins = (groupResults: GroupTeamResult): number =>
 export const getPoints = (groupResults: GroupTeamResult): number =>
     Object.values(groupResults).reduce((points, result) => points + getPointsFromGame(result), 0);
 
-export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> => {
-    const sortedPoints = Object.entries(results).map(([id, result]) => ({
+export const getSortedPlacements = (results: GroupResults): IPlacement[] => Object.entries(results)
+    .map(([id, result]) => ({
         id,
         points: getPoints(result),
-    })).sort((a, b) => b.points - a.points);
+        wins: getWins(result),
+    })).sort((teamA, teamB) => (isStronger([teamA.points, teamA.wins], [teamB.points, teamB.wins]) ? 1 : -1));
+
+export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> => {
+    const sortedPoints = getSortedPlacements(results);
 
     const places: Record<ITeam['id'], number> = {};
     let placeIndex: number = 0;
     let prevPoints: number | null = null;
+    let prevWins: number | null = null;
 
     sortedPoints.forEach((teamPointsData, index) => {
-        if (prevPoints !== teamPointsData.points) {
+        if (prevPoints !== teamPointsData.points || prevWins !== teamPointsData.wins) {
             const newIndex = index + 1;
             places[teamPointsData.id] = newIndex;
             placeIndex = newIndex;
@@ -68,6 +75,7 @@ export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> =>
             places[teamPointsData.id] = placeIndex;
         }
         prevPoints = teamPointsData.points;
+        prevWins = teamPointsData.wins;
     });
 
     return places;

@@ -35,5 +35,5 @@ export const addResult = (
     score,
 });
 
-export const recordTournamentEnd = (tournamentId: string, winnerId?: string, mvpId?: string) =>
-    action(types.RECORD_TOURNAMENT_END, { tournamentId, winnerId, mvpId });
+export const recordTournamentEnd = (tournamentId: string, placements?: string[], mvpId?: string) =>
+    action(types.RECORD_TOURNAMENT_END, { tournamentId, placements, mvpId });

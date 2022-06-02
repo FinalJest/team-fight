@@ -40,6 +40,15 @@ export const players = (
                     potential: Math.max(player.potential + potentialChange, 0),
                 };
             });
+        case types.ADD_FAME:
+            return state.map((player) => ({
+                ...player,
+                fame: action.payload.data[player.id]
+                    ? player.fame + Math.floor(
+                        action.payload.data[player.id] * (action.payload.mvpId === player.id ? 1.5 : 1),
+                    )
+                    : player.fame,
+            }));
         default:
             return state;
     }

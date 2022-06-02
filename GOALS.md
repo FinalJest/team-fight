@@ -8,6 +8,7 @@ Features are being developed
 
 * Tournaments are playable
 * Data is stored to local storage
+* Migration of data
 * Transfer page
 * Players progress feature
 * Players can retire

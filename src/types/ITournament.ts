@@ -5,7 +5,7 @@ export interface ITournament {
     name: string;
     teamCount: number;
     isFinished: boolean;
-    winnerId?: string;
+    placements?: string[];
     mvpId?: string;
     group?: IGroup;
     playoff?: unknown; // TODO: playoff logic and types

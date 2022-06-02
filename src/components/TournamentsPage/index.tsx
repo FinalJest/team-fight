@@ -11,7 +11,7 @@ export const TournamentsPage: React.FC = () => {
     const rowsData = useSelector((state: ReduxState) => {
         const stateTournaments = getTournaments(state);
         return stateTournaments.map((stateTournament) => {
-            const winner = getTeamById(stateTournament.winnerId)(state);
+            const winner = getTeamById(stateTournament.placements && stateTournament.placements[0])(state);
             const mvp = getPlayerById(stateTournament.mvpId)(state);
             return {
                 data: stateTournament,

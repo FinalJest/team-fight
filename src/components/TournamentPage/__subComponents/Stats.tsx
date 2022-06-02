@@ -14,7 +14,7 @@ interface StatsProps {
 
 export const Stats: React.FC<StatsProps> = ({ data }) => {
     const { mvp, winner } = useSelector((state: ReduxState) => ({
-        winner: getTeamById(data.winnerId)(state),
+        winner: getTeamById(data.placements && data.placements[0])(state),
         mvp: getPlayerById(data.mvpId)(state),
     }));
 

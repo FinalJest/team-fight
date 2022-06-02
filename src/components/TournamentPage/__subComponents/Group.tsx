@@ -10,7 +10,7 @@ import { ComponentSize } from '../../../enums/ComponentSize';
 import { GroupCell } from './GroupCell';
 import { MatchTeamSelect } from './MatchTeamSelect';
 import { NO_TEAM_VALUE } from '../../TeamSelect';
-import { getPlaces, getPoints, getWins } from '../../../services/groupGenerator';
+import { getPlaces, getPoints, getWins } from '../../../services/groupService';
 import { Fight } from './Fight';
 import { TournamentFightType } from '../../../types/TournamentFightType';
 import { useTournamentContext } from '../TournamentContext';

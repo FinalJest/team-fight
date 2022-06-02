@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as types from './actionTypes';
 import { TournamentsState } from '../../types/TournamentsState';
 import { ITournament } from '../../types/ITournament';
-import { generateGroups } from '../../services/groupGenerator';
+import { generateGroups } from '../../services/groupService';
 import { TournamentFightType } from '../../types/TournamentFightType';
 
 const getEmptyTournament = (
@@ -84,7 +84,7 @@ export const tournaments = (
                 return {
                     ...tournament,
                     isFinished: true,
-                    winnerId: action.payload.winnerId,
+                    placements: action.payload.placements,
                     mvpId: action.payload.mvpId,
                 };
             });

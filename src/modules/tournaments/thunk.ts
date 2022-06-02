@@ -1,26 +1,12 @@
+import { batch } from 'react-redux';
 import { ThunkActionResult } from '..';
-import { getPoints, getWins } from '../../services/groupGenerator';
+import { getFameFromPlacement } from '../../services/fameService';
+import { getSortedPlacements } from '../../services/groupService';
+import { getStrongestPlayer } from '../../services/playerService';
 import { getMainRosterPlayers } from '../../store/selectors';
+import { IPlacement } from '../../types/IPlacement';
+import { addFameToPlayers, addFameToTeams } from '../actions';
 import { recordTournamentEnd } from './actions';
-
-const isStronger = (currentMax: number[], contender: number[]): boolean => {
-    for (let i = 0; i < contender.length; i++) {
-        if (currentMax[i] === undefined) {
-            return true;
-        }
-        if (contender[i] > currentMax[i]) {
-            return true;
-        }
-        if (contender[i] === currentMax[i]) {
-            if (i === contender.length - 1) {
-                return Math.random() > 0.5;
-            }
-        } else {
-            return false;
-        }
-    }
-    return false;
-};
 
 export const finishTournament = (id?: string): ThunkActionResult<void> => (dispatch, getState) => {
     if (id === undefined) {
@@ -29,36 +15,42 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
 
     const state = getState();
 
-    let winnerId: string | undefined;
+    let placements: IPlacement[] = [];
 
     state.tournaments.forEach((tournament) => {
         if (tournament.playoff) {
-            winnerId = undefined; // TODO: playoff logic
+            placements = []; // TODO: playoff logic
         } else if (tournament.group) {
-            Object.entries(tournament.group.results).reduce((max, [tournamentId, teamResult]) => {
-                const wins = getWins(teamResult);
-                const points = getPoints(teamResult);
-
-                if (isStronger(max, [points, wins])) {
-                    winnerId = tournamentId;
-                    return [points, wins];
-                }
-
-                return max;
-            }, [-1, -1]);
+            placements = getSortedPlacements(tournament.group.results);
         }
     });
 
-    const players = getMainRosterPlayers(winnerId)(state);
+    const formattedPlacements = placements.map((placement) => placement.id);
+    let famedPlayers = {};
+    let famedTeams = {};
     let mvpId: string | undefined;
 
-    players.reduce((max, player) => {
-        if (isStronger(max, [player.skill, player.mental])) {
-            mvpId = player.id;
-            return [player.skill, player.mental];
+    for (let i = 0; i < Math.min(3, formattedPlacements.length); i++) {
+        const teamId = formattedPlacements[i];
+        const roster = getMainRosterPlayers(teamId)(state);
+        mvpId = i === 0 ? getStrongestPlayer(roster)?.id : mvpId;
+        const fameFromPlacement = getFameFromPlacement(i);
+        for (let j = 0; j < roster.length; j++) {
+            const player = roster[j];
+            famedPlayers = {
+                ...famedPlayers,
+                [player.id]: Math.floor(fameFromPlacement * (player.id === mvpId ? 1.5 : 1)),
+            };
         }
-        return max;
-    }, [-1, -1]);
+        famedTeams = {
+            ...famedTeams,
+            [teamId]: fameFromPlacement,
+        };
+    }
 
-    dispatch(recordTournamentEnd(id, winnerId, mvpId));
+    batch(() => {
+        dispatch(addFameToPlayers(famedPlayers));
+        dispatch(addFameToTeams(famedTeams));
+        dispatch(recordTournamentEnd(id, formattedPlacements, mvpId));
+    });
 };

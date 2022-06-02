@@ -1,6 +1,6 @@
 import {
     getPoints, getWins, generateGroups, getPlaces,
-} from './groupGenerator';
+} from './groupService';
 
 describe('test generateGroups', () => {
     test('basic scenario', () => {

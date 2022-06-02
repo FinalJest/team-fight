@@ -54,6 +54,9 @@ export const teams = (
             });
         case types.REMOVE_TEAM:
             return state.filter((team) => team.id !== action.payload);
+        case types.ADD_FAME:
+            return state.map((team) =>
+                (action.payload[team.id] ? { ...team, fame: team.fame + action.payload[team.id] } : team));
         default:
             return state;
     }

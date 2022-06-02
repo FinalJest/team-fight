@@ -4,6 +4,7 @@ import * as types from './actionTypes';
 import { ITeam } from '../../types/ITeam';
 import { IRosterIds } from '../../types/IRoster';
 import { Position } from '../../enums/Position';
+import { IPlayer } from '../../types/IPlayer';
 
 export const addTeam = (team: ITeam) => action(types.ADD_TEAM, team);
 export const editTeam = (newData: Partial<ITeam> & { id: string }) => action(types.EDIT_TEAM, newData);
@@ -13,8 +14,11 @@ interface IUpdateRosterData {
     roster: IRosterIds;
 }
 
+type FameData = Record<ITeam['id'], number>;
+
 export const updateTeamRoster = (data: IUpdateRosterData | IUpdateRosterData[]) =>
     action(types.UPDATE_TEAM_ROSTER, data);
-export const promotePlayer = (teamId: string, playerId: string, position: Position) =>
+export const promotePlayer = (teamId: ITeam['id'], playerId: IPlayer['id'], position: Position) =>
     action(types.PROMOTE_PLAYER, { playerId, teamId, position });
-export const removeTeam = (id: string) => action(types.REMOVE_TEAM, id);
+export const removeTeam = (id: ITeam['id']) => action(types.REMOVE_TEAM, id);
+export const addFameToTeams = (fameData: FameData) => action(types.ADD_FAME, fameData);
