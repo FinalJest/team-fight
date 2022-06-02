@@ -8,6 +8,7 @@ import { getInput } from '../../../services/inputDataService';
 import { deleteTeam } from '../../../modules/teams/thunk';
 import { BaseModalProps } from '../../../types/BaseModalProps';
 import { useModal } from '../../../hooks/useModal';
+import { Path } from '../../../enums/Path';
 
 const DELETE_PLAYERS_CHECKBOX_ID = 'delete_players';
 const BUTTON_TEXT = 'Delete Team';
@@ -30,7 +31,7 @@ export const DeleteTeam: React.FC<DeleteTeamModalProps> = ({ id, ButtonComponent
         if (formRef.current) {
             const shouldDeletePlayers = getInput(`#${DELETE_PLAYERS_CHECKBOX_ID}`, formRef)?.checked;
             dispatch(deleteTeam(id, shouldDeletePlayers));
-            navigate('/');
+            navigate(`/${Path.Teams}`);
         }
     };
     const buttonElement = ButtonComponent

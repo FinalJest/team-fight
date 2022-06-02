@@ -16,5 +16,5 @@ Features are being developed
 
 * Rework of visual representation
 * Misc features like sorting tables.
-* Modal windows refactoring
+* Modal windows refactoring`
 * Tournament Templates

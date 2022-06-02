@@ -16,6 +16,7 @@ const getEmptyTournament = (
     id: nanoid(),
     teamCount,
     name,
+    isFinished: false,
     group: groupsCount
         ? {
             results: {},
@@ -73,6 +74,19 @@ export const tournaments = (
                 }
 
                 return tournament;
+            });
+        case types.RECORD_TOURNAMENT_END:
+            return state.map((tournament) => {
+                if (tournament.id !== action.payload.tournamentId) {
+                    return tournament;
+                }
+
+                return {
+                    ...tournament,
+                    isFinished: true,
+                    winnerId: action.payload.winnerId,
+                    mvpId: action.payload.mvpId,
+                };
             });
         default:
             return state;

@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-const TournamentContext = React.createContext<string>('');
-
-interface ITournamentContextProps {
+interface ITournamentContext {
     id: string;
+    isFinished: boolean;
 }
 
-export const TournamentContextProvider: React.FC<ITournamentContextProps> = ({ children, id }) => (
-    <TournamentContext.Provider value={id}>
-        {children}
-    </TournamentContext.Provider>
-);
+const TournamentContext = React.createContext<ITournamentContext>({ id: '', isFinished: false });
 
-export const useTournamentContext = (): string => React.useContext(TournamentContext);
+export const TournamentContextProvider: React.FC<ITournamentContext> = ({ children, id, isFinished }) => {
+    const context = useMemo(() => ({ id, isFinished }), [id, isFinished]);
+    return (
+        <TournamentContext.Provider value={context}>
+            {children}
+        </TournamentContext.Provider>
+    );
+};
+
+export const useTournamentContext = (): ITournamentContext => React.useContext(TournamentContext);

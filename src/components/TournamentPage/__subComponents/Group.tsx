@@ -13,6 +13,7 @@ import { NO_TEAM_VALUE } from '../../TeamSelect';
 import { getPlaces, getPoints, getWins } from '../../../services/groupGenerator';
 import { Fight } from './Fight';
 import { TournamentFightType } from '../../../types/TournamentFightType';
+import { useTournamentContext } from '../TournamentContext';
 
 interface GroupProps {
     name: string;
@@ -29,6 +30,7 @@ export const Group: React.FC<GroupProps> = ({
 }) => {
     const teamsById = useSelector(getTeamsRecord);
     const places = getPlaces(results);
+    const { isFinished } = useTournamentContext();
     return (
         <div>
             <Typography variant="h3">
@@ -60,44 +62,52 @@ export const Group: React.FC<GroupProps> = ({
                     {teams.map((teamId, index) => {
                         const teamForRow = teamId === undefined ? teamId : teamsById[teamId];
                         const teamResults = teamId === undefined ? teamId : results[teamId];
+                        const teamComponent = teamId ? teamsById[teamId]?.name : undefined;
                         return (
                             <TableRow key={teamId ?? index}>
                                 <GroupCell>
-                                    <MatchTeamSelect
-                                        currentTeam={teamId ?? NO_TEAM_VALUE}
-                                        excludedTeams={selectedTeams}
-                                        groupName={name}
-                                        indexInGroup={index}
-                                    />
+                                    {isFinished
+                                        ? teamComponent
+                                        : (
+                                            <MatchTeamSelect
+                                                currentTeam={teamId ?? NO_TEAM_VALUE}
+                                                excludedTeams={selectedTeams}
+                                                groupName={name}
+                                                indexInGroup={index}
+                                            />
+                                        )}
                                 </GroupCell>
                                 {teams.map((oppositeTeamId, ceilIndex) => {
+                                    let content: React.ReactElement | string = '';
                                     if (teamId === oppositeTeamId) {
-                                        return (
-                                            <GroupCell key={oppositeTeamId ?? ceilIndex}>
-                                                {teamForRow
-                                                    ? (
-                                                        <TeamLogo
-                                                            id={teamForRow.id}
-                                                            size={ComponentSize.M}
-                                                            src={teamForRow.logoUrl}
-                                                        />
-                                                    )
-                                                    : ''}
-                                            </GroupCell>
-                                        );
+                                        content = teamForRow
+                                            ? (
+                                                <TeamLogo
+                                                    id={teamForRow.id}
+                                                    size={ComponentSize.M}
+                                                    src={teamForRow.logoUrl}
+                                                />
+                                            )
+                                            : '';
+                                    } else {
+                                        const result = oppositeTeamId === undefined
+                                            ? undefined
+                                            : teamResults && teamResults[oppositeTeamId];
+                                        if (result || !isFinished) {
+                                            content = (
+                                                <Fight
+                                                    result={result}
+                                                    type={TournamentFightType.Group}
+                                                    team1={teamId}
+                                                    team2={oppositeTeamId}
+                                                />
+                                            );
+                                        }
                                     }
 
-                                    const result = oppositeTeamId === undefined
-                                        ? oppositeTeamId
-                                        : teamResults && teamResults[oppositeTeamId];
                                     return (
                                         <GroupCell key={oppositeTeamId ?? ceilIndex}>
-                                            <Fight
-                                                result={result}
-                                                type={TournamentFightType.Group}
-                                                team1={teamId}
-                                                team2={oppositeTeamId}
-                                            />
+                                            {content}
                                         </GroupCell>
                                     );
                                 })}

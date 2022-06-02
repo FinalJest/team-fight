@@ -17,11 +17,11 @@ export const MatchTeamSelect: React.FC<MatchTeamSelectProps> = ({
     groupName,
     indexInGroup,
 }) => {
-    const tournamentId = useTournamentContext();
+    const { id } = useTournamentContext();
     const dispatch = useReduxDispatch();
     const handleTeamSelect = (teamId: string): void => {
         dispatch(addTeamToTournamentGroup(
-            tournamentId,
+            id,
             groupName,
             indexInGroup,
             teamId !== NO_TEAM_VALUE ? teamId : undefined,

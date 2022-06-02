@@ -17,7 +17,7 @@ interface FightProps {
 export const Fight: React.FC<FightProps> = ({
     result, type, team1, team2,
 }) => {
-    const tournamentId = useTournamentContext();
+    const { id } = useTournamentContext();
 
     if (!team1 || !team2) {
         return null;
@@ -25,7 +25,7 @@ export const Fight: React.FC<FightProps> = ({
 
     if (!result) {
         return (
-            <Link to={`/${Path.Tournaments}/${tournamentId}/${getMatchId(type, team1, team2)}`}>
+            <Link to={`/${Path.Tournaments}/${id}/${getMatchId(type, team1, team2)}`}>
                 Fight
             </Link>
         );

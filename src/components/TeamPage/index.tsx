@@ -10,8 +10,7 @@ import { EditTeam } from '../modals/team/EditTeam';
 import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { DeleteTeam } from '../modals/team/DeleteTeam';
-import { getMainRosterPlayers, getTeamById } from '../../store/selectors';
-import { getPlayersPower } from '../../services/fightSimulator';
+import { getTeamById, getTeamPower } from '../../store/selectors';
 import { Position } from '../../enums/Position';
 
 const Logo = styled.img`
@@ -25,7 +24,7 @@ export const TeamPage: React.FC = () => {
     const { data, players, power } = useSelector((state: ReduxState) => ({
         data: getTeamById(teamId)(state),
         players: state.players.filter((player) => player.teamId === teamId),
-        power: getPlayersPower(getMainRosterPlayers(teamId)(state)),
+        power: getTeamPower(state, teamId),
     }));
 
     if (!data) {
