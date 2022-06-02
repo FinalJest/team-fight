@@ -4,6 +4,8 @@ import { PlayersTable } from '../PlayersTable';
 import { getPlayers } from '../../store/selectors';
 import { AddPlayer } from '../modals/player/AddPlayer';
 import { PageContainer } from '../PageContainer';
+import { ButtonsContainer } from '../ButtonsContainer';
+import { ProgressPlayersButton } from './__subComponents/ProgressPlayersButton';
 
 export const PlayersList: React.FC = () => {
     const list = useSelector(getPlayers);
@@ -11,7 +13,10 @@ export const PlayersList: React.FC = () => {
     return (
         <PageContainer>
             <PlayersTable rowsData={list.map((player) => ({ data: player }))} shouldDisplayTeam />
-            <AddPlayer />
+            <ButtonsContainer>
+                <AddPlayer />
+                <ProgressPlayersButton />
+            </ButtonsContainer>
         </PageContainer>
     );
 };

@@ -8,3 +8,4 @@ export const editPlayer = (newData: Partial<IPlayer> & { id: IPlayer['id'] }) =>
 export const removePlayer = (id: string) => action(types.REMOVE_PLAYER, id);
 export const removePlayers = (ids: string[]) => action(types.REMOVE_PLAYERS, ids);
 export const makePlayersTeamless = (ids: string[]) => action(types.MAKE_PLAYERS_TEAMLESS, ids);
+export const progressPlayers = () => action(types.PROGRESS_PLAYERS);

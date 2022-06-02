@@ -10,6 +10,7 @@ Features are being developed
 * Data is stored to local storage
 * Transfer page
 * Players progress feature
+* Players can retire
 * 404 page
 
 ## v2
