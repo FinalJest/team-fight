@@ -70,9 +70,13 @@ export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> =>
     let placeIndex: number = 0;
     let prevPoints: number | null = null;
     let prevWins: number | null = null;
+    let prevLoses: number | null = null;
 
     sortedPoints.forEach((teamPointsData, index) => {
-        if (prevPoints !== teamPointsData.points || prevWins !== teamPointsData.wins) {
+        if (prevPoints !== teamPointsData.points
+            || prevWins !== teamPointsData.wins
+            || prevLoses !== teamPointsData.loses
+        ) {
             const newIndex = index + 1;
             places[teamPointsData.id] = newIndex;
             placeIndex = newIndex;
@@ -81,6 +85,7 @@ export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> =>
         }
         prevPoints = teamPointsData.points;
         prevWins = teamPointsData.wins;
+        prevLoses = teamPointsData.loses;
     });
 
     return places;
