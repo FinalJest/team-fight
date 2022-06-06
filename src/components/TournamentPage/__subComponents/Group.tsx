@@ -10,11 +10,15 @@ import { ComponentSize } from '../../../enums/ComponentSize';
 import { GroupCell } from './GroupCell';
 import { MatchTeamSelect } from './MatchTeamSelect';
 import { NO_TEAM_VALUE } from '../../TeamSelect';
-import { getPlaces, getPoints, getWins } from '../../../services/groupService';
+import {
+    getLoses, getPlaces, getPoints, getWins,
+} from '../../../services/groupService';
 import { Fight } from './Fight';
 import { TournamentFightType } from '../../../types/TournamentFightType';
 import { useTournamentContext } from '../TournamentContext';
 import { getColorFromPlace } from '../../../services/placementService';
+import { isStronger } from '../../../services/comparisonService';
+import { ITeam } from '../../../types/ITeam';
 
 interface GroupProps {
     name: string;
@@ -32,6 +36,17 @@ export const Group: React.FC<GroupProps> = ({
     const teamsById = useSelector(getTeamsRecord);
     const places = getPlaces(results);
     const { isFinished } = useTournamentContext();
+    const sortedTeams: Record<ITeam['id'], number> = teams
+        .filter<string>((teamId): teamId is string => teamId !== undefined)
+        .sort((teamA, teamB) =>
+            (isStronger(
+                [teamsById[teamA].power, teamsById[teamA].mental],
+                [teamsById[teamB].power, teamsById[teamB].mental],
+            ) ? 1 : -1))
+        .reduce((result, teamId, index) => ({
+            ...result,
+            [teamId]: index + 1,
+        }), {});
     return (
         <div>
             <Typography variant="h3">
@@ -52,10 +67,16 @@ export const Group: React.FC<GroupProps> = ({
                             Wins
                         </GroupCell>
                         <GroupCell>
+                            Loses
+                        </GroupCell>
+                        <GroupCell>
                             Points
                         </GroupCell>
                         <GroupCell>
                             Place
+                        </GroupCell>
+                        <GroupCell>
+                            Prediction (Skill)
                         </GroupCell>
                     </TableRow>
                 </TableHead>
@@ -64,6 +85,7 @@ export const Group: React.FC<GroupProps> = ({
                         const teamForRow = teamId === undefined ? teamId : teamsById[teamId];
                         const teamResults = teamId === undefined ? teamId : results[teamId];
                         const teamComponent = teamId ? teamsById[teamId]?.name : undefined;
+                        const teamPlace: number | undefined = teamId === undefined ? undefined : sortedTeams[teamId];
                         return (
                             <TableRow key={teamId ?? index}>
                                 <GroupCell isBold>
@@ -113,16 +135,22 @@ export const Group: React.FC<GroupProps> = ({
                                     );
                                 })}
                                 <GroupCell>
-                                    {teamResults ? getWins(teamResults) : ''}
+                                    {teamResults && getWins(teamResults)}
+                                </GroupCell>
+                                <GroupCell>
+                                    {teamResults && getLoses(teamResults)}
                                 </GroupCell>
                                 <GroupCell isBold>
-                                    {teamResults ? getPoints(teamResults) : ''}
+                                    {teamResults && getPoints(teamResults)}
                                 </GroupCell>
                                 <GroupCell
                                     isBold
                                     backgroundColor={teamId ? getColorFromPlace(places[teamId]) : undefined}
                                 >
                                     {teamId !== undefined ? places[teamId] : ''}
+                                </GroupCell>
+                                <GroupCell>
+                                    {teamPlace !== undefined ? `${teamPlace} (${teamForRow?.power})` : ''}
                                 </GroupCell>
                             </TableRow>
                         );
