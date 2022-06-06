@@ -47,8 +47,10 @@ export const getTeamsWithStats = (state: ReduxState): TeamWithStats[] =>
         mental: getTeamMental(state, team.id),
     }));
 
-export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], ITeam> =>
-    getTeams(state).reduce<Record<ITeam['id'], ITeam>>((result, team) => ({ ...result, [team.id]: team }), {});
+export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], TeamWithStats> =>
+    getTeamsWithStats(state)
+        .reduce<Record<ITeam['id'], TeamWithStats>>((result, team) =>
+        ({ ...result, [team.id]: team }), {});
 
 export const getPlayers = (state: ReduxState): IPlayer[] => state.players;
 

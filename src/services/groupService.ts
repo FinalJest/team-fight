@@ -48,6 +48,9 @@ export const generateGroups = (teamCount: number, groupsCount: number): GroupsCo
 export const getWins = (groupResults: GroupTeamResult): number =>
     Object.values(groupResults).reduce((wins, result) => (result ? wins + result[0] : wins), 0);
 
+export const getLoses = (groupResults: GroupTeamResult): number =>
+    Object.values(groupResults).reduce((loses, result) => (result ? loses + result[1] : loses), 0);
+
 export const getPoints = (groupResults: GroupTeamResult): number =>
     Object.values(groupResults).reduce((points, result) => points + getPointsFromGame(result), 0);
 
@@ -56,7 +59,9 @@ export const getSortedPlacements = (results: GroupResults): IPlacement[] => Obje
         id,
         points: getPoints(result),
         wins: getWins(result),
-    })).sort((teamA, teamB) => (isStronger([teamA.points, teamA.wins], [teamB.points, teamB.wins]) ? 1 : -1));
+        loses: getLoses(result),
+    })).sort((teamA, teamB) =>
+        (isStronger([teamA.points, teamA.wins, teamB.loses], [teamB.points, teamB.wins, teamA.loses]) ? 1 : -1));
 
 export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> => {
     const sortedPoints = getSortedPlacements(results);

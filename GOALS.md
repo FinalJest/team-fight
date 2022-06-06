@@ -14,6 +14,7 @@ Features are being developed
 ## v2
 
 * Tournaments can have play-offs
+* Groups can have multiple games between same teams
 * Data is stored to local storage
 * Migration of data
 * Transfer page
@@ -24,6 +25,7 @@ Features are being developed
 ## v3
 
 * Rework of visuals
+* Losing bracket
 * Sorting tables
 * Modal windows refactoring
 * Drag-n-drop UI where appropriate
