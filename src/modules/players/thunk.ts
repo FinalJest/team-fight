@@ -153,8 +153,9 @@ export const progressPlayers = (): ThunkActionResult<void> => (dispatch, getStat
         };
     }, {});
 
+    dispatch(editPlayers(updatedPlayers));
+
     if (retiredPlayers.length) {
         dispatch(retirePlayers(retiredPlayers));
     }
-    dispatch(editPlayers(updatedPlayers));
 };
