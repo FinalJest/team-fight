@@ -36,6 +36,9 @@ export const PlayersTable: React.FC<PlayersTableProps> = ({ rowsData, shouldDisp
                 <TableCell align="right">
                     Mental
                 </TableCell>
+                <TableCell align="right">
+                    Fame
+                </TableCell>
                 {shouldDisplayTeam && (
                     <TableCell align="right">
                         Team

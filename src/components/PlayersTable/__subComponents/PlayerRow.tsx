@@ -56,6 +56,9 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
             <TableCell align="right">
                 {player.mental}
             </TableCell>
+            <TableCell align="right">
+                {player.fame}
+            </TableCell>
             {shouldDisplayTeam && (
                 <TableCell align="right">
                     {team ? <TeamLogo src={team.logoUrl} id={team.id} /> : '-'}
