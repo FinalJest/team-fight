@@ -13,8 +13,10 @@ Features are being developed
 
 ## v2
 
+* Bo2
 * Tournaments can have play-offs
 * Groups can have multiple games between same teams
+* Teams store records against each other
 * Data is stored to local storage
 * Migration of data
 * Transfer page

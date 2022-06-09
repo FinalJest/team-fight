@@ -54,17 +54,26 @@ export const getLoses = (groupResults: GroupTeamResult): number =>
 export const getPoints = (groupResults: GroupTeamResult): number =>
     Object.values(groupResults).reduce((points, result) => points + getPointsFromGame(result), 0);
 
-export const getSortedPlacements = (results: GroupResults): IPlacement[] => Object.entries(results)
+export const getSortedPlacements = (
+    results: GroupResults,
+    shouldSortByResults: boolean = true,
+): IPlacement[] => Object.entries(results)
     .map(([id, result]) => ({
         id,
         points: getPoints(result),
         wins: getWins(result),
         loses: getLoses(result),
-    })).sort((teamA, teamB) =>
-        (isStronger([teamA.points, teamA.wins, teamB.loses], [teamB.points, teamB.wins, teamA.loses]) ? 1 : -1));
+    })).sort((teamA, teamB) => {
+        const recordAtoB = results[teamA.id][teamB.id];
+        const scoreAtoB = recordAtoB && shouldSortByResults ? recordAtoB[0] - recordAtoB[1] : 0;
+        return isStronger(
+            [teamA.points, teamA.wins, teamB.loses, scoreAtoB],
+            [teamB.points, teamB.wins, teamA.loses, scoreAtoB * -1],
+        ) ? 1 : -1;
+    });
 
 export const getPlaces = (results: GroupResults): Record<ITeam['id'], number> => {
-    const sortedPoints = getSortedPlacements(results);
+    const sortedPoints = getSortedPlacements(results, false);
 
     const places: Record<ITeam['id'], number> = {};
     let placeIndex: number = 0;
