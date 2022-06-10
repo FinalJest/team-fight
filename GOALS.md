@@ -15,19 +15,22 @@ Features are being developed
 
 * Bo2
 * Tournaments can have play-offs
-* Groups can have multiple games between same teams
-* Teams store records against each other
-* Data is stored to local storage
-* Migration of data
 * Transfer page
 * Free agents market page
+* Teams store records against each other
 * README is project specific
-* Unit test coverage
 
 ## v3
 
-* Rework of visuals
+* Groups can have multiple games between same teams
 * Losing bracket
+* Data is stored to local storage
+* Migration of data
+* Unit test coverage
+
+## v4
+
+* Rework of visuals
 * Sorting tables
 * Modal windows refactoring
 * Drag-n-drop UI where appropriate
