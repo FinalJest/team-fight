@@ -4,6 +4,7 @@
 
 * Added Best of 2 games option.
 * Can move players to Free Market now.
+* Can filter players to display Free Market.
 
 ## 1.1.3
 

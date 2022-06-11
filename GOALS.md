@@ -16,7 +16,7 @@ Features are being developed
 * Bo2 (+)
 * Tournaments can have play-offs
 * Transfer page
-* Free agents market page
+* Free agents market page (+)
 * Teams store records against each other
 * README is project specific
 
