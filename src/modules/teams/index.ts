@@ -69,6 +69,7 @@ export const teams = (
                     history: [...team.history, {
                         tournamentId: action.payload.tournamentId,
                         place,
+                        roster: { ...team.roster },
                     }],
                 };
             });

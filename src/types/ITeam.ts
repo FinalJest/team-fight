@@ -3,6 +3,7 @@ import { IRosterIds } from './IRoster';
 interface ITeamHistoryItem {
     tournamentId: string;
     place: number;
+    roster: IRosterIds;
 }
 
 export interface ITeam {
