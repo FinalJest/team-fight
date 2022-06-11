@@ -4,6 +4,7 @@ import {
     MenuItem, Select, SelectChangeEvent,
 } from '@mui/material';
 import { getTeams } from '../store/selectors';
+import { doesTeamHaveFullRoster } from '../services/teamService';
 
 interface TeamSelectProps {
     excludedTeams?: Set<string>;
@@ -31,7 +32,15 @@ export const TeamSelect: React.FC<TeamSelectProps> = ({
         >
             {teams
                 .filter((team) => !excludedTeams?.has(team.id) || currentTeam === team.id)
-                .map((team) => <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)}
+                .map((team) => (
+                    <MenuItem
+                        sx={{ color: doesTeamHaveFullRoster(team.roster) ? 'auto' : 'red' }}
+                        key={team.id}
+                        value={team.id}
+                    >
+                        {team.name}
+                    </MenuItem>
+                ))}
             <MenuItem value={NO_TEAM_VALUE}>No Team</MenuItem>
         </Select>
     );

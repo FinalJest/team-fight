@@ -34,8 +34,8 @@ export const Group: React.FC<GroupProps> = ({
     teams,
 }) => {
     const teamsById = useSelector(getTeamsRecord);
-    const places = getPlaces(results);
     const { isFinished } = useTournamentContext();
+    const places = getPlaces(results, isFinished);
     const sortedTeams: Record<ITeam['id'], number> = teams
         .filter<string>((teamId): teamId is string => teamId !== undefined)
         .sort((teamA, teamB) =>
@@ -140,11 +140,15 @@ export const Group: React.FC<GroupProps> = ({
                                 <GroupCell>
                                     {teamResults && getLoses(teamResults)}
                                 </GroupCell>
-                                <GroupCell isBold>
+                                <GroupCell
+                                    isBold
+                                    fontSize="20px"
+                                >
                                     {teamResults && getPoints(teamResults)}
                                 </GroupCell>
                                 <GroupCell
                                     isBold
+                                    fontSize="20px"
                                     backgroundColor={teamId ? getColorFromPlace(places[teamId]) : undefined}
                                 >
                                     {teamId !== undefined ? places[teamId] : ''}

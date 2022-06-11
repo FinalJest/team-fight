@@ -5,6 +5,9 @@
 * Added Best of 2 games option.
 * Can move players to Free Market now.
 * Can filter players to display Free Market.
+* Logic fixes for post-tournament places display.
+* Tournament places and points are now bigger.
+* Teams with incomplete roster display with red names now.
 
 ## 1.1.3
 
