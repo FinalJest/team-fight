@@ -54,6 +54,9 @@ export const getTeamsRecord = (state: ReduxState): Record<ITeam['id'], TeamWithS
 
 export const getPlayers = (state: ReduxState): IPlayer[] => state.players;
 
+export const getPlayersRecord = (state: ReduxState): Record<IPlayer['id'], IPlayer> =>
+    getPlayers(state).reduce((result, player) => ({ ...result, [player.id]: player }), {});
+
 export const getPlayersByTeamId = (teamId?: string | string[]) =>
     (state: ReduxState): IPlayer[] => state.players.filter((player) =>
         (Array.isArray(teamId)

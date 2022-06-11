@@ -18,7 +18,7 @@ Features are being developed
 * Transfer page
 * Free agents market page (+)
 * Teams store records against each other
-* Team roster history
+* Team roster history (+)
 * Generate multiple players at once
 * README is project specific
 
