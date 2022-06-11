@@ -6,6 +6,8 @@ import { ReduxState } from '../../../modules';
 import { getPlayersByTeamId } from '../../../store/selectors';
 import { FightButton } from './FightButton';
 
+const GAME_AMOUNTS_AVAILABLE = [1, 2, 3, 5];
+
 interface ButtonContainerProps {
     ids: Array<string | undefined>;
     onFight(results: Results): void;
@@ -16,9 +18,9 @@ export const FightButtons: React.FC<ButtonContainerProps> = ({ ids, onFight }) =
 
     return (
         <ButtonsContainer>
-            <FightButton players={players} count={1} onFight={onFight} />
-            <FightButton players={players} count={3} onFight={onFight} />
-            <FightButton players={players} count={5} onFight={onFight} />
+            {GAME_AMOUNTS_AVAILABLE.map((amount) => (
+                <FightButton key={amount} players={players} count={amount} onFight={onFight} />
+            ))}
         </ButtonsContainer>
     );
 };

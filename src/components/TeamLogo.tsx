@@ -31,8 +31,10 @@ interface TeamLogoProps {
 
 export const TeamLogo: React.FC<TeamLogoProps> = ({ id, size = ComponentSize.S, src }) => (id !== undefined
     ? (
-        <Link to={`/${Path.Teams}/${id}`}>
-            <StyledLogo size={size} src={src} />
-        </Link>
+        <div>
+            <Link to={`/${Path.Teams}/${id}`}>
+                <StyledLogo size={size} src={src} />
+            </Link>
+        </div>
     )
-    : <StyledLogo size={size} src={src} />);
+    : <div><StyledLogo size={size} src={src} /></div>);
