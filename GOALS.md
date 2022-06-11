@@ -13,7 +13,7 @@ Features are being developed
 
 ## v2
 
-* Bo2
+* Bo2 (+)
 * Tournaments can have play-offs
 * Transfer page
 * Free agents market page
@@ -22,6 +22,7 @@ Features are being developed
 
 ## v3
 
+* Separate League type of Group tournament
 * Groups can have multiple games between same teams
 * Losing bracket
 * Data is stored to local storage

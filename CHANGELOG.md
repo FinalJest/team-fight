@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+* Added Best of 2 games option
+
 ## 1.1.3
 
 * Fixed bug where players wouldn't retire after getting negative skill after progress.

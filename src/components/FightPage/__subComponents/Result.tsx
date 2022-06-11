@@ -8,6 +8,7 @@ import { ComponentSize } from '../../../enums/ComponentSize';
 import { Results } from '../../../types/Results';
 import { getTeamById } from '../../../store/selectors';
 import { resultsToScore } from '../../../services/fightSimulator';
+import { ReduxState } from '../../../modules';
 
 const Container = styled.div`
     display: flex;
@@ -34,18 +35,20 @@ interface ResultProps {
 }
 
 export const Result: React.FC<ResultProps> = ({ results, teams }) => {
-    const totalWinner = results.filter((winnerIndex) => winnerIndex === 0).length > results.length / 2
-        ? teams[0]
-        : teams[1];
-    const winner = useSelector(getTeamById(totalWinner));
+    const team1WinsDiff = results.filter((winnerIndex) => winnerIndex === 0).length - results.length / 2;
+    const { team1Data, team2Data } = useSelector((state: ReduxState) => ({
+        team1Data: getTeamById(teams[0])(state),
+        team2Data: getTeamById(teams[1])(state),
+    }));
+    const winner = team1WinsDiff >= 0 ? team1Data : team2Data;
     const score = resultsToScore(results);
 
     return (
         <Container>
             <TeamLogo
-                id={winner?.id}
+                id={team1WinsDiff ? winner?.id : undefined}
                 size={ComponentSize.L}
-                src={results.length ? winner?.logoUrl : undefined}
+                src={results.length && team1WinsDiff ? winner?.logoUrl : undefined}
             />
             <Typography variant="h3">
                 {`${score[0]} : ${score[1]}`}
