@@ -6,6 +6,7 @@ import { promotePlayer } from '../../../modules/teams/actions';
 import { Position } from '../../../enums/Position';
 import { EditPlayer } from '../../modals/player/EditPlayer';
 import { RetirePlayer } from '../../modals/player/RetirePlayer';
+import { MovePlayerToFreeMarket } from '../../modals/player/MoveToFreeMarketButton';
 
 const ACTION_BUTTON_ID = 'action_button';
 const ACTION_MENU_ID = 'action_menu';
@@ -36,7 +37,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
         setAnchorElement(null);
     };
     const handlePromote = () => {
-        if (teamId) {
+        if (teamId !== undefined) {
             dispatch(promotePlayer(teamId, playerId, position));
         }
         handleClose();
@@ -63,8 +64,16 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                 }}
             >
                 {isSub && <MenuItem onClick={handlePromote}>To Main Team</MenuItem>}
+                {teamId !== undefined && (
+                    <MovePlayerToFreeMarket
+                        ButtonComponent={MenuItem}
+                        onClose={handleClose}
+                        id={playerId}
+                        teamId={teamId}
+                    />
+                )}
                 {!isRetired && <EditPlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />}
-                <RetirePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
+                {!isRetired && <RetirePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />}
                 <DeletePlayer ButtonComponent={MenuItem} onClose={handleClose} id={playerId} />
             </Menu>
         </div>
