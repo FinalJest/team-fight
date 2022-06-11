@@ -2,7 +2,8 @@
 
 ## 2.0.0
 
-* Added Best of 2 games option
+* Added Best of 2 games option.
+* Can move players to Free Market now.
 
 ## 1.1.3
 

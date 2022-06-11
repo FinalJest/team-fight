@@ -1,7 +1,7 @@
-import { DispatchActions, ReduxState, ThunkActionResult } from '../index';
+import { ThunkActionResult } from '../index';
 import { updateTeamRoster } from '../teams/actions';
 import {
-    addPremadePlayers, editPlayer, editPlayers, makePlayersRetired, removePlayer,
+    addPremadePlayers, editPlayer, editPlayers, makePlayersRetired, makePlayersTeamless, removePlayer,
 } from './actions';
 import { IPlayer } from '../../types/IPlayer';
 import { IRosterIds } from '../../types/IRoster';
@@ -25,7 +25,11 @@ const addPlayerToRoster = (player: IPlayer, roster: IRosterIds): IRosterIds => {
         : { [player.position]: player.id };
 };
 
-const removePlayersFromTeam = (ids: IPlayer['id'][], dispatch: DispatchActions, state: ReduxState): void => {
+export const removePlayersFromTeam = (ids: IPlayer['id'][]): ThunkActionResult<void> => (
+    dispatch,
+    getState,
+) => {
+    const state = getState();
     const players = getPlayersByIds(ids)(state);
 
     if (players) {
@@ -51,15 +55,14 @@ const removePlayersFromTeam = (ids: IPlayer['id'][], dispatch: DispatchActions, 
         }).filter<IUpdateRosterData>((data): data is IUpdateRosterData => data !== undefined);
         dispatch(updateTeamRoster(newRosters));
     }
+    dispatch(makePlayersTeamless(ids));
 };
 
 export const transferPlayer = (player: IPlayer, oldTeam?: ITeam, newTeam?: ITeam): ThunkActionResult<void> => (
     dispatch,
-    getState,
 ) => {
-    const state = getState();
     if (oldTeam?.id !== undefined) {
-        removePlayersFromTeam([player.id], dispatch, state);
+        dispatch(removePlayersFromTeam([player.id]));
     }
     if (newTeam?.id !== undefined) {
         const newRoster = addPlayerToRoster(player, newTeam.roster);
@@ -67,6 +70,8 @@ export const transferPlayer = (player: IPlayer, oldTeam?: ITeam, newTeam?: ITeam
             id: newTeam.id,
             roster: newRoster,
         }));
+    } else {
+        dispatch(makePlayersTeamless([player.id]));
     }
 };
 
@@ -108,16 +113,14 @@ export const updatePlayer = (newData: Partial<IPlayer> & { id: string }): ThunkA
     dispatch(editPlayer(newData));
 };
 
-export const deletePlayer = (id: string): ThunkActionResult<void> => (dispatch, getState) => {
-    const state = getState();
-    removePlayersFromTeam([id], dispatch, state);
+export const deletePlayer = (id: string): ThunkActionResult<void> => (dispatch) => {
+    dispatch(removePlayersFromTeam([id]));
     dispatch(removePlayer(id));
 };
 
-export const retirePlayers = (ids: string | string[]): ThunkActionResult<void> => (dispatch, getState) => {
-    const state = getState();
+export const retirePlayers = (ids: string | string[]): ThunkActionResult<void> => (dispatch) => {
     const idsAsArray = Array.isArray(ids) ? ids : [ids];
-    removePlayersFromTeam(idsAsArray, dispatch, state);
+    dispatch(removePlayersFromTeam(idsAsArray));
     dispatch(makePlayersRetired(idsAsArray));
 };
 
