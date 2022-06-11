@@ -13,9 +13,10 @@ import { Path } from '../../enums/Path';
 
 export const TeamsList: React.FC = () => {
     const teams = useSelector(getTeamsWithStats);
+    const sortedTeams = teams.sort((teamA, teamB) => teamB.fame - teamA.fame);
     return (
         <PageContainer>
-            {Boolean(teams.length) && (
+            {Boolean(sortedTeams.length) && (
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -37,7 +38,7 @@ export const TeamsList: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teams.map((team) => (
+                        {sortedTeams.map((team) => (
                             <TableRow key={team.id}>
                                 <TableCell align="left">
                                     <TeamLogo id={team.id} src={team.logoUrl} />

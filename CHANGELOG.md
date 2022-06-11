@@ -9,6 +9,7 @@ Features:
 * Can filter players to display Free Market.
 * Tournament places and points are now bigger.
 * Teams with incomplete roster display with red names now.
+* Players are now sorted by positions, teams by fame.
 
 Fixes:
 

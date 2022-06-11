@@ -75,9 +75,11 @@ export const Group: React.FC<GroupProps> = ({
                         <GroupCell>
                             Place
                         </GroupCell>
-                        <GroupCell>
-                            Prediction (Skill)
-                        </GroupCell>
+                        {!isFinished && (
+                            <GroupCell>
+                                Prediction (Skill)
+                            </GroupCell>
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -153,9 +155,11 @@ export const Group: React.FC<GroupProps> = ({
                                 >
                                     {teamId !== undefined ? places[teamId] : ''}
                                 </GroupCell>
-                                <GroupCell>
-                                    {teamPlace !== undefined ? `${teamPlace} (${teamForRow?.power})` : ''}
-                                </GroupCell>
+                                {!isFinished && (
+                                    <GroupCell>
+                                        {teamPlace !== undefined ? `${teamPlace} (${teamForRow?.power})` : ''}
+                                    </GroupCell>
+                                )}
                             </TableRow>
                         );
                     })}

@@ -8,15 +8,34 @@ import { PageContainer } from '../PageContainer';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { ProgressPlayersButton } from './__subComponents/ProgressPlayersButton';
 import { IPlayer } from '../../types/IPlayer';
+import { Position } from '../../enums/Position';
 
-const getSortWeight = (player: IPlayer): 0 | 1 | 2 => {
+const getSortWeight = (player: IPlayer): number => {
+    let baseWeight = 0;
     if (player.isRetired) {
-        return 2;
+        baseWeight = 10000;
     }
-    if (player.teamId === undefined) {
-        return 1;
+    let positionWeight = 0;
+    switch (player.position) {
+        case Position.Top:
+            positionWeight = 1000;
+            break;
+        case Position.Jungle:
+            positionWeight = 2000;
+            break;
+        case Position.Mid:
+            positionWeight = 3000;
+            break;
+        case Position.Carry:
+            positionWeight = 4000;
+            break;
+        case Position.Support:
+            positionWeight = 5000;
+            break;
+        default:
+            break;
     }
-    return 0;
+    return baseWeight + positionWeight + (1000 - player.skill);
 };
 
 const FREE_MARKET_TEXT = 'Show Free Market';
