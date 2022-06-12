@@ -21,9 +21,11 @@ export const AddTournament: React.FC<BaseModalProps> = ({ ButtonComponent, onClo
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
         if (formRef.current) {
-            const { tournamentName, teamCount, groupsCount } = getBasicFields(formRef);
+            const {
+                tournamentName, teamCount, groupsCount, isForFame,
+            } = getBasicFields(formRef);
             if (tournamentName) {
-                dispatch(addTournament(tournamentName, teamCount, groupsCount));
+                dispatch(addTournament(tournamentName, teamCount, groupsCount, isForFame));
                 onModalClose();
             }
         } else {

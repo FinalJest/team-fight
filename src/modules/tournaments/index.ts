@@ -12,11 +12,13 @@ const getEmptyTournament = (
     name: string,
     teamCount: number,
     groupsCount: number,
+    isForFame: boolean = true,
 ): ITournament => ({
     id: nanoid(),
     teamCount,
     name,
     isFinished: false,
+    isForFame,
     group: groupsCount
         ? {
             results: {},
@@ -37,6 +39,7 @@ export const tournaments = (
                 action.payload.name,
                 action.payload.teamCount,
                 action.payload.groupsCount,
+                action.payload.isForFame,
             )];
         case types.ADD_TEAM_TO_TOURNAMENT_GROUP:
             return state.map((tournament) => {

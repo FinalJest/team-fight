@@ -22,6 +22,7 @@ export const TeamHistory: React.FC<HistoryProps> = ({ data }) => {
         tournamentName: getTournamentById(item.tournamentId)(state)?.name ?? '',
         roster: item.roster,
         place: item.place,
+        isForFame: state.tournaments.find((tourney) => tourney.id === item.tournamentId)?.isForFame,
     })));
 
     return (
@@ -37,8 +38,8 @@ export const TeamHistory: React.FC<HistoryProps> = ({ data }) => {
                     ))}
                 </TableRow>
                 <TableRow>
-                    {dataWithNames.map(({ tournamentId, place }) => (
-                        <HistoryCell key={tournamentId} backgroundColor={getColorFromPlace(place)}>
+                    {dataWithNames.map(({ tournamentId, place, isForFame }) => (
+                        <HistoryCell key={tournamentId} backgroundColor={isForFame ? getColorFromPlace(place) : 'auto'}>
                             {place}
                         </HistoryCell>
                     ))}

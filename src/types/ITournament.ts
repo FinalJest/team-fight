@@ -5,6 +5,7 @@ export interface ITournament {
     name: string;
     teamCount: number;
     isFinished: boolean;
+    isForFame: boolean;
     placements?: string[];
     mvpId?: string;
     group?: IGroup;

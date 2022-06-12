@@ -7,7 +7,10 @@ export const addTournament = (
     name: string,
     teamCount: number,
     groupsCount: number,
-) => action(types.ADD_TOURNAMENT, { name, teamCount, groupsCount });
+    isForFame: boolean,
+) => action(types.ADD_TOURNAMENT, {
+    name, teamCount, groupsCount, isForFame,
+});
 
 export const addTeamToTournamentGroup = (
     tournamentId: string,

@@ -16,13 +16,17 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
 
     let placements: IPlacement[] = [];
 
-    state.tournaments.forEach((tournament) => {
-        if (tournament.playoff) {
-            placements = []; // TODO: playoff logic
-        } else if (tournament.group) {
-            placements = getSortedPlacements(tournament.group.results);
-        }
-    });
+    const tournament = state.tournaments.find((tourney) => tourney.id === id);
+
+    if (!tournament) {
+        return;
+    }
+
+    if (tournament.playoff) {
+        placements = []; // TODO: playoff logic
+    } else if (tournament.group) {
+        placements = getSortedPlacements(tournament.group.results);
+    }
 
     const formattedPlacements = placements.map((placement) => placement.id);
     let playersTournamentData = {};
@@ -48,8 +52,8 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
     }
 
     batch(() => {
-        dispatch(recordTournamentParticipation(playersTournamentData, id));
-        dispatch(recordTournamentResult(teamsTournamentData, id));
+        dispatch(recordTournamentParticipation(playersTournamentData, id, tournament.isForFame));
+        dispatch(recordTournamentResult(teamsTournamentData, id, tournament.isForFame));
         dispatch(recordTournamentEnd(id, formattedPlacements, mvpId));
     });
 };

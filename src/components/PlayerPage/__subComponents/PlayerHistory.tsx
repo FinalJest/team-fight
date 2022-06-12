@@ -17,6 +17,7 @@ export const PlayerHistory: React.FC<HistoryProps> = ({ data }) => {
     const dataWithNames = useSelector((state: ReduxState) => data.map((item) => ({
         tournamentId: item.tournamentId,
         tournamentName: getTournamentById(item.tournamentId)(state)?.name ?? '',
+        isForFame: state.tournaments.find((tourney) => tourney.id === item.tournamentId)?.isForFame,
         team: getTeamById(item.teamId)(state),
         place: item.place,
     })));
@@ -42,8 +43,12 @@ export const PlayerHistory: React.FC<HistoryProps> = ({ data }) => {
                     tournamentName,
                     team,
                     place,
+                    isForFame,
                 }) => (
-                    <TableRow key={tournamentId} sx={{ backgroundColor: getColorFromPlace(place) }}>
+                    <TableRow
+                        key={tournamentId}
+                        sx={{ backgroundColor: isForFame ? getColorFromPlace(place) : 'auto' }}
+                    >
                         <TableCell align="left">
                             {tournamentName}
                         </TableCell>

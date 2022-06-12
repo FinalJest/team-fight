@@ -2,18 +2,30 @@
 
 ## 2.0.0
 
-Features:
+### Features:
+
+Games:
 
 * Added Best of 2 games option.
+
+Players and Teams:
+
 * Can move players to Free Market now.
 * Can filter players to display Free Market.
-* Tournament places and points are now bigger.
 * Teams with incomplete roster display with red names now.
 * Players are now sorted by positions, teams by fame.
 * Stores and displays team main roster history.
+
+Tournaments:
+
+* Tournament places and points are now bigger.
+* Can now create tournaments that do not award fame.
+
+Other:
+
 * Can now see app version in Settings.
 
-Fixes:
+### Fixes:
 
 * Fixed player generation issues.
 * Logic fixes for post-tournament places display.

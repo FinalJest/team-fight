@@ -20,6 +20,10 @@ export const editPlayers = (newData: Record<IPlayer['id'], Partial<IPlayer>>) =>
 export const removePlayer = (id: IPlayer['id']) => action(types.REMOVE_PLAYER, id);
 export const removePlayers = (ids: IPlayer['id'][]) => action(types.REMOVE_PLAYERS, ids);
 export const makePlayersTeamless = (ids: IPlayer['id'][]) => action(types.MAKE_PLAYERS_TEAMLESS, ids);
-export const recordTournamentParticipation = (data: TournamentData, tournamentId: ITournament['id']) =>
-    action(types.RECORD_TOURNAMENT_PARTICIPATION, { data, tournamentId });
+export const recordTournamentParticipation = (
+    data: TournamentData,
+    tournamentId: ITournament['id'],
+    isForFame: boolean,
+) =>
+    action(types.RECORD_TOURNAMENT_PARTICIPATION, { data, tournamentId, isForFame });
 export const makePlayersRetired = (ids: IPlayer['id'][]) => action(types.MAKE_PLAYERS_RETIRED, ids);

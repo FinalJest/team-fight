@@ -41,7 +41,9 @@ export const players = (
 
                 return {
                     ...player,
-                    fame: player.fame + getFameFromPlacement(playerData.place, playerData.isMvp),
+                    fame: player.fame + (action.payload.isForFame
+                        ? getFameFromPlacement(playerData.place, playerData.isMvp)
+                        : 0),
                     history: [...player.history, {
                         tournamentId: action.payload.tournamentId,
                         teamId: playerData.teamId,

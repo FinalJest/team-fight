@@ -13,9 +13,9 @@ Features are being developed
 
 ## v2
 
+* Data is stored to local storage
 * Bo2 (+)
 * Tournaments can have play-offs
-* Transfer page
 * Free agents filter (+)
 * Teams store records against each other
 * Team roster history (+)
@@ -29,7 +29,7 @@ Features are being developed
 * Groups can have multiple games between same teams
 * Losing bracket
 * Separate Free Market page
-* Data is stored to local storage
+* Transfer page
 * Migration of data
 * Unit test coverage
 
