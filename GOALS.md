@@ -16,9 +16,10 @@ Features are being developed
 * Bo2 (+)
 * Tournaments can have play-offs
 * Transfer page
-* Free agents market page (+)
+* Free agents filter (+)
 * Teams store records against each other
 * Team roster history (+)
+* Can edit tournaments
 * Generate multiple players at once
 * README is project specific
 
@@ -27,6 +28,7 @@ Features are being developed
 * Separate League type of Group tournament
 * Groups can have multiple games between same teams
 * Losing bracket
+* Separate Free Market page
 * Data is stored to local storage
 * Migration of data
 * Unit test coverage
@@ -38,6 +40,7 @@ Features are being developed
 * Modal windows refactoring
 * Drag-n-drop UI where appropriate
 * Tournament Templates
-* Add confirmation modals
+* Add confirmation modals where lacking
+* Better name generation
 * 404 page
 * Extensive test Coverage
