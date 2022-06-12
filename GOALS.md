@@ -17,7 +17,6 @@ Features are being developed
 * Bo2 (+)
 * Tournaments can have play-offs
 * Free agents filter (+)
-* Teams store records against each other
 * Team roster history (+)
 * Can edit tournaments
 * Generate multiple players at once
@@ -25,12 +24,13 @@ Features are being developed
 
 ## v3
 
+* Migration of data
 * Separate League type of Group tournament
 * Groups can have multiple games between same teams
 * Losing bracket
 * Separate Free Market page
 * Transfer page
-* Migration of data
+* Teams store records against each other
 * Unit test coverage
 
 ## v4
