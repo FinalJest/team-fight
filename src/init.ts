@@ -1,10 +1,7 @@
-import { ReduxState } from './modules';
+import { initialBasicState, ReduxState } from './modules';
 import { ReduxStore } from './types/ReduxStore';
 import { configureStore } from './store';
-import { initialAppState } from './modules/app';
-import { initialPlayersState } from './modules/players';
-import { initialTeamsState } from './modules/teams';
-import { initialTournamentState } from './modules/tournaments';
+import { getLocalStorageState } from './services/storageService';
 
 let store: ReduxStore;
 let startedInit = false;
@@ -15,12 +12,8 @@ export const initializeApp = (): void => {
         return;
     }
     startedInit = true;
-    const initialState: ReduxState = {
-        app: initialAppState,
-        players: initialPlayersState,
-        teams: initialTeamsState,
-        tournaments: initialTournamentState,
-    };
+    const stateFromStorage = getLocalStorageState();
+    const initialState: ReduxState = stateFromStorage || initialBasicState;
     store = configureStore(initialState);
 };
 

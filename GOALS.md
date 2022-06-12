@@ -13,7 +13,7 @@ Features are being developed
 
 ## v2
 
-* Data is stored to local storage
+* Data is stored to local storage (+)
 * Bo2 (+)
 * Tournaments can have play-offs
 * Free agents filter (+)
