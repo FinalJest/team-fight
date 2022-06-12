@@ -24,6 +24,7 @@ Tournaments:
 Other:
 
 * Can now see app version in Settings.
+* Data is now automatically saved in local storage.
 
 ### Fixes:
 

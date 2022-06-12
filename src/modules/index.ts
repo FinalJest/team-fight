@@ -5,16 +5,37 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import * as actions from './actions';
 import * as types from './actionTypes';
 import * as reducers from './reducers';
+import { LOCAL_STORAGE_KEY } from '../constants/localStorage';
+import { initialAppState } from './app';
+import { initialPlayersState } from './players';
+import { initialTeamsState } from './teams';
+import { initialTournamentState } from './tournaments';
+
+// Redux/TS/typesafe-actions don't mesh well, can't declare it without recursion
+const setLocalStorageState = (state: unknown): void => {
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
+};
+
+export const initialBasicState = {
+    app: initialAppState,
+    players: initialPlayersState,
+    teams: initialTeamsState,
+    tournaments: initialTournamentState,
+};
 
 export type ReduxActions = ActionType<typeof actions>;
 
 // Redux/TS/typesafe-actions don't mesh well, can't declare it without recursion
 export const rootReducer = (state: any, action: ReduxActions) => {
     const appReducer = combineReducers(reducers);
+    let newState;
     if (action.type === types.RESET_STATE) {
-        return appReducer({ ...action.payload, app: state.app }, action);
+        newState = appReducer({ ...(action.payload ?? initialBasicState), app: state.app }, action);
+    } else {
+        newState = appReducer(state, action);
     }
-    return appReducer(state, action);
+    setLocalStorageState(newState);
+    return newState;
 };
 
 export type ReduxState = ReturnType<typeof rootReducer>;
