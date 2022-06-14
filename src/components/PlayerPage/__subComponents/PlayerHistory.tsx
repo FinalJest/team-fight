@@ -53,7 +53,7 @@ export const PlayerHistory: React.FC<HistoryProps> = ({ data }) => {
                             {tournamentName}
                         </TableCell>
                         <TableCell align="right">
-                            {team ? <TeamLogo src={team.logoUrl} id={team.id} /> : ''}
+                            {team ? <TeamLogo id={team.id} /> : ''}
                         </TableCell>
                         <TableCell align="right">
                             {place}

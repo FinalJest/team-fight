@@ -26,7 +26,7 @@ export const TournamentRow: React.FC<RowData> = ({ data, mvp, winner }) => (
             {data.teamCount}
         </TableCell>
         <TableCell align="right">
-            {winner ? <TeamLogo size={ComponentSize.S} src={winner.logoUrl} id={winner.id} /> : '-'}
+            {winner ? <TeamLogo size={ComponentSize.S} id={winner.id} /> : '-'}
         </TableCell>
         <TableCell align="right">
             {mvp ? (

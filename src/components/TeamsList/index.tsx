@@ -47,7 +47,7 @@ export const TeamsList: React.FC = () => {
                         {sortedTeams.map((team) => (
                             <TableRow key={team.id} sx={{ opacity: team.power ? 1 : 0.5 }}>
                                 <TableCell align="left">
-                                    <TeamLogo id={team.id} src={team.logoUrl} />
+                                    <TeamLogo id={team.id} />
                                 </TableCell>
                                 <TableCell align="left">
                                     <Link to={`/${Path.Teams}/${team.id}`}>

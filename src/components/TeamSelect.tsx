@@ -5,10 +5,11 @@ import {
 } from '@mui/material';
 import { getTeams } from '../store/selectors';
 import { doesTeamHaveFullRoster } from '../services/teamService';
+import { ITeam } from '../types/ITeam';
 
 interface TeamSelectProps {
-    excludedTeams?: Set<string>;
-    currentTeam: string;
+    excludedTeams?: Set<ITeam['id']>;
+    currentTeam: ITeam['id'];
     onTeamSelect(id: string): void;
 }
 

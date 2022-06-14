@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { ComponentSize } from '../enums/ComponentSize';
 import { ITeam } from '../types/ITeam';
 import { Path } from '../enums/Path';
+import { getTeamById } from '../store/selectors';
+import { ReduxState } from '../modules';
 
 const SIZE_TO_DIMENSION: Record<ComponentSize, number> = {
     [ComponentSize.S]: 32,
@@ -26,15 +29,17 @@ const StyledLogo = styled.img<LogoProps>`
 interface TeamLogoProps {
     id?: ITeam['id'];
     size?: ComponentSize;
-    src?: string;
 }
 
-export const TeamLogo: React.FC<TeamLogoProps> = ({ id, size = ComponentSize.S, src }) => (id !== undefined
-    ? (
-        <div>
-            <Link to={`/${Path.Teams}/${id}`}>
-                <StyledLogo size={size} src={src} />
-            </Link>
-        </div>
-    )
-    : <div><StyledLogo size={size} src={src} /></div>);
+export const TeamLogo: React.FC<TeamLogoProps> = ({ id, size = ComponentSize.S }) => {
+    const logoUrl = useSelector((state: ReduxState) => getTeamById(id)(state)?.logoUrl);
+    return (id !== undefined
+        ? (
+            <div>
+                <Link to={`/${Path.Teams}/${id}`}>
+                    <StyledLogo size={size} src={logoUrl} />
+                </Link>
+            </div>
+        )
+        : <div><StyledLogo size={size} /></div>);
+};
