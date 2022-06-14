@@ -12,7 +12,7 @@ const getInputNumber = (id: string, formRef?: React.RefObject<HTMLFormElement>) 
     parseInt(getInputValue(`#${id}`, formRef) ?? '', 10);
 
 export const getBasicFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
-    tournamentName: getInputValue(`#${TOURNAMENT_NAME_INPUT_ID}`, formRef),
+    tournamentName: getInputValue(`#${TOURNAMENT_NAME_INPUT_ID}`, formRef) ?? '',
     teamCount: getInputNumber(TEAM_COUNT_INPUT_ID),
     groupsCount: getInputNumber(GROUPS_COUNT_ID),
     playoffTeamsCount: getInputNumber(PLAYOFF_TEAMS_COUNT_ID),
@@ -21,9 +21,19 @@ export const getBasicFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
 
 interface BasicTournamentModalProps {
     defaultName?: string;
+    defaultTeamCount?: number;
+    defaultGroupCount?: number;
+    defaultPlayoffTeamsCount?: number;
+    defaultAwardFame?: boolean;
 }
 
-export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({ defaultName }) => (
+export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({
+    defaultName,
+    defaultTeamCount,
+    defaultGroupCount,
+    defaultPlayoffTeamsCount,
+    defaultAwardFame,
+}) => (
     <>
         <TextField
             id={TOURNAMENT_NAME_INPUT_ID}
@@ -37,7 +47,7 @@ export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({ def
         <TextField
             id={TEAM_COUNT_INPUT_ID}
             label="Team Count"
-            defaultValue={8}
+            defaultValue={defaultTeamCount ?? 8}
             fullWidth
             type="number"
             variant="standard"
@@ -47,7 +57,7 @@ export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({ def
         <TextField
             id={GROUPS_COUNT_ID}
             label="Groups Count"
-            defaultValue={0}
+            defaultValue={defaultGroupCount ?? 0}
             fullWidth
             type="number"
             variant="standard"
@@ -56,14 +66,14 @@ export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({ def
         <TextField
             id={PLAYOFF_TEAMS_COUNT_ID}
             label="Playoff Teams Count"
-            defaultValue={0}
+            defaultValue={defaultPlayoffTeamsCount ?? 0}
             fullWidth
             type="number"
             variant="standard"
             margin="normal"
         />
         <FormControlLabel
-            control={<Checkbox id={IS_FOR_FAME_ID} defaultChecked />}
+            control={<Checkbox id={IS_FOR_FAME_ID} defaultChecked={defaultAwardFame ?? true} />}
             label="Award Fame"
         />
     </>

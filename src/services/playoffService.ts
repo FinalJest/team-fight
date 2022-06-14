@@ -75,3 +75,17 @@ export const getPlayoffPlacements = (playoff: IPlayoff): ITeam['id'][] => {
 
     return result;
 };
+
+export const getPlayoffTeamsCount = (playoff?: IPlayoff): number => {
+    if (!playoff || !playoff.composition.length) {
+        return 0;
+    }
+
+    return playoff.composition[playoff.composition.length - 1]
+        .reduce(
+            (result, nodeId) => result
+                + Number(Boolean(playoff.data[nodeId].parts[0].teamId))
+                + Number(Boolean(playoff.data[nodeId].parts[1].teamId)),
+            0,
+        );
+};

@@ -18,7 +18,7 @@ Features are being developed
 * Tournaments can have play-offs (+)
 * Free agents filter (+)
 * Team roster history (+)
-* Can edit tournaments
+* Can edit tournaments (+)
 * Generate multiple players at once
 * README is project specific
 

@@ -62,5 +62,19 @@ export const addResultToPlayoff = (
     score,
 });
 
+export const editTournament = (
+    id: ITournament['id'],
+    name: string,
+    teamCount: number,
+    groupsCount: number,
+    isForFame: boolean,
+    playoffTeamsCount: number,
+) =>
+    action(types.EDIT_TOURNAMENT, {
+        name, teamCount, groupsCount, isForFame, playoffTeamsCount, id,
+    });
+
+export const deleteTournament = (id: ITournament['id']) => action(types.DELETE_TOURNAMENT, id);
+
 export const recordTournamentEnd = (tournamentId: ITournament['id'], placements?: string[], mvpId?: IPlayer['id']) =>
     action(types.RECORD_TOURNAMENT_END, { tournamentId, placements, mvpId });
