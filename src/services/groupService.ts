@@ -1,5 +1,5 @@
 import {
-    GroupResult, GroupResults, GroupsComposition, GroupTeamResult,
+    GroupResult, GroupResults, GroupsComposition, GroupTeamResult, IGroup,
 } from '../types/IGroup';
 import { IPlacement } from '../types/IPlacement';
 import { ITeam } from '../types/ITeam';
@@ -100,3 +100,5 @@ export const getPlaces = (results: GroupResults, shouldSortByResults: boolean = 
 
     return places;
 };
+
+export const getGroupsTeamCount = (group?: IGroup): number => Object.keys(group?.composition ?? {}).length;

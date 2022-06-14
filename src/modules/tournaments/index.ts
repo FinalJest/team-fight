@@ -5,8 +5,8 @@ import * as actions from './actions';
 import * as types from './actionTypes';
 import { TournamentsState } from '../../types/TournamentsState';
 import { ITournament } from '../../types/ITournament';
-import { generateGroups } from '../../services/groupService';
-import { generatePlayoff } from '../../services/playoffService';
+import { generateGroups, getGroupsTeamCount } from '../../services/groupService';
+import { generatePlayoff, getPlayoffTeamsCount } from '../../services/playoffService';
 import { NodePart } from '../../types/IPlayoff';
 
 const getEmptyTournament = (
@@ -176,6 +176,39 @@ export const tournaments = (
 
                 return { ...tournament, playoff: { ...tournament.playoff, data: newData } };
             });
+        case types.EDIT_TOURNAMENT:
+            return state.map((tournament) => {
+                if (tournament.id !== action.payload.id) {
+                    return tournament;
+                }
+
+                const newTournament = getEmptyTournament(
+                    action.payload.name,
+                    action.payload.teamCount,
+                    action.payload.groupsCount,
+                    action.payload.playoffTeamsCount,
+                    action.payload.isForFame,
+                );
+                const oldPlayoffCount = tournament.playoff ? getPlayoffTeamsCount(tournament.playoff) : 0;
+
+                return {
+                    id: tournament.id,
+                    name: newTournament.name,
+                    teamCount: newTournament.teamCount,
+                    isFinished: newTournament.isFinished,
+                    isForFame: newTournament.isForFame,
+                    placements: newTournament.placements,
+                    mvpId: newTournament.mvpId,
+                    group: getGroupsTeamCount(tournament.group) === action.payload.groupsCount
+                        ? tournament.group
+                        : newTournament.group,
+                    playoff: oldPlayoffCount === action.payload.playoffTeamsCount
+                        ? tournament.playoff
+                        : newTournament.playoff,
+                };
+            });
+        case types.DELETE_TOURNAMENT:
+            return state.filter((tournament) => tournament.id !== action.payload);
         case types.RECORD_TOURNAMENT_END:
             return state.map((tournament) => {
                 if (tournament.id !== action.payload.tournamentId) {

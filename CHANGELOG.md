@@ -10,8 +10,8 @@ Games:
 
 Players and Teams:
 
-* Can move players to Free Market now.
-* Can filter players to display Free Market.
+* Added option to move players to Free Market now.
+* Added option to filter players to display Free Market.
 * Teams with incomplete roster display with red names now.
 * Players are now sorted by positions, teams by fame.
 * Stores and displays team main roster history.
@@ -19,12 +19,13 @@ Players and Teams:
 Tournaments:
 
 * Playoffs are now added.
+* Added option to delete and edit tournaments.
 * Tournament places and points are now bigger.
-* Can now create tournaments that do not award fame.
+* Added option to create tournaments that do not award fame.
 
 Other:
 
-* Can now see app version in Settings.
+* Added option to see app version in Settings.
 * Data is now automatically saved in local storage.
 
 ### Fixes:
