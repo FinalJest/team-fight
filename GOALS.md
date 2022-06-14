@@ -15,7 +15,7 @@ Features are being developed
 
 * Data is stored to local storage (+)
 * Bo2 (+)
-* Tournaments can have play-offs
+* Tournaments can have play-offs (+)
 * Free agents filter (+)
 * Team roster history (+)
 * Can edit tournaments
@@ -35,12 +35,21 @@ Features are being developed
 
 ## v4
 
+* Double elimination play-offs
 * Rework of visuals
 * Sorting tables
-* Modal windows refactoring
 * Drag-n-drop UI where appropriate
-* Tournament Templates
-* Add confirmation modals where lacking
-* Better name generation
 * 404 page
 * Extensive test Coverage
+
+## v5
+
+* Tournament Templates
+* Modal windows refactoring
+* Add confirmation modals where lacking
+* Better name generation
+
+## v6
+
+* Backend integration
+* Authorization

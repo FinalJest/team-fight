@@ -18,6 +18,7 @@ Players and Teams:
 
 Tournaments:
 
+* Playoffs are now added.
 * Tournament places and points are now bigger.
 * Can now create tournaments that do not award fame.
 

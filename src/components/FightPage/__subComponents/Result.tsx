@@ -48,7 +48,6 @@ export const Result: React.FC<ResultProps> = ({ results, teams }) => {
             <TeamLogo
                 id={team1WinsDiff ? winner?.id : undefined}
                 size={ComponentSize.L}
-                src={results.length && team1WinsDiff ? winner?.logoUrl : undefined}
             />
             <Typography variant="h3">
                 {`${score[0]} : ${score[1]}`}

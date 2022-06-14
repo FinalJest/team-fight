@@ -31,7 +31,7 @@ export const PlayerPage: React.FC = () => {
     const statData = [
         {
             name: 'Team',
-            data: team ? <TeamLogo src={team.logoUrl} id={team.id} /> : '-',
+            data: team ? <TeamLogo id={team.id} /> : '-',
         },
         { name: 'Position', data: data.position },
         { name: 'Skill', data: `${data.skill}` },

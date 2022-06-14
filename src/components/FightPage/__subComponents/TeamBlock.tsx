@@ -23,7 +23,7 @@ export const TeamBlock: React.FC<TeamBlockProps> = ({ isDisabled, currentTeam, o
 
     return (
         <Container>
-            <TeamLogo size={ComponentSize.L} src={team?.logoUrl} id={team?.id} />
+            <TeamLogo size={ComponentSize.L} id={team?.id} />
             {isDisabled
                 ? <Typography variant="h4">{team?.name}</Typography>
                 : <TeamSelect onTeamSelect={onTeamSelect} currentTeam={currentTeam} />}

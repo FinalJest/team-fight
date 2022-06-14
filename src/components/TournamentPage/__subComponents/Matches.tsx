@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import styled from 'styled-components';
 import { ITournament } from '../../../types/ITournament';
 import { Group } from './Group';
+import { Playoff } from './Playoff';
 
 const Container = styled.div`
     width: 100%;
@@ -40,9 +41,10 @@ export const Matches: React.FC<MatchesProps> = ({ data }) => {
     }
     const playoff = data.playoff && (
         <Container>
-            <Typography variant="h1">
+            <Typography variant="h3">
                 Play-off
             </Typography>
+            <Playoff data={data.playoff} />
         </Container>
     );
 
