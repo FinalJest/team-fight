@@ -19,7 +19,7 @@ Features are being developed
 * Free agents filter (+)
 * Team roster history (+)
 * Can edit tournaments (+)
-* Generate multiple players at once
+* Ability to add players without interruptions (+)
 * README is project specific
 
 ## v3
