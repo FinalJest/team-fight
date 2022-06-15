@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+
+* Fixed issue with teams and players not recording tournaments.
+* Changed teams icons display.
+
 ## 2.0.0
 
 ### Features:

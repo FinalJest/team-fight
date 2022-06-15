@@ -3,7 +3,7 @@ import { ThunkActionResult } from '..';
 import { getSortedPlacements } from '../../services/groupService';
 import { getStrongestPlayer } from '../../services/playerService';
 import { getMainRosterPlayers } from '../../store/selectors';
-// import { recordTournamentParticipation, recordTournamentResult } from '../actions';
+import { recordTournamentParticipation, recordTournamentResult } from '../actions';
 import { recordTournamentEnd } from './actions';
 import { getPlayoffPlacements } from '../../services/playoffService';
 
@@ -51,8 +51,8 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
     }
 
     batch(() => {
-        // dispatch(recordTournamentParticipation(playersTournamentData, id, tournament.isForFame));
-        // dispatch(recordTournamentResult(teamsTournamentData, id, tournament.isForFame));
+        dispatch(recordTournamentParticipation(playersTournamentData, id, tournament.isForFame));
+        dispatch(recordTournamentResult(teamsTournamentData, id, tournament.isForFame));
         dispatch(recordTournamentEnd(id, placements, mvpId));
     });
 };
