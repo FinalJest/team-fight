@@ -28,6 +28,7 @@ Other:
 
 * Added option to see app version in Settings.
 * Data is now automatically saved in local storage.
+* Updated README.md.
 
 ### Fixes:
 
