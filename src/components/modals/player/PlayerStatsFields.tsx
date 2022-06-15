@@ -6,11 +6,16 @@ const SKILL_FIELD_ID = 'skill';
 const POTENTIAL_FIELD_ID = 'potential';
 const MENTAL_FIELD_ID = 'mental';
 
-export const getBasicStatsFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
-    skill: parseInt(getInputValue(`#${SKILL_FIELD_ID}`, formRef) ?? '', 10),
-    potential: parseInt(getInputValue(`#${POTENTIAL_FIELD_ID}`, formRef) ?? '', 10),
-    mental: parseInt(getInputValue(`#${MENTAL_FIELD_ID}`, formRef) ?? '', 10),
-});
+export const getBasicStatsFields = (formRef?: React.RefObject<HTMLFormElement>) => {
+    const skillValue = getInputValue(`#${SKILL_FIELD_ID}`, formRef);
+    const potentialValue = getInputValue(`#${POTENTIAL_FIELD_ID}`, formRef);
+    const mentalValue = getInputValue(`#${MENTAL_FIELD_ID}`, formRef);
+    return {
+        skill: skillValue === undefined ? skillValue : parseInt(skillValue, 10),
+        potential: potentialValue === undefined ? potentialValue : parseInt(potentialValue, 10),
+        mental: mentalValue === undefined ? mentalValue : parseInt(mentalValue, 10),
+    };
+};
 
 interface PlayerStatsFieldsProps {
     defaultSkill?: number;

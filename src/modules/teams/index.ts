@@ -65,10 +65,11 @@ export const teams = (
 
                 return {
                     ...team,
-                    fame: team.fame + getFameFromPlacement(place),
+                    fame: team.fame + (action.payload.isForFame ? getFameFromPlacement(place) : 0),
                     history: [...team.history, {
                         tournamentId: action.payload.tournamentId,
                         place,
+                        roster: { ...team.roster },
                     }],
                 };
             });

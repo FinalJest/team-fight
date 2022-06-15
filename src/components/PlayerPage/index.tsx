@@ -12,6 +12,7 @@ import { ButtonsContainer } from '../ButtonsContainer';
 import { getPlayerById, getTeamById } from '../../store/selectors';
 import { RetirePlayer } from '../modals/player/RetirePlayer';
 import { PlayerHistory } from './__subComponents/PlayerHistory';
+import { MovePlayerToFreeMarket } from '../modals/player/MoveToFreeMarketButton';
 
 export const PlayerPage: React.FC = () => {
     const { playerId } = useParams();
@@ -30,7 +31,7 @@ export const PlayerPage: React.FC = () => {
     const statData = [
         {
             name: 'Team',
-            data: team ? <TeamLogo src={team.logoUrl} id={team.id} /> : '-',
+            data: team ? <TeamLogo id={team.id} /> : '-',
         },
         { name: 'Position', data: data.position },
         { name: 'Skill', data: `${data.skill}` },
@@ -47,6 +48,7 @@ export const PlayerPage: React.FC = () => {
             <ButtonsContainer>
                 {!data.isRetired && (
                     <>
+                        {data.teamId !== undefined && <MovePlayerToFreeMarket id={data.id} teamId={data.teamId} />}
                         <EditPlayer id={data.id} />
                         <RetirePlayer id={data.id} />
                     </>

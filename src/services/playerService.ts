@@ -71,10 +71,19 @@ export const generatePlayerFromTemplate = async (
     template: Partial<IPlayer>,
     isRookie?: boolean,
 ): Promise<IPlayer> => {
-    const randomPlayer = generatePlayer(Boolean(isRookie), template.teamId, template.position);
+    const randomPlayer = await generatePlayer(Boolean(isRookie), template.teamId, template.position);
+
     return {
-        ...randomPlayer,
-        ...template,
+        id: randomPlayer.id,
+        name: template.name ?? randomPlayer.name,
+        position: template.position ?? randomPlayer.position,
+        skill: template.skill ?? randomPlayer.skill,
+        potential: template.potential ?? randomPlayer.potential,
+        mental: template.mental ?? randomPlayer.mental,
+        fame: template.fame ?? randomPlayer.fame,
+        isRetired: template.isRetired ?? randomPlayer.isRetired,
+        history: template.history ?? randomPlayer.history,
+        teamId: template.teamId ?? randomPlayer.teamId,
     };
 };
 

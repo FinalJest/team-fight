@@ -9,6 +9,8 @@ import { Matches } from './__subComponents/Matches';
 import { TournamentContextProvider } from './TournamentContext';
 import { ButtonsContainer } from '../ButtonsContainer';
 import { FinishTournamentButton } from './__subComponents/FinishTournamentButton';
+import { EditTournament } from '../modals/tournaments/EditTournament';
+import { DeleteTournament } from '../modals/tournaments/DeleteTournament';
 
 export const TournamentPage: React.FC = () => {
     const { tournamentId } = useParams();
@@ -27,7 +29,13 @@ export const TournamentPage: React.FC = () => {
                 <Stats data={data} />
                 <Matches data={data} />
                 <ButtonsContainer>
-                    {!data.isFinished && <FinishTournamentButton />}
+                    {!data.isFinished && (
+                        <>
+                            <FinishTournamentButton />
+                            <EditTournament id={tournamentId} />
+                        </>
+                    )}
+                    <DeleteTournament id={tournamentId} />
                 </ButtonsContainer>
             </PageContainer>
         </TournamentContextProvider>

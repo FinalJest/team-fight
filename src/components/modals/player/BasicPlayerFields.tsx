@@ -11,7 +11,7 @@ import { TeamSelect } from '../../TeamSelect';
 const PLAYER_NAME_FIELD_ID = 'player_name';
 
 export const getBasicFields = (formRef?: React.RefObject<HTMLFormElement>) => ({
-    playerName: getInputValue(`#${PLAYER_NAME_FIELD_ID}`, formRef),
+    playerName: getInputValue(`#${PLAYER_NAME_FIELD_ID}`, formRef) || undefined,
     ...getBasicStatsFields(formRef),
 });
 

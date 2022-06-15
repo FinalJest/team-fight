@@ -1,64 +1,34 @@
 import React from 'react';
-import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle,
-} from '@mui/material';
 import { BaseModalProps } from '../../../types/BaseModalProps';
-import { useModal } from '../../../hooks/useModal';
 import { useReduxDispatch } from '../../../hooks/useReduxDispatch';
-import { BasicTournamentFields, getBasicFields } from './BasicTournamentFields';
 import { addTournament } from '../../../modules/tournaments/actions';
+import { BasicTournamentModal } from './BasicTournamentModal';
+import { BasicTournamentFields } from './BasicTournamentFields';
 
 const BUTTON_TEXT = 'Add Tournament';
 
 export const AddTournament: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }) => {
-    const {
-        isOpen,
-        formRef,
-        onOpen,
-        onModalClose,
-    } = useModal(onClose);
     const dispatch = useReduxDispatch();
-    const handleSubmit = (e: React.FormEvent): void => {
-        e.preventDefault();
-        if (formRef.current) {
-            const { tournamentName, teamCount, groupsCount } = getBasicFields(formRef);
-            if (tournamentName) {
-                dispatch(addTournament(tournamentName, teamCount, groupsCount));
-                onModalClose();
-            }
-        } else {
-            onModalClose();
+    const handleSubmit = (
+        name: string,
+        teamCount: number,
+        groupsCount: number,
+        isForFame: boolean,
+        playoffTeamsCount: number,
+    ): void => {
+        if (name) {
+            dispatch(addTournament(name, teamCount, groupsCount, isForFame, playoffTeamsCount));
         }
     };
-    const buttonElement = ButtonComponent
-        ? (
-            <ButtonComponent onClick={onOpen}>
-                {BUTTON_TEXT}
-            </ButtonComponent>
-        )
-        : (
-            <Button variant="contained" onClick={onOpen}>
-                {BUTTON_TEXT}
-            </Button>
-        );
 
     return (
-        <>
-            {buttonElement}
-            <Dialog open={isOpen} onClose={onModalClose}>
-                <form ref={formRef} onSubmit={handleSubmit}>
-                    <DialogTitle>
-                        Add Tournament
-                    </DialogTitle>
-                    <DialogContent dividers>
-                        <BasicTournamentFields />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={onModalClose}>Cancel</Button>
-                        <Button type="submit">Add</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-        </>
+        <BasicTournamentModal
+            title={BUTTON_TEXT}
+            submitText="Add"
+            ButtonComponent={ButtonComponent}
+            content={<BasicTournamentFields />}
+            onSubmit={handleSubmit}
+            onClose={onClose}
+        />
     );
 };

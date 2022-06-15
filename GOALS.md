@@ -4,37 +4,53 @@
 
 Features are being developed
 
-## v1 (current)
+## v1
 
 * Tournaments can have group stage
 * Players progress feature
 * Players can retire
 * Tournament history for players and teams
 
-## v2
+## v2 (current)
 
+* Data is stored to local storage
 * Bo2
 * Tournaments can have play-offs
-* Transfer page
-* Free agents market page
-* Teams store records against each other
+* Free agents filter
+* Team roster history
+* Can edit tournaments
+* Ability to add players without interruptions
 * README is project specific
 
 ## v3
 
-* Groups can have multiple games between same teams
-* Losing bracket
-* Data is stored to local storage
 * Migration of data
+* Default starting data available
+* Separate League type of Group tournament
+* Groups can have multiple games between same teams
+* Losing bracket in playoffs
+* Separate Free Market page
+* Transfer page
+* Teams store records against each other
 * Unit test coverage
 
 ## v4
 
+* Double elimination play-offs
 * Rework of visuals
 * Sorting tables
-* Modal windows refactoring
 * Drag-n-drop UI where appropriate
-* Tournament Templates
-* Add confirmation modals
 * 404 page
 * Extensive test Coverage
+
+## v5
+
+* Tournament Templates
+* Modal windows refactoring
+* Add confirmation modals where lacking
+* Better name generation
+
+## v6
+
+* Backend integration
+* Authorization

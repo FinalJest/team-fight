@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTournamentContext } from '../TournamentContext';
-import { GroupResult } from '../../../types/IGroup';
 import { Path } from '../../../enums/Path';
 import { getMatchId } from '../../../services/matchService';
 import { TournamentFightType } from '../../../types/TournamentFightType';
 import { ITeam } from '../../../types/ITeam';
+import { PlayoffNode } from '../../../types/IPlayoff';
 
 interface FightProps {
-    result: GroupResult;
     type: TournamentFightType;
     team1?: ITeam['id'];
     team2?: ITeam['id'];
+    nodeId?: PlayoffNode['id'];
 }
 
 export const Fight: React.FC<FightProps> = ({
-    result, type, team1, team2,
+    type, team1, team2, nodeId,
 }) => {
     const { id } = useTournamentContext();
 
@@ -23,13 +23,9 @@ export const Fight: React.FC<FightProps> = ({
         return null;
     }
 
-    if (!result) {
-        return (
-            <Link to={`/${Path.Tournaments}/${id}/${getMatchId(type, team1, team2)}`}>
-                Fight
-            </Link>
-        );
-    }
-
-    return <span>{result.join(':')}</span>;
+    return (
+        <Link to={`/${Path.Tournaments}/${id}/${getMatchId(type, team1, team2, nodeId)}`}>
+            Fight
+        </Link>
+    );
 };

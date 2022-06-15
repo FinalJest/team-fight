@@ -29,7 +29,7 @@ export const players = (
                 : player));
         case types.MAKE_PLAYERS_RETIRED:
             return state.map((player) => (action.payload.includes(player.id)
-                ? { ...player, isRetired: true, teamId: undefined }
+                ? { ...player, isRetired: true }
                 : player));
         case types.RECORD_TOURNAMENT_PARTICIPATION:
             return state.map((player) => {
@@ -41,7 +41,9 @@ export const players = (
 
                 return {
                     ...player,
-                    fame: player.fame + getFameFromPlacement(playerData.place, playerData.isMvp),
+                    fame: player.fame + (action.payload.isForFame
+                        ? getFameFromPlacement(playerData.place, playerData.isMvp)
+                        : 0),
                     history: [...player.history, {
                         tournamentId: action.payload.tournamentId,
                         teamId: playerData.teamId,

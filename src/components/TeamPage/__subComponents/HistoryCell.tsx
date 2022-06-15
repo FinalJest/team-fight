@@ -1,25 +1,21 @@
 import React from 'react';
 import { TableCell } from '@mui/material';
 
-interface GroupCellProps {
-    isBold?: boolean;
-    fontSize?: string;
+interface HistoryCellProps {
     backgroundColor?: string;
+    isBold?: boolean;
 }
 
-export const GroupCell: React.FC<GroupCellProps> = ({
+export const HistoryCell: React.FC<HistoryCellProps> = ({
     children,
-    isBold,
     backgroundColor,
-    fontSize,
+    isBold,
 }) => (
     <TableCell
         sx={{
             border: '1px solid gray',
-            maxWidth: '0px',
-            fontWeight: `${isBold ? 'bold' : 'auto'}`,
             backgroundColor,
-            fontSize,
+            fontWeight: isBold ? 'bold' : 'auto',
         }}
         align="center"
     >

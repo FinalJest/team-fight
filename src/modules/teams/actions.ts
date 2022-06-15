@@ -17,5 +17,5 @@ export const updateTeamRoster = (data: IUpdateRosterData | IUpdateRosterData[]) 
 export const promotePlayer = (teamId: ITeam['id'], playerId: IPlayer['id'], position: Position) =>
     action(types.PROMOTE_PLAYER, { playerId, teamId, position });
 export const removeTeam = (id: ITeam['id']) => action(types.REMOVE_TEAM, id);
-export const recordTournamentResult = (data: TeamTournamentData, tournamentId: ITournament['id']) =>
-    action(types.RECORD_TOURNAMENT_RESULT, { data, tournamentId });
+export const recordTournamentResult = (data: TeamTournamentData, tournamentId: ITournament['id'], isForFame: boolean) =>
+    action(types.RECORD_TOURNAMENT_RESULT, { data, tournamentId, isForFame });

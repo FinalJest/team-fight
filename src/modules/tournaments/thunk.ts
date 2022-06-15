@@ -3,9 +3,9 @@ import { ThunkActionResult } from '..';
 import { getSortedPlacements } from '../../services/groupService';
 import { getStrongestPlayer } from '../../services/playerService';
 import { getMainRosterPlayers } from '../../store/selectors';
-import { IPlacement } from '../../types/IPlacement';
-import { recordTournamentParticipation, recordTournamentResult } from '../actions';
+// import { recordTournamentParticipation, recordTournamentResult } from '../actions';
 import { recordTournamentEnd } from './actions';
+import { getPlayoffPlacements } from '../../services/playoffService';
 
 export const finishTournament = (id?: string): ThunkActionResult<void> => (dispatch, getState) => {
     if (id === undefined) {
@@ -14,23 +14,26 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
 
     const state = getState();
 
-    let placements: IPlacement[] = [];
+    let placements: string[] = [];
 
-    state.tournaments.forEach((tournament) => {
-        if (tournament.playoff) {
-            placements = []; // TODO: playoff logic
-        } else if (tournament.group) {
-            placements = getSortedPlacements(tournament.group.results);
-        }
-    });
+    const tournament = state.tournaments.find((tourney) => tourney.id === id);
 
-    const formattedPlacements = placements.map((placement) => placement.id);
+    if (!tournament) {
+        return;
+    }
+
+    if (tournament.playoff) {
+        placements = getPlayoffPlacements(tournament.playoff);
+    } else if (tournament.group) {
+        placements = getSortedPlacements(tournament.group.results).map((placement) => placement.id);
+    }
+
     let playersTournamentData = {};
     let teamsTournamentData = {};
     let mvpId: string | undefined;
 
-    for (let i = 0; i < formattedPlacements.length; i++) {
-        const teamId = formattedPlacements[i];
+    for (let i = 0; i < placements.length; i++) {
+        const teamId = placements[i];
         const roster = getMainRosterPlayers(teamId)(state);
         mvpId = i === 0 ? getStrongestPlayer(roster)?.id : mvpId;
         const place = i + 1;
@@ -48,8 +51,8 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
     }
 
     batch(() => {
-        dispatch(recordTournamentParticipation(playersTournamentData, id));
-        dispatch(recordTournamentResult(teamsTournamentData, id));
-        dispatch(recordTournamentEnd(id, formattedPlacements, mvpId));
+        // dispatch(recordTournamentParticipation(playersTournamentData, id, tournament.isForFame));
+        // dispatch(recordTournamentResult(teamsTournamentData, id, tournament.isForFame));
+        dispatch(recordTournamentEnd(id, placements, mvpId));
     });
 };

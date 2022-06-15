@@ -29,6 +29,7 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
     } = useModal(onClose);
     const [currentPosition, setCurrentPosition] = React.useState<GeneratePosition | undefined>(undefined);
     const [currentTeam, setCurrentTeam] = React.useState<string>(NO_TEAM_VALUE);
+    const [isAdding, setIsAdding] = React.useState(false);
     const handleChangePosition = (e: SelectChangeEvent): void => {
         setCurrentPosition(e.target.value as GeneratePosition);
     };
@@ -36,9 +37,8 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
         setCurrentTeam(id);
     };
     const dispatch = useReduxDispatch();
-    const handleSubmit = (e: React.FormEvent): void => {
-        e.preventDefault();
-        if (formRef.current) {
+    const handleAdd = (onAdd?: () => void): void => {
+        if (formRef.current && !isAdding) {
             const {
                 playerName,
                 potential,
@@ -46,6 +46,7 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
                 mental,
             } = getBasicFields();
             const generatePlayerOption = getGeneratePlayerValue();
+            setIsAdding(true);
             generatePlayerFromTemplate({
                 name: playerName,
                 skill,
@@ -54,10 +55,20 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
                 position: currentPosition === 'random' ? undefined : currentPosition,
                 teamId: currentTeam !== NO_TEAM_VALUE ? currentTeam : undefined,
             }, generatePlayerOption === GeneratePlayerOption.Rookie).then((player) => {
+                setIsAdding(false);
                 dispatch(addPlayers([player]));
-                onModalClose();
+                if (onAdd) {
+                    onAdd();
+                }
             });
         }
+    };
+    const handleSubmit = (e: React.FormEvent): void => {
+        e.preventDefault();
+        handleAdd(onModalClose);
+    };
+    const handleAddAndRemain = (): void => {
+        handleAdd();
     };
     const buttonElement = ButtonComponent
         ? (
@@ -89,7 +100,8 @@ export const AddPlayer: React.FC<BaseModalProps> = ({ ButtonComponent, onClose }
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={onModalClose}>Cancel</Button>
-                        <Button type="submit">Add</Button>
+                        <Button disabled={isAdding} type="submit">Add</Button>
+                        <Button disabled={isAdding} onClick={handleAddAndRemain}>Add and Remain</Button>
                     </DialogActions>
                 </form>
             </Dialog>

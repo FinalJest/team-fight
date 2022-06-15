@@ -13,12 +13,11 @@ import { NO_TEAM_VALUE } from '../../TeamSelect';
 import {
     getLoses, getPlaces, getPoints, getWins,
 } from '../../../services/groupService';
-import { Fight } from './Fight';
-import { TournamentFightType } from '../../../types/TournamentFightType';
 import { useTournamentContext } from '../TournamentContext';
 import { getColorFromPlace } from '../../../services/placementService';
 import { isStronger } from '../../../services/comparisonService';
 import { ITeam } from '../../../types/ITeam';
+import { GroupFight } from './GroupFight';
 
 interface GroupProps {
     name: string;
@@ -34,14 +33,14 @@ export const Group: React.FC<GroupProps> = ({
     teams,
 }) => {
     const teamsById = useSelector(getTeamsRecord);
-    const places = getPlaces(results);
     const { isFinished } = useTournamentContext();
+    const places = getPlaces(results, isFinished);
     const sortedTeams: Record<ITeam['id'], number> = teams
         .filter<string>((teamId): teamId is string => teamId !== undefined)
         .sort((teamA, teamB) =>
             (isStronger(
-                [teamsById[teamA].power, teamsById[teamA].mental],
-                [teamsById[teamB].power, teamsById[teamB].mental],
+                [teamsById[teamA]?.power, teamsById[teamA]?.mental],
+                [teamsById[teamB]?.power, teamsById[teamB]?.mental],
             ) ? 1 : -1))
         .reduce((result, teamId, index) => ({
             ...result,
@@ -75,9 +74,11 @@ export const Group: React.FC<GroupProps> = ({
                         <GroupCell>
                             Place
                         </GroupCell>
-                        <GroupCell>
-                            Prediction (Skill)
-                        </GroupCell>
+                        {!isFinished && (
+                            <GroupCell>
+                                Prediction (Skill)
+                            </GroupCell>
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -108,7 +109,6 @@ export const Group: React.FC<GroupProps> = ({
                                                 <TeamLogo
                                                     id={teamForRow.id}
                                                     size={ComponentSize.M}
-                                                    src={teamForRow.logoUrl}
                                                 />
                                             )
                                             : '';
@@ -118,9 +118,8 @@ export const Group: React.FC<GroupProps> = ({
                                             : teamResults && teamResults[oppositeTeamId];
                                         if (result || !isFinished) {
                                             content = (
-                                                <Fight
+                                                <GroupFight
                                                     result={result}
-                                                    type={TournamentFightType.Group}
                                                     team1={teamId}
                                                     team2={oppositeTeamId}
                                                 />
@@ -140,18 +139,24 @@ export const Group: React.FC<GroupProps> = ({
                                 <GroupCell>
                                     {teamResults && getLoses(teamResults)}
                                 </GroupCell>
-                                <GroupCell isBold>
+                                <GroupCell
+                                    isBold
+                                    fontSize="20px"
+                                >
                                     {teamResults && getPoints(teamResults)}
                                 </GroupCell>
                                 <GroupCell
                                     isBold
+                                    fontSize="20px"
                                     backgroundColor={teamId ? getColorFromPlace(places[teamId]) : undefined}
                                 >
                                     {teamId !== undefined ? places[teamId] : ''}
                                 </GroupCell>
-                                <GroupCell>
-                                    {teamPlace !== undefined ? `${teamPlace} (${teamForRow?.power})` : ''}
-                                </GroupCell>
+                                {!isFinished && (
+                                    <GroupCell>
+                                        {teamPlace !== undefined ? `${teamPlace} (${teamForRow?.power})` : ''}
+                                    </GroupCell>
+                                )}
                             </TableRow>
                         );
                     })}

@@ -13,12 +13,12 @@ interface StatsProps {
 }
 
 export const Stats: React.FC<StatsProps> = ({ data }) => {
-    const { mvp, winner } = useSelector((state: ReduxState) => ({
-        winner: getTeamById(data.placements && data.placements[0])(state),
+    const { mvp, winnerId } = useSelector((state: ReduxState) => ({
+        winnerId: getTeamById(data.placements && data.placements[0])(state)?.id,
         mvp: getPlayerById(data.mvpId)(state),
     }));
 
-    if (!winner) {
+    if (winnerId === undefined) {
         return null;
     }
 
@@ -29,7 +29,7 @@ export const Stats: React.FC<StatsProps> = ({ data }) => {
         },
         {
             name: 'Winner',
-            data: <TeamLogo src={winner.logoUrl} id={winner.id} />,
+            data: <TeamLogo id={winnerId} />,
         },
         {
             name: 'MVP',

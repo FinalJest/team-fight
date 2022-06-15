@@ -1,12 +1,16 @@
 import {
-    Table, TableBody, TableCell, TableHead, TableRow,
+    Table, TableBody, TableRow,
 } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { ReduxState } from '../../../modules';
 import { getColorFromPlace } from '../../../services/placementService';
 import { getTournamentById } from '../../../store/selectors';
 import { ITeam } from '../../../types/ITeam';
+import { RosterHistory } from './RosterHistory';
+import { HistoryCell } from './HistoryCell';
+import { Path } from '../../../enums/Path';
 
 interface HistoryProps {
     data: ITeam['history'];
@@ -16,36 +20,31 @@ export const TeamHistory: React.FC<HistoryProps> = ({ data }) => {
     const dataWithNames = useSelector((state: ReduxState) => data.map((item) => ({
         tournamentId: item.tournamentId,
         tournamentName: getTournamentById(item.tournamentId)(state)?.name ?? '',
+        roster: item.roster,
         place: item.place,
+        isForFame: state.tournaments.find((tourney) => tourney.id === item.tournamentId)?.isForFame,
     })));
 
     return (
         <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell align="left">
-                        Tournament Name
-                    </TableCell>
-                    <TableCell align="right">
-                        Place
-                    </TableCell>
-                </TableRow>
-            </TableHead>
             <TableBody>
-                {dataWithNames.map(({
-                    tournamentId,
-                    tournamentName,
-                    place,
-                }) => (
-                    <TableRow key={tournamentId} sx={{ backgroundColor: getColorFromPlace(place) }}>
-                        <TableCell align="left">
-                            {tournamentName}
-                        </TableCell>
-                        <TableCell align="right">
+                <TableRow>
+                    {dataWithNames.map(({ tournamentId, tournamentName }) => (
+                        <HistoryCell key={tournamentId} isBold>
+                            <Link to={`/${Path.Tournaments}/${tournamentId}`}>
+                                {tournamentName}
+                            </Link>
+                        </HistoryCell>
+                    ))}
+                </TableRow>
+                <TableRow>
+                    {dataWithNames.map(({ tournamentId, place, isForFame }) => (
+                        <HistoryCell key={tournamentId} backgroundColor={isForFame ? getColorFromPlace(place) : 'auto'}>
                             {place}
-                        </TableCell>
-                    </TableRow>
-                ))}
+                        </HistoryCell>
+                    ))}
+                </TableRow>
+                <RosterHistory data={dataWithNames} />
             </TableBody>
         </Table>
     );
