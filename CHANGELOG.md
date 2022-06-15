@@ -15,6 +15,7 @@ Players and Teams:
 * Teams with incomplete roster display with red names now.
 * Players are now sorted by positions, teams by fame.
 * Stores and displays team main roster history.
+* Added option to add players without closing modal.
 
 Tournaments:
 
