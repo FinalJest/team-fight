@@ -10,6 +10,7 @@ import { initialAppState } from './app';
 import { initialPlayersState } from './players';
 import { initialTeamsState } from './teams';
 import { initialTournamentState } from './tournaments';
+import { initialFreeMarketState } from './freeMarket';
 
 // Redux/TS/typesafe-actions don't mesh well, can't declare it without recursion
 const setLocalStorageState = (state: unknown): void => {
@@ -18,6 +19,7 @@ const setLocalStorageState = (state: unknown): void => {
 
 export const initialBasicState = {
     app: initialAppState,
+    freeMarket: initialFreeMarketState,
     players: initialPlayersState,
     teams: initialTeamsState,
     tournaments: initialTournamentState,

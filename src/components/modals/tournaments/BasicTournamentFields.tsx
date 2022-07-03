@@ -65,7 +65,7 @@ export const BasicTournamentFields: React.FC<BasicTournamentModalProps> = ({
         />
         <TextField
             id={PLAYOFF_TEAMS_COUNT_ID}
-            label="Playoff Teams Count"
+            label="Playoff TeamsPage Count"
             defaultValue={defaultPlayoffTeamsCount ?? 0}
             fullWidth
             type="number"

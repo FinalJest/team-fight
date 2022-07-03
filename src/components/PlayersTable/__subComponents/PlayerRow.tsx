@@ -27,10 +27,18 @@ const getRowBgColor = (position: Position): string => {
 interface PlayerRowProps {
     player: IPlayer;
     shouldDisplayTeam?: boolean;
+    shouldHaveStandardActions?: boolean;
     isSub?: boolean;
+    additionalCells?: React.ReactElement[];
 }
 
-export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam, isSub }) => (
+export const PlayerRow: React.FC<PlayerRowProps> = ({
+    player,
+    shouldDisplayTeam,
+    shouldHaveStandardActions,
+    isSub,
+    additionalCells,
+}) => (
     <TableRow
         sx={{ backgroundColor: getRowBgColor(player.position), opacity: isSub || player.isRetired ? 0.5 : 'auto' }}
     >
@@ -59,14 +67,23 @@ export const PlayerRow: React.FC<PlayerRowProps> = ({ player, shouldDisplayTeam,
                 {player.teamId ? <TeamLogo id={player.teamId} /> : '-'}
             </TableCell>
         )}
-        <TableCell align="right">
-            <ActionMenu
-                playerId={player.id}
-                teamId={player.teamId}
-                position={player.position}
-                isSub={isSub}
-                isRetired={player.isRetired}
-            />
-        </TableCell>
+        {shouldHaveStandardActions && (
+            <TableCell align="right">
+                <ActionMenu
+                    playerId={player.id}
+                    teamId={player.teamId}
+                    position={player.position}
+                    isSub={isSub}
+                    isRetired={player.isRetired}
+                />
+            </TableCell>
+        )}
+        {additionalCells && additionalCells.map((element, index) => (
+            // no appropriate key, order of cells won't change
+            // eslint-disable-next-line react/no-array-index-key
+            <TableCell key={index} align="right">
+                {element}
+            </TableCell>
+        ))}
     </TableRow>
 );

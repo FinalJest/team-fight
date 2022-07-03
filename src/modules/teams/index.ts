@@ -5,6 +5,7 @@ import * as types from './actionTypes';
 import { TeamsState } from '../../types/TeamsState';
 import { IRosterIds } from '../../types/IRoster';
 import { getFameFromPlacement } from '../../services/placementService';
+import { createRosterWithPlayer } from '../../services/teamService';
 
 export const initialTeamsState = [];
 
@@ -19,6 +20,23 @@ export const teams = (
             return state.map((team) => (team.id === action.payload.id
                 ? { ...team, ...action.payload }
                 : team));
+        case types.ASSIGN_PLAYER_TO_ROSTER:
+            return state.map((team) => {
+                const { player, teamId: changedTeamId } = action.payload;
+                if (team.id !== changedTeamId) {
+                    return team;
+                }
+
+                const { roster } = team;
+                const newRoster = createRosterWithPlayer(player, roster);
+                return {
+                    ...team,
+                    roster: {
+                        ...roster,
+                        ...newRoster,
+                    },
+                };
+            });
         case types.UPDATE_TEAM_ROSTER:
             return state.map((team) => {
                 let newRoster: IRosterIds | undefined;

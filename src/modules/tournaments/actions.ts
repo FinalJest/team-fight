@@ -6,6 +6,7 @@ import { ITournament } from '../../types/ITournament';
 import { ITeam } from '../../types/ITeam';
 import { IPlayer } from '../../types/IPlayer';
 
+/** These actions could be called directly */
 export const addTournament = (
     name: string,
     teamCount: number,
@@ -15,7 +16,6 @@ export const addTournament = (
 ) => action(types.ADD_TOURNAMENT, {
     name, teamCount, groupsCount, isForFame, playoffTeamCount,
 });
-
 export const addTeamToTournamentGroup = (
     tournamentId: ITournament['id'],
     groupName: string,
@@ -27,7 +27,6 @@ export const addTeamToTournamentGroup = (
     groupName,
     indexInGroup,
 });
-
 export const addTeamToPlayoffNode = (
     tournamentId: ITournament['id'],
     nodeId: PlayoffNode['id'],
@@ -39,7 +38,6 @@ export const addTeamToPlayoffNode = (
     part,
     teamId,
 });
-
 export const addResultToGroup = (
     tournamentId: ITournament['id'],
     team1: ITeam['id'],
@@ -51,7 +49,6 @@ export const addResultToGroup = (
     team2,
     score,
 });
-
 export const addResultToPlayoff = (
     tournamentId: ITournament['id'],
     nodeId: PlayoffNode['id'],
@@ -61,7 +58,6 @@ export const addResultToPlayoff = (
     nodeId,
     score,
 });
-
 export const editTournament = (
     id: ITournament['id'],
     name: string,
@@ -73,8 +69,8 @@ export const editTournament = (
     action(types.EDIT_TOURNAMENT, {
         name, teamCount, groupsCount, isForFame, playoffTeamsCount, id,
     });
-
 export const deleteTournament = (id: ITournament['id']) => action(types.DELETE_TOURNAMENT, id);
 
+/** Only use these actions in thunks, do NOT dispatch directly */
 export const recordTournamentEnd = (tournamentId: ITournament['id'], placements?: string[], mvpId?: IPlayer['id']) =>
     action(types.RECORD_TOURNAMENT_END, { tournamentId, placements, mvpId });

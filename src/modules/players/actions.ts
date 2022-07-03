@@ -14,11 +14,14 @@ interface PlayerTournamentData {
 type TournamentData = Record<IPlayer['id'], PlayerTournamentData>;
 type EditData = Partial<IPlayer> & { id: IPlayer['id'] };
 
+/** Only use these actions in thunks, do NOT dispatch directly */
 export const addPremadePlayers = (players: IPlayer[]) => action(types.ADD_PREMADE_PLAYERS, players);
 export const editPlayer = (newData: EditData) => action(types.EDIT_PLAYER, newData);
 export const editPlayers = (newData: Record<IPlayer['id'], Partial<IPlayer>>) => action(types.EDIT_PLAYERS, newData);
 export const removePlayer = (id: IPlayer['id']) => action(types.REMOVE_PLAYER, id);
 export const removePlayers = (ids: IPlayer['id'][]) => action(types.REMOVE_PLAYERS, ids);
+export const assignTeamToPlayer = (id: IPlayer['id'], teamId: ITeam['id']) =>
+    action(types.ASSIGN_TEAM_TO_PLAYER, { id, teamId });
 export const makePlayersTeamless = (ids: IPlayer['id'][]) => action(types.MAKE_PLAYERS_TEAMLESS, ids);
 export const recordTournamentParticipation = (
     data: TournamentData,

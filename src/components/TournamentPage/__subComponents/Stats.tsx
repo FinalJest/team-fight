@@ -6,7 +6,7 @@ import { ReduxState } from '../../../modules';
 import { getPlayerById, getTeamById } from '../../../store/selectors';
 import { Path } from '../../../enums/Path';
 import { TeamLogo } from '../../TeamLogo';
-import { StatBlock } from '../../StatBlock';
+import { Stat, StatBlock } from '../../StatBlock';
 
 interface StatsProps {
     data: ITournament;
@@ -22,7 +22,7 @@ export const Stats: React.FC<StatsProps> = ({ data }) => {
         return null;
     }
 
-    const statData = [
+    const statData: Stat[] = [
         {
             name: 'Team Count',
             data: `${data.teamCount}`,

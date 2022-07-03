@@ -9,8 +9,10 @@ const Container = styled.div`
     border: 1px solid black;
 `;
 
+export type Stat = { name: string; data: string | React.ReactElement };
+
 interface StatBlockProps {
-    data: Array<{ name: string; data: string | React.ReactElement }>;
+    data: Stat[];
 }
 
 export const StatBlock: React.FC<StatBlockProps> = ({ data }) => (
