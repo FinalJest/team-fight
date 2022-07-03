@@ -13,8 +13,10 @@ import { TournamentPage } from '../TournamentPage';
 import { TournamentFightSubpage } from '../TournamentFightSubpage';
 import { FreeMarketPage } from '../FreeMarketPage';
 import { NotificationsLayout } from '../NotificationsLayout';
+import { UpButton } from '../UpButton';
 
 const StyledApp = styled.div`
+    position: relative;
     text-align: center;
 `;
 
@@ -71,6 +73,7 @@ export const App: React.FC = () => (
                     </Route>
                 </Routes>
             </Content>
+            <UpButton />
         </StyledApp>
     </NotificationsLayout>
 );

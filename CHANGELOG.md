@@ -4,8 +4,9 @@
 
 ### Features:
 
-* Free Market page is now functional
-* Notifications
+* Free Market page is now functional.
+* Notifications.
+* Scroll Up button.
 * Total Roster Fame is now calculated and displayed.
 
 ## 2.0.1
