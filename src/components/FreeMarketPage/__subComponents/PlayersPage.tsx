@@ -53,7 +53,14 @@ export const PlayersPage: React.FC<PlayersPageProps> = ({
                 if (!interestedTeams) {
                     return null;
                 }
-                return <PlayerBlock player={player} interestedTeams={interestedTeams} rosters={rosters} />;
+                return (
+                    <PlayerBlock
+                        key={player.id}
+                        player={player}
+                        interestedTeams={interestedTeams}
+                        rosters={rosters}
+                    />
+                );
             })}
         </>
     );

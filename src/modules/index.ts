@@ -32,7 +32,11 @@ export const rootReducer = (state: any, action: ReduxActions) => {
     const appReducer = combineReducers(reducers);
     let newState;
     if (action.type === types.RESET_STATE) {
-        newState = appReducer({ ...(action.payload ?? initialBasicState), app: state.app }, action);
+        newState = appReducer({
+            ...(action.payload
+                ? { ...action.payload, app: state.app }
+                : initialBasicState),
+        }, action);
     } else {
         newState = appReducer(state, action);
     }
