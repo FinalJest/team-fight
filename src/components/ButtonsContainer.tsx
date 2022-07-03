@@ -5,4 +5,6 @@ export const ButtonsContainer = styled.div`
     position: fixed;
     column-gap: 20px;
     bottom: 12px;
+    justify-content: center;
+    width: 100%;
 `;

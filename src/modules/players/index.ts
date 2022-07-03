@@ -23,6 +23,10 @@ export const players = (
             return state.filter((player) => player.id !== action.payload);
         case types.REMOVE_PLAYERS:
             return state.filter((player) => !action.payload.includes(player.id));
+        case types.ASSIGN_TEAM_TO_PLAYER:
+            return state.map((player) => (player.id === action.payload.id
+                ? { ...player, teamId: action.payload.teamId }
+                : player));
         case types.MAKE_PLAYERS_TEAMLESS:
             return state.map((player) => (action.payload.includes(player.id)
                 ? { ...player, teamId: undefined }

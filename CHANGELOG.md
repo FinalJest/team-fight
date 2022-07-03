@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.0
+
+### Features:
+
+* Free Market page is now functional
+* Notifications
+* Total Roster Fame is now calculated and displayed.
+
 ## 2.0.1
 
 * Fixed issue with teams and players not recording tournaments.
@@ -13,11 +21,11 @@ Games:
 
 * Added Best of 2 games option.
 
-Players and Teams:
+Players and TeamsPage:
 
 * Added option to move players to Free Market now.
 * Added option to filter players to display Free Market.
-* Teams with incomplete roster display with red names now.
+* TeamsPage with incomplete roster display with red names now.
 * Players are now sorted by positions, teams by fame.
 * Stores and displays team main roster history.
 * Added option to add players without closing modal.
@@ -64,7 +72,7 @@ Other:
 
 ## 1.0.0
 
-* Teams Page is now displayed as table
+* TeamsPage Page is now displayed as table
 * Added Tournament history for players and teams
 * Tuned retirement and progress logic
 

@@ -13,4 +13,7 @@ export interface ITeam {
     fame: number;
     roster: IRosterIds;
     history: ITeamHistoryItem[];
+    isDisabled: boolean;
 }
+
+export type TeamWithStats = ITeam & { power: number; mental: number; rosterFame: number };

@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../modules';
-import { StatBlock } from '../StatBlock';
+import { Stat, StatBlock } from '../StatBlock';
 import { TeamLogo } from '../TeamLogo';
 import { EditPlayer } from '../modals/player/EditPlayer';
 import { DeletePlayer } from '../modals/player/DeletePlayer';
@@ -28,7 +28,7 @@ export const PlayerPage: React.FC = () => {
         return null;
     }
 
-    const statData = [
+    const statData: Stat[] = [
         {
             name: 'Team',
             data: team ? <TeamLogo id={team.id} /> : '-',

@@ -27,19 +27,19 @@ Features are being developed
 * Migration of data
 * Default starting data available
 * Separate League type of Group tournament
-* Groups can have multiple games between same teams
 * Losing bracket in playoffs
-* Separate Free Market page
-* Transfer page
+* Separate Free Market page (+)
 * Teams store records against each other
 * Unit test coverage
 
 ## v4
 
 * Double elimination play-offs
+* Groups can have multiple games between same teams
 * Rework of visuals
 * Sorting tables
 * Drag-n-drop UI where appropriate
+* Transfer page
 * 404 page
 * Extensive test Coverage
 

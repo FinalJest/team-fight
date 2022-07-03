@@ -11,6 +11,8 @@ import { PlayerPage } from '../PlayerPage';
 import { TournamentsPage } from '../TournamentsPage';
 import { TournamentPage } from '../TournamentPage';
 import { TournamentFightSubpage } from '../TournamentFightSubpage';
+import { FreeMarketPage } from '../FreeMarketPage';
+import { NotificationsLayout } from '../NotificationsLayout';
 
 const StyledApp = styled.div`
     text-align: center;
@@ -36,35 +38,39 @@ const StyledLink = styled(Link)`
 `;
 
 export const App: React.FC = () => (
-    <StyledApp>
-        <Header>
-            <StyledLink to={Path.Teams}>Teams</StyledLink>
-            <StyledLink to={Path.Players}>Players</StyledLink>
-            <StyledLink to={Path.Fight}>Fight</StyledLink>
-            <StyledLink to={Path.Tournaments}>Tournaments</StyledLink>
-            <StyledLink to={Path.Settings}>Settings</StyledLink>
-        </Header>
-        <Content>
-            <Routes>
-                <Route path="/" element={<FightPage />} />
-                <Route path={Path.Teams}>
-                    <Route path="" element={<TeamsList />} />
-                    <Route path=":teamId" element={<TeamPage />} />
-                </Route>
-                <Route path={Path.Players}>
-                    <Route path="" element={<PlayersList />} />
-                    <Route path=":playerId" element={<PlayerPage />} />
-                </Route>
-                <Route path={Path.Fight} element={<FightPage />} />
-                <Route path={Path.Settings} element={<SettingsPage />} />
-                <Route path={Path.Tournaments}>
-                    <Route path="" element={<TournamentsPage />} />
-                    <Route path=":tournamentId">
-                        <Route path="" element={<TournamentPage />} />
-                        <Route path=":matchId" element={<TournamentFightSubpage />} />
+    <NotificationsLayout>
+        <StyledApp>
+            <Header>
+                <StyledLink to={Path.Teams}>Teams</StyledLink>
+                <StyledLink to={Path.Players}>Players</StyledLink>
+                <StyledLink to={Path.FreeMarket}>Free Market</StyledLink>
+                <StyledLink to={Path.Fight}>Fight</StyledLink>
+                <StyledLink to={Path.Tournaments}>Tournaments</StyledLink>
+                <StyledLink to={Path.Settings}>Settings</StyledLink>
+            </Header>
+            <Content>
+                <Routes>
+                    <Route path="/" element={<FightPage />} />
+                    <Route path={Path.Teams}>
+                        <Route path="" element={<TeamsList />} />
+                        <Route path=":teamId" element={<TeamPage />} />
                     </Route>
-                </Route>
-            </Routes>
-        </Content>
-    </StyledApp>
+                    <Route path={Path.Players}>
+                        <Route path="" element={<PlayersList />} />
+                        <Route path=":playerId" element={<PlayerPage />} />
+                    </Route>
+                    <Route path={Path.Fight} element={<FightPage />} />
+                    <Route path={Path.Settings} element={<SettingsPage />} />
+                    <Route path={Path.FreeMarket} element={<FreeMarketPage />} />
+                    <Route path={Path.Tournaments}>
+                        <Route path="" element={<TournamentsPage />} />
+                        <Route path=":tournamentId">
+                            <Route path="" element={<TournamentPage />} />
+                            <Route path=":matchId" element={<TournamentFightSubpage />} />
+                        </Route>
+                    </Route>
+                </Routes>
+            </Content>
+        </StyledApp>
+    </NotificationsLayout>
 );

@@ -9,15 +9,23 @@ interface RowData {
     data: IPlayer;
 
     isSub?: boolean;
+    additionalCells?: React.ReactElement[];
 }
 
 interface PlayersTableProps {
     rowsData: RowData[];
 
+    additionalHeaders?: string[];
     shouldDisplayTeam?: boolean;
+    shouldHaveStandardActions?: boolean;
 }
 
-export const PlayersTable: React.FC<PlayersTableProps> = ({ rowsData, shouldDisplayTeam }) => (
+export const PlayersTable: React.FC<PlayersTableProps> = ({
+    rowsData,
+    shouldDisplayTeam,
+    shouldHaveStandardActions = true,
+    additionalHeaders,
+}) => (
     <Table>
         <TableHead>
             <TableRow>
@@ -44,14 +52,28 @@ export const PlayersTable: React.FC<PlayersTableProps> = ({ rowsData, shouldDisp
                         Team
                     </TableCell>
                 )}
-                <TableCell align="right">
-                    Actions
-                </TableCell>
+                {shouldHaveStandardActions && (
+                    <TableCell align="right">
+                        Actions
+                    </TableCell>
+                )}
+                {additionalHeaders && additionalHeaders.map((header) => (
+                    <TableCell key={header} align="right">
+                        {header}
+                    </TableCell>
+                ))}
             </TableRow>
         </TableHead>
         <TableBody>
-            {rowsData.map(({ data, isSub }) => (
-                <PlayerRow player={data} shouldDisplayTeam={shouldDisplayTeam} key={data.id} isSub={isSub} />
+            {rowsData.map(({ data, isSub, additionalCells }) => (
+                <PlayerRow
+                    player={data}
+                    shouldHaveStandardActions={shouldHaveStandardActions}
+                    shouldDisplayTeam={shouldDisplayTeam}
+                    key={data.id}
+                    additionalCells={additionalCells}
+                    isSub={isSub}
+                />
             ))}
         </TableBody>
     </Table>

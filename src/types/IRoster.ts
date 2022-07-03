@@ -10,9 +10,9 @@ export interface IRosterIds {
 }
 
 export interface IRoster {
-    top: IPlayer;
-    jungle: IPlayer;
-    mid: IPlayer;
-    carry: IPlayer;
-    support: IPlayer;
+    top?: IPlayer;
+    jungle?: IPlayer;
+    mid?: IPlayer;
+    carry?: IPlayer;
+    support?: IPlayer;
 }

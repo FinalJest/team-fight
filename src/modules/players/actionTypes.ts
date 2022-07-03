@@ -3,6 +3,7 @@ export const EDIT_PLAYER = 'players/EDIT_PLAYER';
 export const EDIT_PLAYERS = 'players/EDIT_PLAYERS';
 export const REMOVE_PLAYER = 'players/REMOVE_PLAYER';
 export const REMOVE_PLAYERS = 'players/REMOVE_PLAYERS';
+export const ASSIGN_TEAM_TO_PLAYER = 'players/ASSIGN_TEAM_TO_PLAYER';
 export const MAKE_PLAYERS_TEAMLESS = 'players/MAKE_PLAYERS_TEAMLESS';
 export const MAKE_PLAYERS_RETIRED = 'players/MAKE_PLAYERS_RETIRED';
 export const RECORD_TOURNAMENT_PARTICIPATION = 'players/RECORD_TOURNAMENT_PARTICIPATION';

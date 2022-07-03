@@ -117,3 +117,17 @@ export const getStrongestPlayer = (players: IPlayer[]): IPlayer | undefined => {
 
     return strongestPlayer;
 };
+
+/** Positive - first is more attractive, negative - second is more attractive, zero - equal */
+export const getAttractionDifference = (player: IPlayer, opposingPlayer?: IPlayer): number => {
+    if (!opposingPlayer) {
+        return Infinity;
+    }
+    const skillDiff = player.skill - opposingPlayer.skill;
+    const potentialDiff = player.potential - opposingPlayer.potential;
+    const mentalDiff = player.mental - opposingPlayer.mental;
+    const fameDiff = player.fame - opposingPlayer.fame;
+    const calculatedDiff = skillDiff + potentialDiff * 3;
+
+    return calculatedDiff || mentalDiff || fameDiff;
+};

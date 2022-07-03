@@ -1,7 +1,13 @@
 import { ThunkActionResult } from '../index';
-import { updateTeamRoster } from '../teams/actions';
+import { assignPlayerToRoster, updateTeamRoster } from '../teams/actions';
 import {
-    addPremadePlayers, editPlayer, editPlayers, makePlayersRetired, makePlayersTeamless, removePlayer,
+    addPremadePlayers,
+    assignTeamToPlayer,
+    editPlayer,
+    editPlayers,
+    makePlayersRetired,
+    makePlayersTeamless,
+    removePlayer,
 } from './actions';
 import { IPlayer } from '../../types/IPlayer';
 import { IRosterIds } from '../../types/IRoster';
@@ -9,21 +15,7 @@ import { getPlayerById, getPlayersByIds, getTeamById } from '../../store/selecto
 import { ITeam } from '../../types/ITeam';
 import { getRandomInt } from '../../services/randomGenerator';
 import { IUpdateRosterData } from '../../types/IUpdateRosterData';
-
-const removePlayersFromRoster = (players: IPlayer[], roster: IRosterIds): IRosterIds =>
-    players.reduce((result, player) => {
-        const wasOnMainTeam = roster[player.position] === player.id;
-        return wasOnMainTeam
-            ? { ...result, [player.position]: undefined }
-            : { ...result, other: result.other && roster.other!.filter((sub) => sub !== player.id) };
-    }, { other: roster.other });
-
-const addPlayerToRoster = (player: IPlayer, roster: IRosterIds): IRosterIds => {
-    const hasPlayerOnMainTeam = Boolean(roster[player.position]);
-    return hasPlayerOnMainTeam
-        ? { other: roster.other ? [...roster.other, player.id] : [player.id] }
-        : { [player.position]: player.id };
-};
+import { createRosterWithPlayer, removePlayersFromRoster } from '../../services/teamService';
 
 export const removePlayersFromTeam = (ids: IPlayer['id'][]): ThunkActionResult<void> => (
     dispatch,
@@ -58,21 +50,25 @@ export const removePlayersFromTeam = (ids: IPlayer['id'][]): ThunkActionResult<v
     dispatch(makePlayersTeamless(ids));
 };
 
-export const transferPlayer = (player: IPlayer, oldTeam?: ITeam, newTeam?: ITeam): ThunkActionResult<void> => (
+export const changePlayersTeam = (player: IPlayer, newTeamId?: ITeam['id']): ThunkActionResult<void> => (
     dispatch,
 ) => {
-    if (oldTeam?.id !== undefined) {
+    if (player.teamId !== undefined) {
         dispatch(removePlayersFromTeam([player.id]));
     }
-    if (newTeam?.id !== undefined) {
-        const newRoster = addPlayerToRoster(player, newTeam.roster);
-        dispatch(updateTeamRoster({
-            id: newTeam.id,
-            roster: newRoster,
-        }));
-    } else {
-        dispatch(makePlayersTeamless([player.id]));
+    if (newTeamId !== undefined) {
+        dispatch(assignPlayerToRoster(newTeamId, player));
+        dispatch(assignTeamToPlayer(player.id, newTeamId));
     }
+};
+
+export const replacePlayer = (newPlayer: IPlayer, oldPlayer: IPlayer): ThunkActionResult<void> => (dispatch) => {
+    const { teamId } = oldPlayer;
+    if (teamId === undefined) {
+        throw new Error('Replacing player with no team.');
+    }
+    dispatch(changePlayersTeam(oldPlayer));
+    dispatch(changePlayersTeam(newPlayer, teamId));
 };
 
 export const addPlayers = (players: IPlayer[]): ThunkActionResult<void> => (dispatch, getState) => {
@@ -82,11 +78,11 @@ export const addPlayers = (players: IPlayer[]): ThunkActionResult<void> => (disp
         const { teamId } = player;
         if (teamId !== undefined) {
             if (teamsToUpdate[teamId]) {
-                teamsToUpdate[teamId] = addPlayerToRoster(player, teamsToUpdate[teamId]);
+                teamsToUpdate[teamId] = createRosterWithPlayer(player, teamsToUpdate[teamId]);
             } else {
                 const teamData = teams.find((iteratedTeam) => iteratedTeam.id === teamId);
                 if (teamData) {
-                    teamsToUpdate[teamId] = addPlayerToRoster(player, teamData.roster);
+                    teamsToUpdate[teamId] = createRosterWithPlayer(player, teamData.roster);
                 }
             }
         }
@@ -108,7 +104,7 @@ export const updatePlayer = (newData: Partial<IPlayer> & { id: string }): ThunkA
     const newTeam = getTeamById(newData.teamId)(state);
 
     if (player && newTeam?.id !== oldTeam?.id) {
-        dispatch(transferPlayer(player, oldTeam, newTeam));
+        dispatch(changePlayersTeam(player, newTeam?.id));
     }
     dispatch(editPlayer(newData));
 };
