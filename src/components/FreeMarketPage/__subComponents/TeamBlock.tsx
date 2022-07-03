@@ -16,7 +16,7 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-    opacity: ${({ hasAlreadyTransferred }) => (hasAlreadyTransferred ? 0.5 : 1)};
+    opacity: ${({ hasAlreadyTransferred }) => (hasAlreadyTransferred ? 0.3 : 1)};
     padding: 8px 4px;
 `;
 
@@ -27,7 +27,7 @@ interface TeamBlockProps {
 }
 
 export const TeamBlock: React.FC<TeamBlockProps> = ({ team, potentialPlayers, roster }) => {
-    const [isHidden, setIsHidden] = React.useState(false);
+    const [isHidden, setIsHidden] = React.useState(true);
     const teamsThatDidTransfer = useSelector(getTeamsThatDidTransfer);
     if (!potentialPlayers.length) {
         return null;

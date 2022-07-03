@@ -22,11 +22,11 @@ Games:
 
 * Added Best of 2 games option.
 
-Players and TeamsPage:
+Players and Teams:
 
 * Added option to move players to Free Market now.
 * Added option to filter players to display Free Market.
-* TeamsPage with incomplete roster display with red names now.
+* Teams with incomplete roster display with red names now.
 * Players are now sorted by positions, teams by fame.
 * Stores and displays team main roster history.
 * Added option to add players without closing modal.
@@ -73,7 +73,7 @@ Other:
 
 ## 1.0.0
 
-* TeamsPage Page is now displayed as table
+* Teams Page is now displayed as table
 * Added Tournament history for players and teams
 * Tuned retirement and progress logic
 
