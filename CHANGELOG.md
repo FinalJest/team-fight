@@ -9,6 +9,10 @@
 * Scroll Up button.
 * Total Roster Fame is now calculated and displayed.
 
+### Fixes:
+
+* Now records results of tournaments with groups AND playoff correctly.
+
 ## 2.0.1
 
 * Fixed issue with teams and players not recording tournaments.

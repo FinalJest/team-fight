@@ -1,6 +1,6 @@
 import { batch } from 'react-redux';
 import { ThunkActionResult } from '..';
-import { getSortedPlacements } from '../../services/groupService';
+import { getSortedPlacementsForGroups } from '../../services/groupService';
 import { getStrongestPlayer } from '../../services/playerService';
 import { getMainRosterPlayers } from '../../store/selectors';
 import { recordTournamentParticipation, recordTournamentResult } from '../actions';
@@ -22,10 +22,14 @@ export const finishTournament = (id?: string): ThunkActionResult<void> => (dispa
         return;
     }
 
+    const groupPlacements = tournament.group
+        ? getSortedPlacementsForGroups(tournament.group).map((placement) => placement.id)
+        : [];
     if (tournament.playoff) {
-        placements = getPlayoffPlacements(tournament.playoff);
-    } else if (tournament.group) {
-        placements = getSortedPlacements(tournament.group.results).map((placement) => placement.id);
+        const playoffPlacements = getPlayoffPlacements(tournament.playoff);
+        placements = [...playoffPlacements, ...groupPlacements.slice(playoffPlacements.length)];
+    } else {
+        placements = groupPlacements;
     }
 
     let playersTournamentData = {};

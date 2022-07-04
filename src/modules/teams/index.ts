@@ -73,6 +73,9 @@ export const teams = (
             });
         case types.REMOVE_TEAM:
             return state.filter((team) => team.id !== action.payload);
+        case types.TOGGLE_TEAM_DISABLED:
+            return state.map((team) =>
+                (team.id === action.payload ? { ...team, roster: {}, isDisabled: !team.isDisabled } : team));
         case types.RECORD_TOURNAMENT_RESULT:
             return state.map((team) => {
                 const place = action.payload.data[team.id];

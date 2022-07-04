@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 import {
-    getFreeMarketPlayers, getLastFamedTournament, getMainRoster, getTeams,
+    getEnabledTeams, getFreeMarketPlayers, getLastFamedTournament, getMainRoster,
 } from '../../store/selectors';
 import { ReduxState } from '../../modules';
 import { TeamsPage } from './__subComponents/TeamsPage';
@@ -33,7 +33,7 @@ export const FreeMarketPage: React.FC = () => {
         teams, freeMarketPlayers, rosters, lastTournamentWinner,
     } = useSelector((state: ReduxState) => {
         const lastTournament = getLastFamedTournament(state);
-        const teamsFromState = getTeams(state);
+        const teamsFromState = getEnabledTeams(state);
         return {
             teams: teamsFromState,
             freeMarketPlayers: getFreeMarketPlayers(state),

@@ -15,6 +15,7 @@ interface MatchesProps {
 
 export const Matches: React.FC<MatchesProps> = ({ data }) => {
     let groups: React.ReactElement | null = null;
+
     if (data.group) {
         const selectedTeams = Object.values(data.group.composition).reduce((res, group) => {
             group.filter((team): team is string => team !== undefined).forEach((team) => {

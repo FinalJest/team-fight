@@ -33,6 +33,7 @@ export const Playoff: React.FC<PlayoffProps> = ({ data }) => {
             return result;
         }, new Set());
     }, [data]);
+
     return (
         <PlayoffContextProvider selectedTeams={selectedTeamsPlayoff}>
             <Container>

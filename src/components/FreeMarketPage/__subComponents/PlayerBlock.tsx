@@ -56,12 +56,13 @@ export const PlayerBlock: React.FC<PlayerBlockProps> = ({ player, interestedTeam
                     isHighlighted: activelyInterestedTeams && activelyInterestedTeams.includes(team.id),
                     additionalCells: [
                         <Button
+                            variant="contained"
                             disabled={!rosters[team.id][player.position]}
                             onClick={getHandleReplace(team)}
                         >
                             R
                         </Button>,
-                        <Button onClick={getHandleAdd(team)}>+</Button>,
+                        <Button variant="contained" onClick={getHandleAdd(team)}>+</Button>,
                     ],
                 }))}
                 additionalHeaders={['Replace', 'Add']}

@@ -54,7 +54,19 @@ export const getLoses = (groupResults: GroupTeamResult): number =>
 export const getPoints = (groupResults: GroupTeamResult): number =>
     Object.values(groupResults).reduce((points, result) => points + getPointsFromGame(result), 0);
 
-export const getSortedPlacements = (
+const getSortPlacements = (
+    results: GroupResults,
+    shouldSortByResults?: boolean,
+) => (teamA: IPlacement, teamB: IPlacement) => {
+    const recordAtoB = results[teamA.id][teamB.id];
+    const scoreAtoB = recordAtoB && shouldSortByResults ? recordAtoB[0] - recordAtoB[1] : 0;
+    return isStronger(
+        [teamA.points, teamA.wins, teamB.loses, scoreAtoB],
+        [teamB.points, teamB.wins, teamA.loses, scoreAtoB * -1],
+    ) ? 1 : -1;
+};
+
+export const getSortedPlacementsForGroup = (
     results: GroupResults,
     shouldSortByResults: boolean = true,
 ): IPlacement[] => Object.entries(results)
@@ -63,17 +75,41 @@ export const getSortedPlacements = (
         points: getPoints(result),
         wins: getWins(result),
         loses: getLoses(result),
-    })).sort((teamA, teamB) => {
-        const recordAtoB = results[teamA.id][teamB.id];
-        const scoreAtoB = recordAtoB && shouldSortByResults ? recordAtoB[0] - recordAtoB[1] : 0;
-        return isStronger(
-            [teamA.points, teamA.wins, teamB.loses, scoreAtoB],
-            [teamB.points, teamB.wins, teamA.loses, scoreAtoB * -1],
-        ) ? 1 : -1;
-    });
+    })).sort(getSortPlacements(results, shouldSortByResults));
 
-export const getPlaces = (results: GroupResults, shouldSortByResults: boolean = true): Record<ITeam['id'], number> => {
-    const sortedPoints = getSortedPlacements(results, shouldSortByResults);
+export const getSortedPlacementsForGroups = (
+    groupsData: IGroup,
+    shouldSortByResults: boolean = true,
+): IPlacement[] => {
+    const teamsByPlaces: IPlacement[][] = [];
+    Object.values(groupsData.composition).forEach((group) => {
+        const groupResults: GroupResults = {};
+        group.forEach((teamId) => {
+            if (teamId !== undefined) {
+                groupResults[teamId] = groupsData.results[teamId];
+            }
+        });
+        const groupPlacements = getSortedPlacementsForGroup(groupResults, shouldSortByResults);
+        groupPlacements.forEach((placement, index) => {
+            const currentPlacementStack = teamsByPlaces[index];
+            if (currentPlacementStack) {
+                teamsByPlaces[index].push(placement);
+            } else {
+                teamsByPlaces[index] = [placement];
+            }
+        });
+    });
+    return teamsByPlaces.reduce((result, teamsByPlace) =>
+        [...result, ...teamsByPlace.sort(getSortPlacements(groupsData.results, shouldSortByResults))], []);
+};
+
+export const getPlaces = (
+    results: GroupResults,
+    shouldSortByResults: boolean = true,
+    teams?: ITeam['id'][],
+): Record<ITeam['id'], number> => {
+    const sortedPoints = getSortedPlacementsForGroup(results, shouldSortByResults)
+        .filter((placement) => (teams ? teams.includes(placement.id) : true));
 
     const places: Record<ITeam['id'], number> = {};
     let placeIndex: number = 0;

@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { ThunkActionResult } from '../index';
 import { generateRoster } from '../../services/playerService';
-import { addTeam, removeTeam } from './actions';
+import { addTeam, removeTeam, toggleTeamDisabled } from './actions';
 import { addPremadePlayers, makePlayersTeamless, removePlayers } from '../players/actions';
 
 export const createTeam = (
@@ -55,4 +55,14 @@ export const deleteTeam = (
         dispatch(makePlayersTeamless(playersIds));
     }
     dispatch(removeTeam(id));
+};
+
+export const toggledTeamDisableStatus = (
+    id: string,
+): ThunkActionResult<void> => (dispatch, getState) => {
+    const state = getState();
+    const players = state.players.filter((player) => player.teamId === id);
+    const playersIds = players.map((player) => player.id);
+    dispatch(makePlayersTeamless(playersIds));
+    dispatch(toggleTeamDisabled(id));
 };

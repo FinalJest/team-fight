@@ -17,6 +17,7 @@ const getEmptyNode = (): PlayoffNode => ({
     ],
 });
 
+// TODO: FIX PLAYOFF GENERATION WITH <3 TEAMS
 export const generatePlayoff = (teamCount: number): IPlayoff => {
     const coreNode = getEmptyNode();
     const levels: PlayoffNode[][] = [[coreNode]];
@@ -32,6 +33,7 @@ export const generatePlayoff = (teamCount: number): IPlayoff => {
             }
         }
     } while ((2 ** (currentPower + 1) < teamCount));
+
     for (let i = 0; i < levels.length - 1; i++) {
         const level = levels[i];
         for (let nodeIndex = 0; nodeIndex < level.length; nodeIndex++) {
@@ -81,11 +83,5 @@ export const getPlayoffTeamsCount = (playoff?: IPlayoff): number => {
         return 0;
     }
 
-    return playoff.composition[playoff.composition.length - 1]
-        .reduce(
-            (result, nodeId) => result
-                + Number(Boolean(playoff.data[nodeId].parts[0].teamId))
-                + Number(Boolean(playoff.data[nodeId].parts[1].teamId)),
-            0,
-        );
+    return playoff.composition[playoff.composition.length - 1].length * 2;
 };

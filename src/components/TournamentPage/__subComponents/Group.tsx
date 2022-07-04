@@ -34,7 +34,7 @@ export const Group: React.FC<GroupProps> = ({
 }) => {
     const teamsById = useSelector(getTeamsRecord);
     const { isFinished } = useTournamentContext();
-    const places = getPlaces(results, isFinished);
+    const places = getPlaces(results, isFinished, teams.filter((teamId): teamId is string => teamId !== undefined));
     const sortedTeams: Record<ITeam['id'], number> = teams
         .filter<string>((teamId): teamId is string => teamId !== undefined)
         .sort((teamA, teamB) =>
@@ -87,6 +87,7 @@ export const Group: React.FC<GroupProps> = ({
                         const teamResults = teamId === undefined ? teamId : results[teamId];
                         const teamComponent = teamId ? teamsById[teamId]?.name : undefined;
                         const teamPlace: number | undefined = teamId === undefined ? undefined : sortedTeams[teamId];
+
                         return (
                             <TableRow key={teamId ?? index}>
                                 <GroupCell isBold>

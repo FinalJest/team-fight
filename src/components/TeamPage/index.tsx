@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { ReduxState } from '../../modules';
 import { PlayersTable } from '../PlayersTable';
@@ -16,6 +16,8 @@ import {
 import { Position } from '../../enums/Position';
 import { TeamHistory } from './__subComponents/TeamHistory';
 import { getRosterFame } from '../../services/teamService';
+import { useReduxDispatch } from '../../hooks/useReduxDispatch';
+import { toggledTeamDisableStatus } from '../../modules/teams/thunk';
 
 const Logo = styled.img`
     height: 150px;
@@ -36,8 +38,9 @@ export const TeamPage: React.FC = () => {
         power: getTeamPower(state, teamId),
         rosterFame: getRosterFame(getMainRoster(teamId)(state)),
     }));
+    const dispatch = useReduxDispatch();
 
-    if (!data) {
+    if (!data || teamId === undefined) {
         return null;
     }
 
@@ -55,6 +58,9 @@ export const TeamPage: React.FC = () => {
             }
             return POSITION_ORDER.indexOf(a.data.position) - POSITION_ORDER.indexOf(b.data.position);
         });
+    const handleDisable = (): void => {
+        dispatch(toggledTeamDisableStatus(teamId));
+    };
 
     return (
         <PageContainer>
@@ -71,6 +77,9 @@ export const TeamPage: React.FC = () => {
             <ButtonsContainer>
                 <EditTeam {...data} />
                 <DeleteTeam id={data.id} />
+                <Button variant="contained" color="warning" onClick={handleDisable}>
+                    {`${data.isDisabled ? 'Enable' : 'Disable'} Team`}
+                </Button>
             </ButtonsContainer>
         </PageContainer>
     );

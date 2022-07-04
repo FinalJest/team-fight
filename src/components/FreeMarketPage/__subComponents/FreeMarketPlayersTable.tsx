@@ -67,12 +67,13 @@ export const FreeMarketPlayersTable: React.FC<FreeMarketPlayersTableProps> = ({
                 additionalCells: [
                     ...getDiff(player, currentRoster),
                     <Button
+                        variant="contained"
                         disabled={!currentRoster[player.position]}
                         onClick={getHandleReplace(player)}
                     >
                         R
                     </Button>,
-                    <Button onClick={getHandleAdd(player)}>+</Button>,
+                    <Button variant="contained" onClick={getHandleAdd(player)}>+</Button>,
                     <Button
                         onClick={getHandleInterested(player)}
                     >

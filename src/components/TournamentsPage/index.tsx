@@ -18,7 +18,7 @@ export const TournamentsPage: React.FC = () => {
                 winner,
                 mvp,
             };
-        });
+        }).reverse();
     });
 
     return (
