@@ -8,6 +8,8 @@
 * Notifications.
 * Scroll Up button.
 * Total Roster Fame is now calculated and displayed.
+* Sub count is now displayed in Teams Page.
+* Added Page titles.
 
 ### Fixes:
 

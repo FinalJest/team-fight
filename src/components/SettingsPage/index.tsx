@@ -10,7 +10,7 @@ import { ResetLocalStorageButton } from './__subComponents/ResetLocalStorageButt
 export const SettingsPage: React.FC = () => {
     const version = useSelector((state: ReduxState) => state.app.version);
     return (
-        <PageContainer>
+        <PageContainer title="Settings">
             <Typography variant="body1">
                 {`Version: ${version}`}
             </Typography>

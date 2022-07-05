@@ -37,7 +37,7 @@ export const FightPage: React.FC<FightPageProps> = ({ predeterminedTeams, onFigh
     };
 
     return (
-        <PageContainer>
+        <PageContainer title="Fight">
             <Typography variant="h1">
                 Fight
             </Typography>

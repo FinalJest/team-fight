@@ -24,7 +24,7 @@ const StyledLogo = styled.img<LogoProps>`
     background-color: #f3f3f3;
     border-radius: 8px;
     border: 1px solid black;
-    object-fit: cover;
+    object-fit: contain;
 `;
 
 interface TeamLogoProps {

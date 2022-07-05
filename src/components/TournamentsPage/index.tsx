@@ -23,7 +23,7 @@ export const TournamentsPage: React.FC = () => {
     });
 
     return (
-        <PageContainer>
+        <PageContainer title="Tournaments">
             <TournamentsTable rowsData={rowsData} />
             <ButtonsContainer>
                 <AddTournament />

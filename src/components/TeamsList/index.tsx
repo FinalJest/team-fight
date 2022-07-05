@@ -26,7 +26,7 @@ export const TeamsList: React.FC = () => {
         return teamB.power - teamA.power;
     });
     return (
-        <PageContainer>
+        <PageContainer title="Teams">
             {Boolean(sortedTeams.length) && <TeamsTable rowsData={sortedTeams.map((team) => ({ data: team }))} />}
             <ButtonsContainer>
                 <AddTeam />

@@ -59,7 +59,7 @@ export const FreeMarketPage: React.FC = () => {
     const nextPageTitle = page === 'teams' ? 'Players Page' : 'Teams Page';
 
     return (
-        <PageContainer>
+        <PageContainer title="Free Market Page">
             <Typography variant="h2">
                 Free Market Page
             </Typography>

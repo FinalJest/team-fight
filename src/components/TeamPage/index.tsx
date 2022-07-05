@@ -63,7 +63,7 @@ export const TeamPage: React.FC = () => {
     };
 
     return (
-        <PageContainer>
+        <PageContainer title={data.name}>
             <Typography variant="h1">
                 {data.name}
             </Typography>

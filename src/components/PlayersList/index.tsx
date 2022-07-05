@@ -48,7 +48,7 @@ export const PlayersList: React.FC = () => {
         : list.sort((playerA, playerB) => getSortWeight(playerA) - getSortWeight(playerB));
 
     return (
-        <PageContainer>
+        <PageContainer title="Players">
             <FormControlLabel
                 control={<Checkbox onChange={() => { setIsFreeMarket(!isFreeMarket); }} />}
                 label={FREE_MARKET_TEXT}

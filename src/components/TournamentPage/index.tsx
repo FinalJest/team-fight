@@ -22,7 +22,7 @@ export const TournamentPage: React.FC = () => {
 
     return (
         <TournamentContextProvider id={tournamentId} isFinished={data.isFinished}>
-            <PageContainer>
+            <PageContainer title={data.name}>
                 <Typography variant="h1">
                     {data.name}
                 </Typography>

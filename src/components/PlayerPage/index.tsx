@@ -41,7 +41,7 @@ export const PlayerPage: React.FC = () => {
     ];
 
     return (
-        <PageContainer>
+        <PageContainer title={data.name}>
             <Typography variant="h1">{data.name}</Typography>
             <StatBlock data={statData} />
             {Boolean(data.history.length) && <PlayerHistory data={data.history} />}
