@@ -53,6 +53,9 @@ export const TeamsTable: React.FC<TeamsTableProps> = ({ rowsData, additionalHead
                             Roster Fame
                         </TableCell>
                     )}
+                    <TableCell align="right">
+                        Sub Count
+                    </TableCell>
                     {additionalHeaders && additionalHeaders.map((header) => (
                         <TableCell key={header} align="right">
                             {header}
@@ -95,6 +98,9 @@ export const TeamsTable: React.FC<TeamsTableProps> = ({ rowsData, additionalHead
                                 {team.rosterFame}
                             </TableCell>
                         )}
+                        <TableCell align="right">
+                            {team.roster.other?.length ?? 0}
+                        </TableCell>
                         {additionalCells && additionalCells.map((element, index) => (
                             // no appropriate key, order of cells won't change
                             // eslint-disable-next-line react/no-array-index-key

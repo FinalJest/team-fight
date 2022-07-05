@@ -17,6 +17,7 @@ export const TournamentsPage: React.FC = () => {
                 data: stateTournament,
                 winner,
                 mvp,
+                isHighlighted: stateTournament.isForFame,
             };
         }).reverse();
     });

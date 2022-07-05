@@ -13,10 +13,16 @@ export interface RowData {
 
     mvp?: IPlayer;
     winner?: ITeam;
+    isHighlighted?: boolean;
 }
 
-export const TournamentRow: React.FC<RowData> = ({ data, mvp, winner }) => (
-    <TableRow>
+export const TournamentRow: React.FC<RowData> = ({
+    data,
+    mvp,
+    winner,
+    isHighlighted,
+}) => (
+    <TableRow sx={{ backgroundColor: isHighlighted ? '#ffffbb' : 'auto' }}>
         <TableCell align="left">
             <Link to={`/${Path.Tournaments}/${data.id}`}>
                 {data.name}

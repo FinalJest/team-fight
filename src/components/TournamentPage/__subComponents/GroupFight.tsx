@@ -6,8 +6,8 @@ import { Fight } from './Fight';
 
 interface GroupFightProps {
     result: GroupResult;
-    team1?: ITeam['id'];
-    team2?: ITeam['id'];
+    team1: ITeam['id'] | null;
+    team2: ITeam['id'] | null;
 }
 
 export const GroupFight: React.FC<GroupFightProps> = ({ result, team1, team2 }) => {

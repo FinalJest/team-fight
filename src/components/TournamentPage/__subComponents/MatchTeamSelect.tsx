@@ -24,7 +24,7 @@ export const MatchTeamSelect: React.FC<MatchTeamSelectProps> = ({
             id,
             groupName,
             indexInGroup,
-            teamId !== NO_TEAM_VALUE ? teamId : undefined,
+            teamId !== NO_TEAM_VALUE ? teamId : null,
         ));
     };
     return (

@@ -22,7 +22,7 @@ import { GroupFight } from './GroupFight';
 interface GroupProps {
     name: string;
     results: GroupResults;
-    teams: Array<string | undefined>;
+    teams: Array<string | null>;
     selectedTeams?: Set<string>;
 }
 
@@ -59,7 +59,7 @@ export const Group: React.FC<GroupProps> = ({
                         </GroupCell>
                         {teams.map((teamId, index) => (
                             <GroupCell key={teamId ?? index} isBold>
-                                {teamId !== undefined && teamsById[teamId]?.name}
+                                {teamId !== null && teamsById[teamId]?.name}
                             </GroupCell>
                         ))}
                         <GroupCell>
@@ -83,10 +83,10 @@ export const Group: React.FC<GroupProps> = ({
                 </TableHead>
                 <TableBody>
                     {teams.map((teamId, index) => {
-                        const teamForRow = teamId === undefined ? teamId : teamsById[teamId];
-                        const teamResults = teamId === undefined ? teamId : results[teamId];
+                        const teamForRow = teamId === null ? teamId : teamsById[teamId];
+                        const teamResults = teamId === null ? teamId : results[teamId];
                         const teamComponent = teamId ? teamsById[teamId]?.name : undefined;
-                        const teamPlace: number | undefined = teamId === undefined ? undefined : sortedTeams[teamId];
+                        const teamPlace: number | undefined = teamId === null ? undefined : sortedTeams[teamId];
 
                         return (
                             <TableRow key={teamId ?? index}>
@@ -114,9 +114,9 @@ export const Group: React.FC<GroupProps> = ({
                                             )
                                             : '';
                                     } else {
-                                        const result = oppositeTeamId === undefined
+                                        const result = oppositeTeamId === null || !teamResults
                                             ? undefined
-                                            : teamResults && teamResults[oppositeTeamId];
+                                            : teamResults[oppositeTeamId];
                                         if (result || !isFinished) {
                                             content = (
                                                 <GroupFight
@@ -151,7 +151,7 @@ export const Group: React.FC<GroupProps> = ({
                                     fontSize="20px"
                                     backgroundColor={teamId ? getColorFromPlace(places[teamId]) : undefined}
                                 >
-                                    {teamId !== undefined ? places[teamId] : ''}
+                                    {teamId !== null ? places[teamId] : ''}
                                 </GroupCell>
                                 {!isFinished && (
                                     <GroupCell>

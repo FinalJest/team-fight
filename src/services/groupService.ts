@@ -40,8 +40,9 @@ export const generateGroups = (teamCount: number, groupsCount: number): GroupsCo
             currentNumber = Math.floor(adjustedNumber / LETTERS_IN_ALPHABET);
         }
         const teamsInGroup = Math.floor((teamCount - i) / groupsCount) + 1;
-        composition[currentIndex] = Array(teamsInGroup).fill(undefined);
+        composition[currentIndex] = Array(teamsInGroup).fill(null);
     }
+
     return composition;
 };
 
@@ -85,7 +86,7 @@ export const getSortedPlacementsForGroups = (
     Object.values(groupsData.composition).forEach((group) => {
         const groupResults: GroupResults = {};
         group.forEach((teamId) => {
-            if (teamId !== undefined) {
+            if (teamId !== null) {
                 groupResults[teamId] = groupsData.results[teamId];
             }
         });

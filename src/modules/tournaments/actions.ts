@@ -20,7 +20,7 @@ export const addTeamToTournamentGroup = (
     tournamentId: ITournament['id'],
     groupName: string,
     indexInGroup: number,
-    teamId?: ITeam['id'],
+    teamId: ITeam['id'] | null,
 ) => action(types.ADD_TEAM_TO_TOURNAMENT_GROUP, {
     tournamentId,
     teamId,

@@ -33,12 +33,12 @@ interface TeamLogoProps {
 }
 
 export const TeamLogo: React.FC<TeamLogoProps> = ({ id, size = ComponentSize.S }) => {
-    const logoUrl = useSelector((state: ReduxState) => getTeamById(id)(state)?.logoUrl);
+    const team = useSelector((state: ReduxState) => getTeamById(id)(state));
     return (id !== undefined
         ? (
             <div>
                 <Link to={`/${Path.Teams}/${id}`}>
-                    <StyledLogo size={size} src={logoUrl} />
+                    <StyledLogo title={team?.name} alt={team?.name} size={size} src={team?.logoUrl} />
                 </Link>
             </div>
         )
